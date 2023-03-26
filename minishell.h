@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/03/24 23:21:58 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/03/26 01:52:52 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ char	*ft_strdup(const char *s1);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 // readline
 void    feedlist(t_prc *cmd, char *input);
+char	*add_spaces_around_operators(char *s);
 char	*typing(char *spl);
 
 
