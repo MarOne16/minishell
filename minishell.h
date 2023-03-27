@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/03/26 01:52:52 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/03/27 02:07:01 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #define MINISHELL
 # include <unistd.h>
 # include <stdio.h>
+# include <limits.h>
 # include <string.h>
 # include <stdlib.h>
 # include <readline/readline.h>
@@ -45,16 +46,17 @@ void	ft_lstadd_backallcmd(t_prc **lst, t_prc *new);
 void	ft_lstadd_backcmd(t_cmd **lst, t_cmd *new);
 // atoi & split tools
 long	ft_atoi(char *str);
-size_t	ft_strlen(const char *s);
-int		nb_c(char const *s, char c);
-int		strlenword(char const *s, char c, int i);
+size_t	ft_strlen(char *s);
+int	nb_c(char *s, char c,int *hash);
+int		strlenword(char *s, char c, int i, int *hush);
 void	ft_free(char **strs, int j);
-char	**ft_split(char const *s, char c);
-char	*ft_strdup(const char *s1);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	**ft_split(char *s, char c, int *hush);
+char	*ft_strdup(char *s1);
+char	*ft_substr(char *s, unsigned int start, size_t len);
 // readline
 void    feedlist(t_prc *cmd, char *input);
-char	*add_spaces_around_operators(char *s);
+void	feedhashtable(int *hush, char *input);
+char	*add_spaces_around_operators(char *s, int *hash);
 char	*typing(char *spl);
 
 

@@ -6,13 +6,13 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 12:07:36 by mqaos             #+#    #+#             */
-/*   Updated: 2023/03/22 12:36:15 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/03/27 02:21:00 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
-size_t	ft_strlen(const char *s)
+size_t	ft_strlen( char *s)
 {
 	size_t	i;
 
@@ -24,7 +24,7 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-char	*ft_strdup(const char *s1)
+char	*ft_strdup( char *s1)
 {
 	size_t	i;
 	char	*s11;
@@ -42,7 +42,7 @@ char	*ft_strdup(const char *s1)
 	return (s11);
 }
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr(char *s, unsigned int start, size_t len)
 {
 	char	*r;
 	size_t	i;
@@ -92,7 +92,7 @@ long	ft_atoi(char *str)
 	return (z * x);
 }
 
-int	nb_c(char const *s, char c)
+int	nb_c(char *s, char c, int *hash)
 {
 	int	i;
 	int	nb;
@@ -101,7 +101,9 @@ int	nb_c(char const *s, char c)
 	nb = 0;
 	while (s[i])
 	{
-		if (s[i] != c)
+		while (hash[i] == 1 && s[i])
+			i++;
+		if (s[i] != c && s[i] && hash[i] == 0)
 		{
 			nb++;
 			while (s[i] != c && s[i])
@@ -113,14 +115,15 @@ int	nb_c(char const *s, char c)
 	return (nb);
 }
 
-int	strlenword(char const *s, char c, int i)
+int	strlenword(char *s, char c, int i, int *hush)
 {
 	int	len;
 
 	len = 0;
-	while (s[i] != c && s[i])
+	while ((s[i] != c || hush[i] == 1) && s[i])
 	{
 		len++;
+		hush[i] = 0;
 		i++;
 	}
 	return (len);
@@ -134,7 +137,7 @@ void	ft_free(char **strs, int j)
 	return ;
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(char *s, char c, int *hush)
 {
 	char	**str;
 	int		i;
@@ -144,20 +147,20 @@ char	**ft_split(char const *s, char c)
 		return (0x0);
 	i = 0;
 	j = -1;
-	str = (char **)malloc((nb_c(s, c) + 1) * sizeof(char *));
+	str = (char **)malloc((nb_c(s, c, hush) + 1) * sizeof(char *));
 	if (!str)
 		return (NULL);
-	while (++j < nb_c(s, c))
+	while (++j < nb_c(s, c, hush))
 	{
-		while (s[i] == c)
+		while (s[i] == c && hush[i] == 0)
 			i++;
-		str[j] = ft_substr(s, i, strlenword(s, c, i));
+		str[j] = ft_substr(s, i, strlenword(s, c, i, hush));
 		if (!str[j])
 		{
 			ft_free(str, j + 1);
 			return (0);
 		}
-		i += strlenword(s, c, i);
+		i += strlenword(s, c, i, hush);
 	}
 	str[j] = 0;
 	return (str);
