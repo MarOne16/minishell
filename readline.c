@@ -6,18 +6,12 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:56:50 by mqaos             #+#    #+#             */
-/*   Updated: 2023/03/27 02:00:28 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/03/28 02:44:19 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
-/**
- * word = alphabets, ", ' : 0
- * --->ls | wc -l => list of words : {ls, wc, -l}
- * --->ls"$VAR kabdjcd cjhsdbvjdhsb | echo => list of words : {ls"$VAR kabdjcd cjhsdbvjdhsb | echo}
- * pipe | : 1
- * redirections : > >> < << : 2
-*/
+
 
 char	*add_spaces_around_operators(char *s, int *hash)
 {
@@ -55,32 +49,33 @@ char	*add_spaces_around_operators(char *s, int *hash)
 
 int checkcmd(char *cmd, int *hash)
 {
-	int	i;
-	int	dquote;
-	int	squote;
-
-	i = -1;
-	dquote = 0;
-	squote = 0;
-	while (cmd[++i])
+	int i = 0;
+	int dq;
+	int sq;
+	
+	dq = 0;
+	sq = 0;
+	while (cmd[i])
 	{
 		if (cmd[i] == '\"' && hash[i] == 0)
-			dquote++;
+			dq++;
 		if (cmd[i] == '\'' && hash[i] == 0)
-			squote++;
+			sq++;
+		i++;
 	}
-	if (dquote % 2)
-		return (1);
-	if (squote % 2)
-		return (1);
+	if (dq % 2)
+		return(1);
+	if (sq % 2)
+		return(1);
 	return(0);
+	
 }
 
 
 
 char    *typing(char    *spl)
 {
-	if (((spl[0] == '|') || (spl[0] == '>' && spl[1] != '<') ||
+	if (((spl[0] == '>' && spl[1] != '<') || spl[0] == '='||
 		(spl[0] == '<' && spl[1] != '>') || (spl[0] == '>' && spl[1] == '>') ||
 		((spl[0] == '<' && spl[1] == '<'))) && (ft_strlen(spl) <= 2))
 		return "token";
@@ -98,17 +93,13 @@ void	feedhashtable(int *hush, char *input)
 	{
 		if (input[i] == '\"')
 		{
-			hush[i] = 1;
 			while (input[++i] != '\"' && input[i])
 				hush[i] = 1;
-			hush[i] = 1;
 		}
 		if(input[i] == '\'')
 		{
-			hush[i] = 1;
 			while (input[++i] != '\'' && input[i])
 				hush[i] = 1;
-			hush[i] = 1;
 		}
 	}
 	
@@ -130,12 +121,13 @@ void    feedlist(t_prc *all, char *input)
 		printf("syntax error\n");
 		return ;
 	}
-	newinput = add_spaces_around_operators(input,hash);
+	newinput = add_spaces_around_operators(input, hash);
 	allcmd = ft_split(newinput, '|', hash);
-	puts("here");
 	i = -1;
 	while (allcmd[++i])
 	{
+		for (size_t i = 0; i < ARG_MAX; i++)
+			hash[i] = 0;
 		feedhashtable(hash, allcmd[i]);
 		cmd = ft_split(allcmd[i], ' ', hash);
 		u = -1;
@@ -146,7 +138,7 @@ void    feedlist(t_prc *all, char *input)
 	}
 	while (all)
 	{
-		printf("allcmd %s -->  ",all->allcmd);
+		printf("allcmd : %s -->  ",all->allcmd);
 		while (all->cmd)
 		{
 			printf("[%s]->type \"%s\"\t",all->cmd->cmd, all->cmd->type);
@@ -166,7 +158,7 @@ int main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	(void)env;
-	while ((input = readline("Enter a string: ")))
+	while ((input = readline("prompt: ")))
 	{
 		feedlist(cmd, input);
 		cmd = NULL;

@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/03/27 02:07:01 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/03/28 01:04:48 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,9 @@ void	ft_free(char **strs, int j);
 char	**ft_split(char *s, char c, int *hush);
 char	*ft_strdup(char *s1);
 char	*ft_substr(char *s, unsigned int start, size_t len);
+int count_words(char *str, char c, int *hash, size_t len);
+char **ft_split_hash(char *str, char c, int *hash, size_t len);
+
 // readline
 void    feedlist(t_prc *cmd, char *input);
 void	feedhashtable(int *hush, char *input);
