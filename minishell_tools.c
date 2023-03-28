@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 12:07:36 by mqaos             #+#    #+#             */
-/*   Updated: 2023/03/28 02:37:36 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/03/28 17:08:40 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,23 +94,23 @@ long	ft_atoi(char *str)
 
 int	nb_c(char *str, char c, int *hash)
 {
-    int	count;
+	int	count;
 	int	i;
 
 	count = 0;
 	i = 0;
-    while (str[i])
-    {
-        if (str[i] != c && hash[i] == 0 && str[i + 1])
-        {
-            count++;
-            while ((str[i] && str[i] != c) || hash[i] == 1)
-                i++;
-        }
-        else
-            i++;
-    }
-    return count;
+	while (str[i])
+	{
+		if (str[i] != c && hash[i] == 0)
+		{
+			count++;
+			while ((str[i] && str[i] != c) || hash[i] == 1)
+				i++;
+		}
+		else
+			i++;
+	}
+	return (count);
 }
 
 int	strlenword(char *s, char c, int i, int *hash)
@@ -152,9 +152,7 @@ char	**ft_split(char *s, char c, int *hush)
 	{
 		while (s[i] == c && hush[i] == 0)
 			i++;
-		// printf("i->%d\n",i);
 		str[j] = ft_substr(s, i, strlenword(s, c, i, hush));
-		// printf("%d\n",strlenword(s, c, i, hush));
 		if (!str[j])
 		{
 			ft_free(str, j + 1);
@@ -163,6 +161,5 @@ char	**ft_split(char *s, char c, int *hush)
 		i += strlenword(s, c, i, hush);
 	}
 	str[j] = 0;
-	// exit(0);
 	return (str);
 }

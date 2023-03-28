@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:56:50 by mqaos             #+#    #+#             */
-/*   Updated: 2023/03/28 02:44:19 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/03/28 17:29:03 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ char	*add_spaces_around_operators(char *s, int *hash)
 				count++;
 				i++;
 			}
-			if ((count == 1 || count == 2) && hash[i] == 0)
+			if ((count == 1 || count == 2) && hash[i] == 0 \
+			&& hash[i - 1] == 0 && hash[i + 1] == 0)
 			{
 				result[j++] = ' ';
 				for (int k = 0; k < count; k++)
@@ -105,7 +106,7 @@ void	feedhashtable(int *hush, char *input)
 	
 }
 
-void    feedlist(t_prc *all, char *input)
+void    feedlist(t_prc **all, char *input)
 {
 	int		i;
 	int		u;
@@ -133,12 +134,27 @@ void    feedlist(t_prc *all, char *input)
 		u = -1;
 		while (cmd[++u])
 			ft_lstadd_backcmd(&cmdspl, ft_lstnewcmd(cmd[u], typing(cmd[u])));
-		ft_lstadd_backallcmd(&all, ft_lstnewallcmd(allcmd[i], cmdspl));
+		ft_lstadd_backallcmd(all, ft_lstnewallcmd(allcmd[i], cmdspl));
 		cmdspl = NULL;
+	}
+}
+
+
+int main(int ac, char **av, char **env)
+{
+	char *input = NULL;
+	t_prc       *all = NULL;
+	(void)ac;
+	(void)av;
+	(void)env;
+	while ((input = readline("prompt: ")))
+	{
+		feedlist(&all, input);
+		// all = NULL;
 	}
 	while (all)
 	{
-		printf("allcmd : %s -->  ",all->allcmd);
+		printf("\nallcmd : %s -->  ",all->allcmd);
 		while (all->cmd)
 		{
 			printf("[%s]->type \"%s\"\t",all->cmd->cmd, all->cmd->type);
@@ -147,28 +163,6 @@ void    feedlist(t_prc *all, char *input)
 		printf("\n");
 		all = all->next;
 	}
-	
-}
-
-
-int main(int ac, char **av, char **env)
-{
-	char *input = NULL;
-	t_prc       *cmd;
-	(void)ac;
-	(void)av;
-	(void)env;
-	while ((input = readline("prompt: ")))
-	{
-		feedlist(cmd, input);
-		cmd = NULL;
-	}
-	// while (cmd)
-	// {
-	//     printf("[%s]\n",cmd->cmd);
-	//     cmd = cmd->next;
-	// }
-	
 	return 0;
 }
 

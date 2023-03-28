@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/03/28 01:04:48 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/03/28 17:27:20 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,17 @@ int count_words(char *str, char c, int *hash, size_t len);
 char **ft_split_hash(char *str, char c, int *hash, size_t len);
 
 // readline
-void    feedlist(t_prc *cmd, char *input);
+void    feedlist(t_prc **all, char *input);
 void	feedhashtable(int *hush, char *input);
 char	*add_spaces_around_operators(char *s, int *hash);
 char	*typing(char *spl);
 
-
+// typedef struct s_env
+// {
+	
+// }t_env;
+// typedef struct s_data
+// {
+// 	t_env env;
+// }t_data;
 #endif // MINISHELL
