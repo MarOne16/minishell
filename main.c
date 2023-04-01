@@ -1,87 +1,147 @@
-#include <stdlib.h>
-#include <stddef.h>
-#include <string.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <limits.h>
+# include <string.h>
+# include <stdlib.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
-static int count_words(char *str, char c, int *hash, size_t len)
+
+char* replace(char *str, char *from, char *to)
 {
-    int count = 0;
-    size_t i = 0;
-
+    char *newinput = malloc(strlen(str) + (strlen(to) - strlen(from)) + 10);
+    int i = 0;
+    int j;
+    int off = 0;
+    int z;
+    int u  = 0;
     while (str[i])
     {
-        if (str[i] != c && (hash[i - len] == 0))
+        if (str[i] == '$')
         {
-            count++;
-            while (str[i] && str[i] != c && (hash[i - len] == 0))
+            while (str[i + 1] == '$')
+            {
+                newinput[i] = str[i];
                 i++;
-        }
-        else
-        {
-            i++;
-        }
-    }
-
-    return count;
-}
-
-char **ft_split_hash(char *str, char c, int *hash, size_t len)
-{
-    int num_words = count_words(str, c, hash, len);
-    char **words = malloc((num_words + 1) * sizeof(char *));
-    if (!words)
-        return NULL;
-
-    int i = 0;
-    size_t j = 0;
-    while (str[j])
-    {
-        if (str[j] != c && (hash[j - len] == 0))
-        {
-            char *start = &str[j];
-            while (str[j] && str[j] != c && (hash[j - len] == 0))
+            }
+            j = 0;
+            z = i;
+            while (str[i] != 32 && str[i] && str[i] != '$')
+            {
                 j++;
-
-            size_t word_len = j - (start - str);
-            char *word = malloc((word_len + 1) * sizeof(char));
-            if (!word)
-                return NULL;
-
-            memcpy(word, start, word_len);
-            word[word_len] = '\0';
-            words[i++] = word;
+                i++;
+                // if (str[i] == '$')
+                //     break;
+            }
+            while (to[u])
+            {
+                while (to[u] != '=' && off == 0)
+                {
+                    if (to[u + 1] == '=')
+                        off = 1;
+                    u++;
+                }
+                newinput[z] = to[u];
+                u++;
+                z++;
+            }
+            while (str[i])
+            {
+                newinput[z] = str[i];
+                i++;
+            }
+            newinput[z] = 0;
+            return(newinput);
         }
         else
-        {
-            j++;
-        }
+            newinput[i] = str[i];
+        i++;
     }
-    words[i] = NULL;
-    return words;
+    newinput[i] = 0;
+    printf("\n%s\n",newinput);
+    return(newinput);
+
 }
 
-
-
-#include <stdio.h>
-
-int main(void)
+int getsize(char *str)
 {
-    char *str = "echo >> \"hello< word\"";
-    int hash[21] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0};
-    char **words = ft_split_hash(str, ' ', hash, strlen(str));
-	// puts("here");
-    if (!words)
+    int i = 0;
+    int j;
+    while (str[i])
     {
-        printf("Error: failed to split string\n");
-        return 1;
+        if (str[i] == '$')
+        {
+            while (str[i + 1] == '$')
+                i++;
+            j = 0;
+            i++;
+            while (str[i] != 32 && str[i] && str[i] != '$')
+            {
+                j++;
+                i++;
+                if (str[i] == '$')
+                    return (j);
+            }
+            return (j);
+        }
+        i++;
     }
+    return(0);
+}
 
-    for (int i = 0; words[i] != NULL; i++)
+void    ft_readline(char **env, char *input)
+{
+    int i = 0;
+    int j;
+    char *newinput = 0;
+    char *need = malloc(sizeof(char) * getsize(input) + 1);
+    while (input[i])
     {
-        printf("%s\n", words[i]);
-        free(words[i]);
+        if (input[i] == '$')
+        {
+            while (input[i + 1] == '$')
+                i++;
+            j = 0;
+            i++;
+            while (input[i] != 32 && input[i])
+            {
+                need[j] = input[i];
+                i++;
+                j++;
+                if (input[i] == '$')
+                    break;
+            }
+            break;
+        }
+        i++;
     }
+    i = 0;
+    while (env[i])
+    {
+        if (strstr(env[i],need) != NULL)
+        {
+            newinput = replace(input,need,env[i]);
+            printf("\n%s\n",newinput);
+        }
+        i++;
+    }
+    
+}
 
-    free(words);
-
+int main(int argc, char const *argv[], char **env)
+{
+    
+    // (void)argv;
+    // (void)argc;
+    // char *input = NULL;
+    // int i = 0;
+    // while ((input = readline("prompt : ")))
+    // {
+    //     ft_readline(env,input);
+    // }
+    char str[] = "echo | hello mar";
+    char need[] = "hello";
+    printf("%s\n",strstr(str,need));
+    printf("%s",need); 
     return 0;
 }

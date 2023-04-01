@@ -4,7 +4,7 @@ GREEN = \033[1;32m
 DEFAULT = \033[0m
 NAME		=	minishell
 CC			=	cc
-FLAGS		=	-Wall -Wextra -Werror
+FLAGS		=	-Wall -Wextra -Werror 
 RM			=	rm -rf
 HEADER		=	minishell.h
 SOURCE		=	listtools.c readline.c minishell_tools.c
@@ -14,7 +14,7 @@ LIBFT = libft/libft.a
 				@${CC} ${FLAGS} -c $< -o $@
 
 $(NAME):		$(OBJS)
-				@$(CC) $(OBJS) -o $(NAME) -lreadline
+				@$(CC) $(OBJS) -o $(NAME) -lreadline 
 				@echo "$(GREEN)$(NAME) Created √$(DEFAULT)"
 
 all:			$(NAME)

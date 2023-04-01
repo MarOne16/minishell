@@ -6,12 +6,14 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:56:50 by mqaos             #+#    #+#             */
-/*   Updated: 2023/03/28 17:29:03 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/01 23:02:43 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
+
+t_env *data;
 
 char	*add_spaces_around_operators(char *s, int *hash)
 {
@@ -21,7 +23,8 @@ char	*add_spaces_around_operators(char *s, int *hash)
 
 	while (i < len)
 	{
-		if (s[i] == '<' || s[i] == '>')
+		if (s[i] == '<' || s[i] == '>' || \
+		(s[i] == '$'  && (s[i + 1] == '$' || s[i + 1] == '\"' || s[i + 1] == '\'')))
 		{
 			int	count = 0;
 			while (i < len && (s[i] == '<' || s[i] == '>'))
@@ -72,7 +75,81 @@ int checkcmd(char *cmd, int *hash)
 	
 }
 
+char	*getvariable(char *input)
+{
+	char *need = malloc(sizeof(char) * getsize(input) + 1);
+	int	i = 0;
+	int	j = 0;
+    while (input[i])
+    {
+        if (input[i] == '$')
+        {
+            while (input[i + 1] == '$')
+                i++;
+            j = 0;
+            i++;
+            while (input[i] != 32 && input[i])
+            {
+                need[j] = input[i];
+                i++;
+                j++;
+                if (input[i] == '$')
+                    return(need);
+            }
+            return(need);
+        }
+        i++;
+    }
+	return (input);
+}
 
+int getsize(char *str)
+{
+    int i = 0;
+    int j;
+    while (str[i])
+    {
+        if (str[i] == '$')
+        {
+            while (str[i + 1] == '$')
+                i++;
+            j = 0;
+            i++;
+            while (str[i] != 32 && str[i] && str[i] != '$')
+            {
+                j++;
+                i++;
+                if (str[i] == '$')
+                    return (j);
+            }
+            return (j);
+        }
+        i++;
+    }
+    return(0);
+}
+
+char *remplace(char *old, char **env)
+{
+	int		i;
+	char	*variable;
+
+	i = -1;
+	while (env[++i])
+	{
+		if (strstr(env[i],getvariable(old)))
+		{
+			variable = malloc(ft_strlen(env[i]) + 1);
+			variable = env[i];
+			variable[ft_strlen(env[i])] = 0;
+			return(variable);
+		}
+		if (env[i + 1] == 0)
+			return(old);
+		
+	}
+	return (old);
+}
 
 char    *typing(char    *spl)
 {
@@ -106,7 +183,7 @@ void	feedhashtable(int *hush, char *input)
 	
 }
 
-void    feedlist(t_prc **all, char *input)
+void    feedlist(t_prc **all, char *input, char **env)
 {
 	int		i;
 	int		u;
@@ -119,7 +196,7 @@ void    feedlist(t_prc **all, char *input)
 	feedhashtable(hash, input);
 	if (checkcmd(input, hash))
 	{
-		printf("syntax error\n");
+		printf(AC_RED"syntax error\n");
 		return ;
 	}
 	newinput = add_spaces_around_operators(input, hash);
@@ -133,9 +210,20 @@ void    feedlist(t_prc **all, char *input)
 		cmd = ft_split(allcmd[i], ' ', hash);
 		u = -1;
 		while (cmd[++u])
-			ft_lstadd_backcmd(&cmdspl, ft_lstnewcmd(cmd[u], typing(cmd[u])));
+			ft_lstadd_backcmd(&cmdspl, ft_lstnewcmd(remplace(cmd[u],env), typing(cmd[u])));
 		ft_lstadd_backallcmd(all, ft_lstnewallcmd(allcmd[i], cmdspl));
 		cmdspl = NULL;
+	}
+	while ((*all))
+	{
+		printf(AC_YELLOW"\ncmd : %s -->  ",(*all)->allcmd);
+		while ((*all)->cmd)
+		{
+			printf(AC_CYAN"[%s]->type \"%s\"\t",(*all)->cmd->cmd, (*all)->cmd->type);
+			(*all)->cmd = (*all)->cmd->next;
+		}
+		printf("\n");
+		(*all) = (*all)->next;
 	}
 }
 
@@ -146,23 +234,12 @@ int main(int ac, char **av, char **env)
 	t_prc       *all = NULL;
 	(void)ac;
 	(void)av;
-	(void)env;
 	while ((input = readline("prompt: ")))
 	{
-		feedlist(&all, input);
+		feedlist(&all, input, env);
 		// all = NULL;
 	}
-	while (all)
-	{
-		printf("\nallcmd : %s -->  ",all->allcmd);
-		while (all->cmd)
-		{
-			printf("[%s]->type \"%s\"\t",all->cmd->cmd, all->cmd->type);
-			all->cmd = all->cmd->next;
-		}
-		printf("\n");
-		all = all->next;
-	}
+
 	return 0;
 }
 

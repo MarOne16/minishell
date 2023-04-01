@@ -6,12 +6,23 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/03/28 17:27:20 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/03/31 23:11:05 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #if !defined(MINISHELL)
-#define MINISHELL
+# define MINISHELL
+
+# define AC_BLACK "\x1b[30m"
+# define AC_RED "\x1b[31m"
+# define AC_GREEN "\x1b[32m"
+# define AC_YELLOW "\x1b[33m"
+# define AC_BLUE "\x1b[34m"
+# define AC_MAGENTA "\x1b[35m"
+# define AC_CYAN "\x1b[36m"
+# define AC_WHITE "\x1b[37m"
+# define AC_NORMAL "\x1b[m"
+
 # include <unistd.h>
 # include <stdio.h>
 # include <limits.h>
@@ -19,6 +30,11 @@
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+
+typedef struct s_env
+{
+	char **env;
+}t_env;
 
 typedef struct s_cmd
 {
@@ -57,15 +73,15 @@ int count_words(char *str, char c, int *hash, size_t len);
 char **ft_split_hash(char *str, char c, int *hash, size_t len);
 
 // readline
-void    feedlist(t_prc **all, char *input);
+void    feedlist(t_prc **all, char *input, char **env);
 void	feedhashtable(int *hush, char *input);
 char	*add_spaces_around_operators(char *s, int *hash);
 char	*typing(char *spl);
+char	*getvariable(char *input);
+int		getsize(char *str);
+char	*remplace(char *old, char **env);
 
-// typedef struct s_env
-// {
-	
-// }t_env;
+
 // typedef struct s_data
 // {
 // 	t_env env;
