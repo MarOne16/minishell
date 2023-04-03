@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:56:50 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/03 01:45:09 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/03 03:24:17 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <ctype.h>
 
 char* replace_env_vars(char* string) {
-    char* new_string = malloc(strlen(string) + 3);
+    char* new_string = calloc(strlen(string) + 1, 1);
     char* out = new_string;
     size_t str_len = strlen(string);
     size_t i = 0;
@@ -38,6 +38,11 @@ char* replace_env_vars(char* string) {
             char* var_value = getenv(var_name);
             if (var_value) {
                 size_t val_len = strlen(var_value);
+                new_string = realloc(new_string, out - new_string + val_len + 3);
+                if (!new_string) {
+                    fprintf(stderr, "Error: Failed to allocate memory.\n");
+                    exit(EXIT_FAILURE);
+                }
                 *out++ = '\'';
                 for (size_t j = 0; j < val_len; j++) {
                     *out++ = var_value[j];
@@ -54,6 +59,7 @@ char* replace_env_vars(char* string) {
     *out = '\0';
     return new_string;
 }
+
 
 int operatorscount(char *str, int *hash)
 {
@@ -251,7 +257,7 @@ void	feedhashtable(int *hush, char *input)
 	
 }
 
-void    feedlist(t_prc **all, char *input, char **env)
+void    feedlist(t_prc **all, char *input)
 {
 	int		i;
 	int		u;
@@ -263,7 +269,6 @@ void    feedlist(t_prc **all, char *input, char **env)
 
 
 	printf(AC_BLACK"\n%s\n",input);
-	(void)env;
 	feedhashtable(hash, input);
 	if (checkcmd(input, hash))
 	{
@@ -319,15 +324,15 @@ void forcfree(t_prc *input)
 	}
 }
 
-int main(int ac, char **av, char **env)
+int main(int ac, char **av)
 {
 	char *input = NULL;
 	t_prc       *all = NULL;
 	(void)ac;
 	(void)av;
-	while ((input = replace_env_vars(readline("prompt: "))))
+	while ((input = readline("prompt: ")))
 	{
-		feedlist(&all, input, env);
+		feedlist(&all, input);
 		forcfree(all);
 	}
 
