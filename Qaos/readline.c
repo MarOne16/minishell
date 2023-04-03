@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:56:50 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/01 23:02:43 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/03 23:09:21 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+# include "../minishell.h"
 
 
 t_env *data;
@@ -234,10 +234,14 @@ int main(int ac, char **av, char **env)
 	t_prc       *all = NULL;
 	(void)ac;
 	(void)av;
-	while ((input = readline("prompt: ")))
+	Creat_env(env);
+	Creat_exp(env);
+	while ((input = readline("$ > ")))
 	{
 		feedlist(&all, input, env);
-		// all = NULL;
+		// session(&all);
+		all = NULL;
+		
 	}
 
 	return 0;

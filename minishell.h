@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/03/31 23:11:05 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/03 05:45:35 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,41 @@ typedef struct s_prc
 	struct s_prc	*previus;
 }					t_prc;
 
+
+typedef struct s_list
+{
+	char			*name;
+	char			*value;
+	struct s_list	*next;
+}t_list;
+
+typedef struct s_global
+{
+	t_list **env;
+	t_list **exp;
+}	t_global;
+
+t_global glob;
+
+
+
+
+//excute_tools
+void Creat_env(char **env);
+char ** sort_env(char **env);
+void Creat_exp(char **env);
+t_list	*ft_lstnew(char *name , char  *value);
+int		ft_lstsize(t_list *lst);
+t_list	*ft_lstlast(t_list *lst);
+void	ft_lstadd_back(t_list **lst, t_list *new);
+char	**ft_my_split(char *s, char c);
+void session(t_prc ** all);
+int	ft_strncmp(char *s1,char *s2, size_t count);
+void check_builtin(t_prc **all);
+void ft_echo(t_cmd *cmd);
+
+
+
 // list tools
 t_prc	*ft_lstnewallcmd(char *allcmd, t_cmd *cmd);
 t_cmd	*ft_lstnewcmd(char *cmd, char *type);
@@ -60,6 +95,7 @@ t_prc	*ft_lstlastallcmd(t_prc *lst);
 t_cmd	*ft_lstlastcmd(t_cmd *lst);
 void	ft_lstadd_backallcmd(t_prc **lst, t_prc *new);
 void	ft_lstadd_backcmd(t_cmd **lst, t_cmd *new);
+
 // atoi & split tools
 long	ft_atoi(char *str);
 size_t	ft_strlen(char *s);

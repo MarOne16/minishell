@@ -7,7 +7,8 @@ CC			=	cc
 FLAGS		=	-Wall -Wextra -Werror 
 RM			=	rm -rf
 HEADER		=	minishell.h
-SOURCE		=	listtools.c readline.c minishell_tools.c
+SOURCE		=	Qaos/listtools.c Qaos/readline.c Qaos/minishell_tools.c\
+				ft_split.c list_tools.c newRealease.c builtin.c
 OBJS		=	$(SOURCE:.c=.o)
 LIBFT = libft/libft.a
 %.o: %.c 

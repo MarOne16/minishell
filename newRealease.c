@@ -1,4 +1,4 @@
-#include "mini.h"
+#include "minishell.h"
 
 void Creat_env(char **env)
 {
@@ -16,7 +16,7 @@ void Creat_env(char **env)
 	i = 0;
 	while (env[i])
 	{
-		tmp = ft_split(env[i],'=');
+		tmp = ft_my_split(env[i],'=');
 		ft_lstadd_back(listenv, ft_lstnew(tmp[0],tmp[1]));
 		i++;
 	}
@@ -73,21 +73,35 @@ void Creat_exp(char **env)
 	i = 0;
 	while (s_env[i])
 	{
-		tmp = ft_split(s_env[i],'=');
+		tmp = ft_my_split(s_env[i],'=');
 		ft_lstadd_back(list, ft_lstnew(tmp[0],tmp[1]));
 		i++;
 	}
 	glob.exp = list;
 
 }
-void ft_chdir(char ){
-
-}
-int main(int argc, char **argv, char **env)
+void session(t_prc **all)
 {
-	(void)argc;
-	(void)argv;
-	Creat_env(env);
-	Creat_exp(env);
-	ft_chdir();
+	// int i = 0;
+	// t_prc **tmp;
+	// tmp = all;
+	// while((*tmp))
+	// {
+	// 	i++;
+	// 	(*tmp) = (*tmp)->next;
+	// }
+	printf("%p\n",(*all));
+	// if(i == 1)
+	// {
+	// 	if((*all) != NULL)
+	// 	{
+			// if(!(ft_strncmp((*all)->cmd->type,"word",4)))
+			// {
+			// 	// check_builtin(all);
+			// 	printf("done");
+			// }
+			// else if((*all)->cmd->type == "token")
+			// 	check_token(all);
+	// 	}
+	// }
 }

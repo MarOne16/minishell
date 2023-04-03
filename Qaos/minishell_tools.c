@@ -3,26 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_tools.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 12:07:36 by mqaos             #+#    #+#             */
-/*   Updated: 2023/03/28 17:08:40 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/03 02:24:50 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
-
-size_t	ft_strlen( char *s)
-{
-	size_t	i;
-
-	i = 0;
-	while (s[i])
-	{
-		i++;
-	}
-	return (i);
-}
+# include "../minishell.h"
 
 char	*ft_strdup( char *s1)
 {
