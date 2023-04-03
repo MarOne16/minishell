@@ -6,49 +6,117 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:56:50 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/01 23:02:43 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/03 01:45:09 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
 
-t_env *data;
+char* replace_env_vars(char* string) {
+    char* new_string = malloc(strlen(string) + 3);
+    char* out = new_string;
+    size_t str_len = strlen(string);
+    size_t i = 0;
 
-char	*add_spaces_around_operators(char *s, int *hash)
-{
-	size_t	len = ft_strlen(s);
-	char	*result = malloc(3 * len + 1);
-	size_t	i = 0, j = 0;
+    while (i < str_len) {
+        if (string[i] == '$') {
+            char* var_start = &string[i] + 1;
+            size_t var_len = 0;
 
-	while (i < len)
-	{
-		if (s[i] == '<' || s[i] == '>' || \
-		(s[i] == '$'  && (s[i + 1] == '$' || s[i + 1] == '\"' || s[i + 1] == '\'')))
-		{
-			int	count = 0;
-			while (i < len && (s[i] == '<' || s[i] == '>'))
-			{
-				count++;
-				i++;
-			}
-			if ((count == 1 || count == 2) && hash[i] == 0 \
-			&& hash[i - 1] == 0 && hash[i + 1] == 0)
-			{
-				result[j++] = ' ';
-				for (int k = 0; k < count; k++)
-					result[j++] = s[i - count + k];
-				result[j++] = ' ';
-			}
-			else
-				for (int k=0; k<count; ++k)
-					result[j++]=s[i-count+k];
+            while (isalnum(string[i + 1 + var_len]) || string[i + 1 + var_len] == '_') {
+                var_len++;
+            }
+
+            char var_name[var_len + 1];
+            memcpy(var_name, var_start, var_len);
+            var_name[var_len] = '\0';
+
+            char* var_value = getenv(var_name);
+            if (var_value) {
+                size_t val_len = strlen(var_value);
+                *out++ = '\'';
+                for (size_t j = 0; j < val_len; j++) {
+                    *out++ = var_value[j];
+                }
+                *out++ = '\'';
+                i += var_len + 1;
+                continue;
+            }
         }
-        else
-            result[j++]=s[i++];
+
+        *out++ = string[i++];
+    }
+
+    *out = '\0';
+    return new_string;
+}
+
+int operatorscount(char *str, int *hash)
+{
+    int i;
+    int count = 0;
+    int c = 0;
+
+    i = -1;
+    while (str[++i])
+    {
+            count = 0;
+            while (str[i] && (str[i] == '<' || str[i] == '>') && hash[i] == 0)
+            {
+                count++;
+                i++;
+            }
+            if ((count == 1 || count == 2))
+                c++;
+    }
+    return (c);
+}
+
+char    *add_spaces_around_operators(char *s, int *hash)
+{
+    char    *result = malloc(strlen(s) + (operatorscount(s, hash) * 2) + 1);
+    int i;
+    int u;
+    int j = 0;
+    int c;
+
+    i = 0;
+    while (s[i])
+    {
+        u = i;
+        c = 0;
+        while(s[u] && (s[u] == '<' || s[u] == '>') && hash[u] == 0 )
+        {
+            c++;
+            u++;
+        }
+        if (c == 1 || c == 2)
+        {
+            result[j++] = ' '; 
+            while (c)
+            {
+                result[j++] = s[i++];
+                c--;
+            }
+            result[j++] = ' ';
+        }
+        else if(c > 0)
+        {
+            while (c)
+            {
+                result[j++] = s[i++];
+                c--;
+            }
+        }
+        result[j++] = s[i];
+        i++;
     }
     result[j]='\0';
-    return result;
+    return (result);
 }
 
 int checkcmd(char *cmd, int *hash)
@@ -193,13 +261,19 @@ void    feedlist(t_prc **all, char *input, char **env)
 	char    **cmd;
 	t_cmd	*cmdspl = NULL;
 
+
+	printf(AC_BLACK"\n%s\n",input);
+	(void)env;
 	feedhashtable(hash, input);
 	if (checkcmd(input, hash))
 	{
 		printf(AC_RED"syntax error\n");
 		return ;
 	}
+	for (size_t i = 0; i < ft_strlen(input); i++)
+		printf("%d",hash[i]);
 	newinput = add_spaces_around_operators(input, hash);
+	printf(AC_RED"\n%s\n",newinput);
 	allcmd = ft_split(newinput, '|', hash);
 	i = -1;
 	while (allcmd[++i])
@@ -210,7 +284,7 @@ void    feedlist(t_prc **all, char *input, char **env)
 		cmd = ft_split(allcmd[i], ' ', hash);
 		u = -1;
 		while (cmd[++u])
-			ft_lstadd_backcmd(&cmdspl, ft_lstnewcmd(remplace(cmd[u],env), typing(cmd[u])));
+			ft_lstadd_backcmd(&cmdspl, ft_lstnewcmd(cmd[u], typing(cmd[u])));
 		ft_lstadd_backallcmd(all, ft_lstnewallcmd(allcmd[i], cmdspl));
 		cmdspl = NULL;
 	}
@@ -226,7 +300,24 @@ void    feedlist(t_prc **all, char *input, char **env)
 		(*all) = (*all)->next;
 	}
 }
+void forcfree(t_prc *input)
+{
+	t_prc	*help;
+	t_cmd	*help2;
 
+	while (input)
+	{
+		while (input->cmd)
+		{
+			help2 = input->cmd;
+			input->cmd = input->cmd->next;
+			free(help2);
+		}
+		help = input;
+		input = input->next;
+		free(help);
+	}
+}
 
 int main(int ac, char **av, char **env)
 {
@@ -234,10 +325,10 @@ int main(int ac, char **av, char **env)
 	t_prc       *all = NULL;
 	(void)ac;
 	(void)av;
-	while ((input = readline("prompt: ")))
+	while ((input = replace_env_vars(readline("prompt: "))))
 	{
 		feedlist(&all, input, env);
-		// all = NULL;
+		forcfree(all);
 	}
 
 	return 0;

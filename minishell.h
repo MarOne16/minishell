@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/03/31 23:11:05 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/03 01:44:40 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # define AC_NORMAL "\x1b[m"
 
 # include <unistd.h>
+# include <ctype.h>
 # include <stdio.h>
 # include <limits.h>
 # include <string.h>
@@ -75,6 +76,7 @@ char **ft_split_hash(char *str, char c, int *hash, size_t len);
 // readline
 void    feedlist(t_prc **all, char *input, char **env);
 void	feedhashtable(int *hush, char *input);
+int		operatorscount(char *str, int *hash);
 char	*add_spaces_around_operators(char *s, int *hash);
 char	*typing(char *spl);
 char	*getvariable(char *input);
