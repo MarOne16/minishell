@@ -6,7 +6,7 @@
 	#include <ctype.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-
+# include "./libft/libft.h"
 
 // char* replace(char *str, char *from, char *to)
 // {
@@ -267,112 +267,108 @@
 //     return (result);
 // }
 
-int getsize(char *str)
-{
-		int i = 0;
-		int j;
-		while (str[i])
-		{
-				if (str[i] == '$')
-				{
-						while (str[i + 1] == '$')
-								i++;
-						j = 0;
-						i++;
-						while (str[i] != 32 && str[i] && str[i] != '$')
-						{
-								j++;
-								i++;
-								if (str[i] == '$')
-										return (j);
-						}
-						return (j);
-				}
-				i++;
-		}
-		return(0);
-}
+// int getsize(char *str)
+// {
+// 		int i = 0;
+// 		int j;
+// 		while (str[i])
+// 		{
+// 				if (str[i] == '$')
+// 				{
+// 						while (str[i + 1] == '$')
+// 								i++;
+// 						j = 0;
+// 						i++;
+// 						while (str[i] != 32 && str[i] && str[i] != '$')
+// 						{
+// 								j++;
+// 								i++;
+// 								if (str[i] == '$')
+// 										return (j);
+// 						}
+// 						return (j);
+// 				}
+// 				i++;
+// 		}
+// 		return(0);
+// }
 
-char	*getvariable(char *input, int *hash)
-{
-	char *need = malloc(sizeof(char) * getsize(input) + 1);
-	int	i = 0;
-	int	j = 0;
-		while (input[i])
-		{
-				if (input[i] == '$')
-				{
-						while (input[i + 1] == '$')
-								i++;
-						j = 0;
-						hash[i] = 1;
-						i++;
-						while (input[i] != 32 && input[i])
-						{
-								need[j] = input[i];
-								hash[i] = 1;
-								i++;
-								j++;
-								if (input[i] == '$')
-										return(need);
-						}
-						return(need);
-				}
-				i++;
-		}
-	return (input);
-}
+// char	*getvariable(char *input, int *hash)
+// {
+// 	char *need = malloc(sizeof(char) * getsize(input) + 1);
+// 	int	i = 0;
+// 	int	j = 0;
+// 		while (input[i])
+// 		{
+// 				if (input[i] == '$')
+// 				{
+// 						while (input[i + 1] == '$')
+// 								i++;
+// 						j = 0;
+// 						hash[i] = 1;
+// 						i++;
+// 						while (input[i] != 32 && input[i])
+// 						{
+// 								need[j] = input[i];
+// 								hash[i] = 1;
+// 								i++;
+// 								j++;
+// 								if (input[i] == '$')
+// 										return(need);
+// 						}
+// 						return(need);
+// 				}
+// 				i++;
+// 		}
+// 	return (input);
+// }
 
-char* replace_env_vars(char* string)
-{
-	int i = 0;
-	int u;
-	int z = 0;
-	int j = 0;
-	int *hash = calloc(strlen(string),4);
-	char *newstr;
-	char *getvar = getvariable(string,hash);
-	u = strlen(getvar);
-	if ((getvar = getenv(getvar)) != NULL)
-	{
-		newstr = malloc(strlen(string) + (strlen(getenv(getvar)) - strlen(getvar)) + 1);
-		while (string[i])
-		{
-			if (hash[i] == 1)
-			{
-				if (!getvar)
-					newstr[i] = ' ';
-				else
-				{
-					j = -1;
-					i += u;
-					while (getvar[++j])
-						newstr[z + j] = getvar[j];
-					z = i + j;
-				}
-			}
-			else
-				newstr[z++] = string[i++];
-		}
-		newstr[z] = '\0';
-		return(newstr);
-	}
-	else
-		return (getenv(string));
-}
+// char* replace_env_vars(char* string)
+// {
+// 	int i = 0;
+// 	int j = 0;
+// 	int u = 0;
+// 	char *newcmd = NULL;
+
+// 	while (string[i])
+// 	{
+// 		if (string[i] == '$')
+// 		{
+// 			j++;
+// 			while (string[++i] != '$' && string[i] != 32)
+// 				j++;
+// 		}
+// 		else
+// 		{
+// 			while (string[i] != '$' && string[i])
+// 				i++;
+// 		}
+// 		newcmd = ft_strjoin(newcmd,ft_substr(string,u + j,i));
+// 		printf("\n[%s]\n",ft_substr(string,u + j,i));
+// 		u = i;
+// 	}
+// 	return(newcmd);
+// }
+
+#include <stdlib.h>
+#include <unistd.h>
+#include <stdio.h>
+
+
+#include <stdlib.h>
+
+
+
 
 int main() {
-	char str[] = "PATHh helo $$USER VAR";
-	int *hash = calloc(strlen(str),4);
-  char *strr = replace_env_vars(str);
-  printf("%s",strr);
+	char str[] = "echo $PATH and$USER";
+// 	int *hash = calloc(ft_strlen(str),4);
+//   char *strr = replace_env_vars(str);
+  printf("%s",replace_env_vars(str));
 // for (size_t i = 0; i < strlen(str); i++)
 // {
 // 	printf("%d",hash[i]);
 // }
-
-
-
 
 	return 0;
 }

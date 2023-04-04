@@ -4,18 +4,19 @@ GREEN = \033[1;32m
 DEFAULT = \033[0m
 NAME		=	minishell
 CC			=	cc
-FLAGS		=	-Wall -Wextra -Werror -fsanitize=address,integer,undefined
+FLAGS		=	-Wall -Wextra -Werror -g -fsanitize=address
 RM			=	rm -rf
 HEADER		=	minishell.h
-SOURCE		=	listtools.c readline.c minishell_tools.c
+SOURCE		=	listtools.c readline.c minishell_tools.c replace_env_var.c 
 OBJS		=	$(SOURCE:.c=.o)
-LIBFT = libft/libft.a
+LIBFT		= ./libft/libft.a
 %.o: %.c 
 				@${CC} ${FLAGS} -c $< -o $@
 
-$(NAME):		$(OBJS)
-				@$(CC) $(OBJS) -o $(NAME) -lreadline -fsanitize=address,integer,undefined
+$(NAME):		$(OBJS) $(LIBFT)
+				@$(CC) $(OBJS) -o $(NAME) -L./libft -lft -lreadline -g -fsanitize=address
 				@echo "$(GREEN)$(NAME) Created √$(DEFAULT)"
+
 
 all:			$(NAME)
 

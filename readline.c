@@ -6,59 +6,11 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:56:50 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/03 03:24:17 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/04 04:04:21 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
-
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-
-char* replace_env_vars(char* string) {
-    char* new_string = calloc(strlen(string) + 1, 1);
-    char* out = new_string;
-    size_t str_len = strlen(string);
-    size_t i = 0;
-
-    while (i < str_len) {
-        if (string[i] == '$') {
-            char* var_start = &string[i] + 1;
-            size_t var_len = 0;
-
-            while (isalnum(string[i + 1 + var_len]) || string[i + 1 + var_len] == '_') {
-                var_len++;
-            }
-
-            char var_name[var_len + 1];
-            memcpy(var_name, var_start, var_len);
-            var_name[var_len] = '\0';
-
-            char* var_value = getenv(var_name);
-            if (var_value) {
-                size_t val_len = strlen(var_value);
-                new_string = realloc(new_string, out - new_string + val_len + 3);
-                if (!new_string) {
-                    fprintf(stderr, "Error: Failed to allocate memory.\n");
-                    exit(EXIT_FAILURE);
-                }
-                *out++ = '\'';
-                for (size_t j = 0; j < val_len; j++) {
-                    *out++ = var_value[j];
-                }
-                *out++ = '\'';
-                i += var_len + 1;
-                continue;
-            }
-        }
-
-        *out++ = string[i++];
-    }
-
-    *out = '\0';
-    return new_string;
-}
 
 
 int operatorscount(char *str, int *hash)
@@ -149,81 +101,6 @@ int checkcmd(char *cmd, int *hash)
 	
 }
 
-char	*getvariable(char *input)
-{
-	char *need = malloc(sizeof(char) * getsize(input) + 1);
-	int	i = 0;
-	int	j = 0;
-    while (input[i])
-    {
-        if (input[i] == '$')
-        {
-            while (input[i + 1] == '$')
-                i++;
-            j = 0;
-            i++;
-            while (input[i] != 32 && input[i])
-            {
-                need[j] = input[i];
-                i++;
-                j++;
-                if (input[i] == '$')
-                    return(need);
-            }
-            return(need);
-        }
-        i++;
-    }
-	return (input);
-}
-
-int getsize(char *str)
-{
-    int i = 0;
-    int j;
-    while (str[i])
-    {
-        if (str[i] == '$')
-        {
-            while (str[i + 1] == '$')
-                i++;
-            j = 0;
-            i++;
-            while (str[i] != 32 && str[i] && str[i] != '$')
-            {
-                j++;
-                i++;
-                if (str[i] == '$')
-                    return (j);
-            }
-            return (j);
-        }
-        i++;
-    }
-    return(0);
-}
-
-char *remplace(char *old, char **env)
-{
-	int		i;
-	char	*variable;
-
-	i = -1;
-	while (env[++i])
-	{
-		if (strstr(env[i],getvariable(old)))
-		{
-			variable = malloc(ft_strlen(env[i]) + 1);
-			variable = env[i];
-			variable[ft_strlen(env[i])] = 0;
-			return(variable);
-		}
-		if (env[i + 1] == 0)
-			return(old);
-		
-	}
-	return (old);
-}
 
 char    *typing(char    *spl)
 {
@@ -268,25 +145,21 @@ void    feedlist(t_prc **all, char *input)
 	t_cmd	*cmdspl = NULL;
 
 
-	printf(AC_BLACK"\n%s\n",input);
 	feedhashtable(hash, input);
 	if (checkcmd(input, hash))
 	{
 		printf(AC_RED"syntax error\n");
 		return ;
 	}
-	for (size_t i = 0; i < ft_strlen(input); i++)
-		printf("%d",hash[i]);
 	newinput = add_spaces_around_operators(input, hash);
-	printf(AC_RED"\n%s\n",newinput);
-	allcmd = ft_split(newinput, '|', hash);
+	allcmd = ft_splithash(newinput, '|', hash);
 	i = -1;
 	while (allcmd[++i])
 	{
 		for (size_t i = 0; i < ARG_MAX; i++)
 			hash[i] = 0;
 		feedhashtable(hash, allcmd[i]);
-		cmd = ft_split(allcmd[i], ' ', hash);
+		cmd = ft_splithash(allcmd[i], ' ', hash);
 		u = -1;
 		while (cmd[++u])
 			ft_lstadd_backcmd(&cmdspl, ft_lstnewcmd(cmd[u], typing(cmd[u])));
@@ -330,7 +203,7 @@ int main(int ac, char **av)
 	t_prc       *all = NULL;
 	(void)ac;
 	(void)av;
-	while ((input = readline("prompt: ")))
+	while ((input = replace_env_vars(readline("prompt: "))))
 	{
 		feedlist(&all, input);
 		forcfree(all);
