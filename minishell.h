@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/04 23:37:23 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/05 03:05:30 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ void	ft_free(char **strs, int j);
 char	**ft_splithash(char *s, char c, int *hush);
 int		count_words(char *str, char c, int *hash, size_t len);
 // replace_env_vars
+int		double_quote(char *str, int *hash);
+char	*add_space_before_double_quote(char* str, int *hash);
 char	*ft_strjoin_char(char *s, char c);
 char	*get_env_value(char *name);
 char	*replace_env_vars(char *str);

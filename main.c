@@ -350,25 +350,57 @@
 // 	return(newcmd);
 // }
 
-#include <stdlib.h>
-#include <unistd.h>
+// #include <stdlib.h>
+// #include <unistd.h>
+// #include <stdio.h>
+
+
+// #include <stdlib.h>
+
+
+
+
+// int main() {
+// 	char str[] = "echo $PATH and$USER";
+// // 	int *hash = calloc(ft_strlen(str),4);
+// //   char *strr = replace_env_vars(str);
+//   printf("%s",replace_env_vars(str));
+// // for (size_t i = 0; i < strlen(str); i++)
+// // {
+// // 	printf("%d",hash[i]);
+// // }
+
+// 	return 0;
+// }
 #include <stdio.h>
-
-
 #include <stdlib.h>
+#include <string.h>
 
-
+char* add_space_before_double_quote(char* str) {
+    char* new_str = malloc(strlen(str) * 2 + 1);
+    
+    int i = 0, j = 0;
+    while (str[i] != '\0') {
+        if (str[i] == '"') {
+            new_str[j++] = ' '; 
+        }
+        new_str[j++] = str[i++]; 
+    }
+    new_str[j] = '\0';
+    
+    return new_str;
+}
 
 
 int main() {
-	char str[] = "echo $PATH and$USER";
-// 	int *hash = calloc(ft_strlen(str),4);
-//   char *strr = replace_env_vars(str);
-  printf("%s",replace_env_vars(str));
-// for (size_t i = 0; i < strlen(str); i++)
-// {
-// 	printf("%d",hash[i]);
-// }
-
-	return 0;
+    char str[] = "The quick\"brown\"fox jumps\"over\"the\"lazy\"dog.";
+    printf("Original string: %s\n", str);
+    
+    char* new_str = add_space_before_double_quote(str);
+    printf("New string: %s\n", new_str);
+    
+    free(new_str); // free memory allocated for new string
+    
+    return 0;
 }
+

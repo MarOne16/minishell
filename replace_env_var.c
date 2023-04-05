@@ -6,11 +6,44 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 03:59:05 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/04 23:52:53 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/05 03:33:33 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
+int double_quote(char *str, int *hash)
+{
+	int	num_quotes;
+	int	i;
+
+	i = -1;
+	num_quotes = 0;
+	while (str[++i])
+	{
+		if ((str[i] == '\'' || str[i] == '\"') &&\
+		hash[i] == 0)
+			num_quotes++;
+	}
+	return(num_quotes);
+}
+
+char* add_space_before_double_quote(char* str, int *hash)
+{    
+    char* new_str = malloc(strlen(str) + (double_quote(str, hash) / 2) + 1);
+    
+    int i = 0, j = 0;
+	if ((str[i] == '\'' || str[i] == '\"'))
+		new_str[j++] = ' ';
+    new_str[j++] = str[i++];
+    while (str[i] != '\0') {
+		if ((str[i] == '\'' || str[i] == '\"') && hash[i - 1] == 0)
+            new_str[j++] = ' ';
+        new_str[j++] = str[i++];
+    }
+    new_str[j] = '\0';
+	printf("\n%s\n",new_str);
+    return new_str;
+}
 
 char	*ft_strjoin_char(char *s, char c)
 {

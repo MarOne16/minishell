@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:56:50 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/05 01:41:31 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/05 05:49:28 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,15 +87,16 @@ int checkcmd(char *cmd, int *hash)
 	sq = 0;
 	while (cmd[i])
 	{
+		if ((cmd[i] == '>' && cmd[i + 1] == '<') || 
+		((cmd[i] == '<' && cmd[i + 1] == '>') && hash[i] == 0))
+			return(1);
 		if (cmd[i] == '\"' && hash[i] == 0)
 			dq++;
 		if (cmd[i] == '\'' && hash[i] == 0)
 			sq++;
 		i++;
 	}
-	if (dq % 2)
-		return(1);
-	if (sq % 2)
+	if ((dq % 2) || (sq % 2))
 		return(1);
 	return(0);
 	
@@ -155,7 +156,14 @@ void    feedlist(t_prc **all, char *input)
 		printf(AC_RED"syntax error\n");
 		return ;
 	}
-	newinput = add_spaces_around_operators(input, hash);
+	if (ft_strlen(input) > 2)
+	{
+		// newinput = add_space_before_double_quote(input, hash);
+		feedhashtable(&hash, input);
+		newinput = add_spaces_around_operators(input, hash);
+	}
+	else
+		newinput = input;
 	feedhashtable(&hash, newinput);
 	allcmd = ft_splithash(newinput, '|', hash);
 	i = -1;
@@ -203,13 +211,16 @@ void forcfree(t_prc *input)
 int main()
 {
 	char *input = NULL;
+	char *newinput = NULL;
 	t_prc       *all = NULL;
 
-	while ((input = replace_env_vars(readline("prompt: "))))
+	while ((input = readline("prompt: ")))
 	{
 		if (input)
 		{
-			feedlist(&all, input);
+			newinput = replace_env_vars(input);
+			add_history(input);
+			feedlist(&all, newinput);
 			forcfree(all);
 		}
 	}
