@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/04 04:02:50 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/04 23:37:23 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char	*get_env_value(char *name);
 char	*replace_env_vars(char *str);
 // readline
 void    feedlist(t_prc **all, char *input);
-void	feedhashtable(int *hush, char *input);
+void	feedhashtable(int **hush, char *input);
 int		operatorscount(char *str, int *hash);
 char	*add_spaces_around_operators(char *s, int *hash);
 char	*typing(char *spl);

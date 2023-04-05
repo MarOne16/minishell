@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 03:59:05 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/04 06:39:47 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/04 23:52:53 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,14 +71,14 @@ int	checkbefor(char *cmd, int i)
 	u = i;
 	i--;
 	count = 0;
-	// while (u > 0)
-	// {
-	// 	if (cmd[u] == '\'')
-	// 		count++;
-	// 	u--;
-	// }
-	// if (count % 2)
-	// 	return (1);
+	while (u > 0)
+	{
+		if (cmd[u] == '\'')
+			count++;
+		u--;
+	}
+	if (count % 2)
+		return (1);
 	while (cmd[i])
 	{
 		if (cmd[i] == '>' && cmd[i - 1] == '>')
@@ -103,6 +103,8 @@ char	*replace_env_vars(char *str)
 
 	i = 0;
 	j = 0;
+	if (!str)
+		return (NULL);
 	result = ft_strdup("");
 	while (str[i])
 	{

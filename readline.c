@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:56:50 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/04 04:04:21 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/05 01:41:31 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int operatorscount(char *str, int *hash)
 
 char    *add_spaces_around_operators(char *s, int *hash)
 {
-    char    *result = malloc(strlen(s) + (operatorscount(s, hash) * 2) + 1);
+    char    *result = malloc(ft_strlen(s) + (operatorscount(s, hash) * 2) + 1);
     int i;
     int u;
     int j = 0;
@@ -113,22 +113,25 @@ char    *typing(char    *spl)
 }
 
 
-void	feedhashtable(int *hush, char *input)
+void	feedhashtable(int **hash, char *input)
 {
 	size_t i;
 
 	i = -1;
+	if (*hash)
+		free(*hash);
+	*hash = ft_calloc(ft_strlen(input) + 1, sizeof(int));
 	while (input[++i])
 	{
-		if (input[i] == '\"')
+		if (input[i] == '\"' && input[i + 1])
 		{
-			while (input[++i] != '\"' && input[i])
-				hush[i] = 1;
+			while (input[++i] != '\"' && input[i + 1])
+				(*hash)[i] = 1;
 		}
-		if(input[i] == '\'')
+		if(input[i] == '\''&& input[i + 1])
 		{
-			while (input[++i] != '\'' && input[i])
-				hush[i] = 1;
+			while (input[++i] != '\'' && input[i = 1])
+				(*hash)[i] = 1;
 		}
 	}
 	
@@ -138,27 +141,27 @@ void    feedlist(t_prc **all, char *input)
 {
 	int		i;
 	int		u;
-	int		hash[ARG_MAX] = {0};
-	char	*newinput;
+	int		*hash;
+	char	*newinput = NULL;
 	char    **allcmd;
 	char    **cmd;
 	t_cmd	*cmdspl = NULL;
 
-
-	feedhashtable(hash, input);
+	hash = NULL;
+	feedhashtable(&hash, input);
 	if (checkcmd(input, hash))
 	{
+		free(hash);
 		printf(AC_RED"syntax error\n");
 		return ;
 	}
 	newinput = add_spaces_around_operators(input, hash);
+	feedhashtable(&hash, newinput);
 	allcmd = ft_splithash(newinput, '|', hash);
 	i = -1;
 	while (allcmd[++i])
 	{
-		for (size_t i = 0; i < ARG_MAX; i++)
-			hash[i] = 0;
-		feedhashtable(hash, allcmd[i]);
+		feedhashtable(&hash, allcmd[i]);
 		cmd = ft_splithash(allcmd[i], ' ', hash);
 		u = -1;
 		while (cmd[++u])
@@ -197,16 +200,18 @@ void forcfree(t_prc *input)
 	}
 }
 
-int main(int ac, char **av)
+int main()
 {
 	char *input = NULL;
 	t_prc       *all = NULL;
-	(void)ac;
-	(void)av;
+
 	while ((input = replace_env_vars(readline("prompt: "))))
 	{
-		feedlist(&all, input);
-		forcfree(all);
+		if (input)
+		{
+			feedlist(&all, input);
+			forcfree(all);
+		}
 	}
 
 	return 0;
