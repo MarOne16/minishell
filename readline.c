@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:56:50 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/05 05:49:28 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/06 00:57:50 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ void	feedhashtable(int **hash, char *input)
 		}
 		if(input[i] == '\''&& input[i + 1])
 		{
-			while (input[++i] != '\'' && input[i = 1])
+			while (input[++i] != '\'' && input[i + 1])
 				(*hash)[i] = 1;
 		}
 	}
@@ -159,7 +159,6 @@ void    feedlist(t_prc **all, char *input)
 	if (ft_strlen(input) > 2)
 	{
 		// newinput = add_space_before_double_quote(input, hash);
-		feedhashtable(&hash, input);
 		newinput = add_spaces_around_operators(input, hash);
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 03:59:05 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/05 03:33:33 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/06 00:55:23 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,20 @@ int double_quote(char *str, int *hash)
 
 char* add_space_before_double_quote(char* str, int *hash)
 {    
-    char* new_str = malloc(strlen(str) + (double_quote(str, hash) / 2) + 1);
-    
-    int i = 0, j = 0;
+	char* new_str = malloc(strlen(str) + (double_quote(str, hash) / 2) + 1);
+	
+	int i = 0, j = 0;
 	if ((str[i] == '\'' || str[i] == '\"'))
 		new_str[j++] = ' ';
-    new_str[j++] = str[i++];
-    while (str[i] != '\0') {
+	new_str[j++] = str[i++];
+	while (str[i] != '\0') {
 		if ((str[i] == '\'' || str[i] == '\"') && hash[i - 1] == 0)
-            new_str[j++] = ' ';
-        new_str[j++] = str[i++];
-    }
-    new_str[j] = '\0';
+			new_str[j++] = ' ';
+		new_str[j++] = str[i++];
+	}
+	new_str[j] = '\0';
 	printf("\n%s\n",new_str);
-    return new_str;
+	return new_str;
 }
 
 char	*ft_strjoin_char(char *s, char c)
@@ -71,30 +71,30 @@ char	*ft_strjoin_char(char *s, char c)
 
 char *get_env_value(char *name)
 {
-    extern char **environ;
-    int i;
-    size_t len;
+	extern char **environ;
+	int i;
+	size_t len;
 
-    len = ft_strlen(name);
-    i = 0;
-    while (environ[i] != NULL)
-    {
-        if (ft_strncmp(environ[i], name, len) == 0 && environ[i][len] == '=')
-        {
-            // char *value = environ[i] + len + 1;
-            // char *result = ft_strjoin(name, "=");
-            // result = ft_strjoin_char(result, '"');
-            // result = ft_strjoin(result, value);
-            // result = ft_strjoin_char(result, '"');
-            // return result;
+	len = ft_strlen(name);
+	i = 0;
+	while (environ[i] != NULL)
+	{
+		if (ft_strncmp(environ[i], name, len) == 0)
+		{
+			// char *value = environ[i] + len + 1;
+			// char *result = ft_strjoin(name, "=");
+			// result = ft_strjoin_char(result, '"');
+			// result = ft_strjoin(result, value);
+			// result = ft_strjoin_char(result, '"');
+			// return result;
 			return (environ[i] + len + 1);
-        }
-        i++;
-    }
-    return NULL;
+		}
+		i++;
+	}
+	return NULL;
 }
 
-int	checkbefor(char *cmd, int i)
+int	checkbefor(char *cmd, int i, int *hash)
 {
 	int count;
 	int u;
@@ -106,7 +106,7 @@ int	checkbefor(char *cmd, int i)
 	count = 0;
 	while (u > 0)
 	{
-		if (cmd[u] == '\'')
+		if (cmd[u] == '\'' && hash[u] == 0)
 			count++;
 		u--;
 	}
@@ -114,7 +114,7 @@ int	checkbefor(char *cmd, int i)
 		return (1);
 	while (cmd[i])
 	{
-		if (cmd[i] == '>' && cmd[i - 1] == '>')
+		if (cmd[i] == '>' && cmd[i - 1] == '>' && hash[i] == 0)
 			return (1);
 		else if (cmd[i] == 32)
 			i--;
@@ -133,29 +133,33 @@ char	*replace_env_vars(char *str)
 	char	*env_value;
 	char	*result;
 	char	*temp;
+	int		*hash = NULL;
 
 	i = 0;
 	j = 0;
 	if (!str)
 		return (NULL);
 	result = ft_strdup("");
+	puts("here");
+	feedhashtable(&hash, str);
+	puts("here");
 	while (str[i])
 	{
-		if (str[i] == '$' && str[i + 1] && str[i + 1] != ' ' && !checkbefor(str, i))
+		if (str[i] == '$' && str[i + 1] && str[i + 1] != ' ' && !checkbefor(str, i, hash))
 		{
 			j = i + 1;
 			while (ft_isalnum(str[j]))
 				j++;
 			env_var = ft_substr(str, i + 1, j - i - 1);
 			env_value = get_env_value(env_var);
-			if (env_value != NULL)
+			if (env_value)
 			{
 				temp = result;
 				result = ft_strjoin(result, env_value);
 				free(temp);
 				free(env_var);
 				i = j;
-				continue;
+				continue ;
 			}
 			free(env_var);
 			i = j;
