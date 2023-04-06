@@ -20,8 +20,7 @@ void Creat_env(char **env)
 		ft_lstadd_back(listenv, ft_lstnew(tmp[0],tmp[1]));
 		i++;
 	}
-	glob.env = listenv;
-	
+	glob->env = listenv;
 }
 
 
@@ -74,34 +73,25 @@ void Creat_exp(char **env)
 	while (s_env[i])
 	{
 		tmp = ft_my_split(s_env[i],'=');
-		ft_lstadd_back(list, ft_lstnew(tmp[0],tmp[1]));
+		if(tmp[0] && tmp[1])
+			ft_lstadd_back(list, ft_lstnew(tmp[0],tmp[1]));
 		i++;
 	}
-	glob.exp = list;
+	
+	(glob->exp) = list;
 
 }
 void session(t_prc **all)
 {
-	// int i = 0;
-	// t_prc **tmp;
-	// tmp = all;
-	// while((*tmp))
-	// {
-	// 	i++;
-	// 	(*tmp) = (*tmp)->next;
-	// }
-	printf("%p\n",(*all));
-	// if(i == 1)
-	// {
-	// 	if((*all) != NULL)
-	// 	{
-			// if(!(ft_strncmp((*all)->cmd->type,"word",4)))
-			// {
-			// 	// check_builtin(all);
-			// 	printf("done");
-			// }
-			// else if((*all)->cmd->type == "token")
-			// 	check_token(all);
-	// 	}
-	// }
+	int size;
+	size = size_prc(all);
+	if(size == 1)
+	{
+			if(!(ft_strncmp((*all)->cmd->type,"word",4)))
+			{
+				check_builtin(all);
+			}
+			// else if(!(ft_strncmp((*all)->cmd->type,"token",5)))
+			// 	check_token(all);	
+	}
 }

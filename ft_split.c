@@ -6,11 +6,42 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 18:59:09 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/03 02:19:03 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/04/03 23:28:53 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*ft_substr( char *s, unsigned int start, size_t len)
+{
+	int		i;
+	char	*p;
+
+	i = 0;
+	if (s == '\0' && len >= 0)
+		return (0);
+	if (start >= (unsigned int)ft_strlen(s))
+	{
+		return (NULL);
+	}
+	if (len > ft_strlen(s) - start)
+		len = ft_strlen(s) - start;
+	p = (char *)malloc(len + 1);
+	if (!p)
+	{
+		return (NULL);
+	}
+	while (len)
+	{
+		p[i] = s[start + i];
+		i++;
+		len--;
+	}
+	p[i] = '\0';
+	return (p);
+}
+
+
 
 static	void	free_result(char **p, int nom)
 {
@@ -25,7 +56,7 @@ static	void	free_result(char **p, int nom)
 	free(p);
 }
 
-static int	numot(char const *s, char c)
+static int	numot(char *s, char c)
 {
 	int		i;
 	int		nb;
@@ -75,7 +106,7 @@ static char	**ft_get_next( char *s, char c, int len)
 	return (p);
 }
 
-char	**ft_my_split( char *s, char c)
+char	**ft_my_split(char *s, char c)
 {
 	char	**p;
 	int		lenght;

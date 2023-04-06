@@ -6,11 +6,23 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 12:07:36 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/03 02:24:50 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/04/04 02:53:49 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../minishell.h"
+# include "minishell.h"
+
+// size_t	ft_strlen( char *s)
+// {
+// 	size_t	i;
+
+// 	i = 0;
+// 	while (s[i])
+// 	{
+// 		i++;
+// 	}
+// 	return (i);
+// }
 
 char	*ft_strdup( char *s1)
 {
@@ -30,29 +42,29 @@ char	*ft_strdup( char *s1)
 	return (s11);
 }
 
-char	*ft_substr(char *s, unsigned int start, size_t len)
-{
-	char	*r;
-	size_t	i;
+// char	*ft_substr(char *s, unsigned int start, size_t len)
+// {
+// 	char	*r;
+// 	size_t	i;
 
-	if (!s)
-		return (NULL);
-	if (start >= ft_strlen(s))
-		return (ft_strdup(""));
-	if (len > ft_strlen(s) - start)
-		len = ft_strlen(s) - start;
-	r = malloc(sizeof(char) * (len + 1));
-	i = 0;
-	if (!r)
-		return (NULL);
-	while (i < len)
-	{
-		r[i] = s[start + i];
-		i++;
-	}
-	r[i] = '\0';
-	return (r);
-}
+// 	if (!s)
+// 		return (NULL);
+// 	if (start >= ft_strlen(s))
+// 		return (ft_strdup(""));
+// 	if (len > ft_strlen(s) - start)
+// 		len = ft_strlen(s) - start;
+// 	r = malloc(sizeof(char) * (len + 1));
+// 	i = 0;
+// 	if (!r)
+// 		return (NULL);
+// 	while (i < len)
+// 	{
+// 		r[i] = s[start + i];
+// 		i++;
+// 	}
+// 	r[i] = '\0';
+// 	return (r);
+// }
 
 long	ft_atoi(char *str)
 {

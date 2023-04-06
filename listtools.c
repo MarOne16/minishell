@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   listtools.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:49:29 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/03 02:14:14 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/03/24 23:53:52 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 t_prc	*ft_lstnewallcmd(char *allcmd, t_cmd *cmd)
 {

@@ -30,12 +30,12 @@ t_list	*ft_lstlast(t_list *lst)
 {
 	t_list	*temp;
 
-	temp = lst;
-	if (!lst)
+	if (!lst && !lst->next)
 	{
 		return (0);
 	}
-	while (temp -> next != NULL)
+		temp = lst;
+	while ( temp && temp -> next != NULL)
 	{
 		temp = temp -> next;
 	}
@@ -46,9 +46,10 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 {
 	t_list	*last;
 
-	if (*lst)
+	if (*lst && lst)
 	{
 		last = ft_lstlast(*lst);
+		if(last)
 		last -> next = new;
 	}
 	else
@@ -64,6 +65,21 @@ size_t	ft_strlen(char *s)
 	while (s[i] != '\0')
 	{
 		i++;
+	}
+	return (i);
+}
+
+int size_prc(t_prc ** allcmd)
+{
+	t_prc *tmp;
+	int i;
+
+	i = 0;
+	tmp = *allcmd;
+	while(tmp)
+	{
+		i++;
+		tmp = tmp->next;
 	}
 	return (i);
 }
