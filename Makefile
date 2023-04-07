@@ -4,7 +4,7 @@ GREEN = \033[1;32m
 DEFAULT = \033[0m
 NAME		=	minishell
 CC			=	cc
-FLAGS		=	-Wall -Wextra -Werror -g -fsanitize=address
+FLAGS		=	-Wall -Wextra -Werror 
 RM			=	rm -rf
 HEADER		=	minishell.h
 SOURCE		=	listtools.c readline.c minishell_tools.c replace_env_var.c 
@@ -14,11 +14,11 @@ LIBFT		= ./libft/libft.a
 				@${CC} ${FLAGS} -c $< -o $@
 
 $(NAME):		$(OBJS) $(LIBFT)
-				@$(CC) $(OBJS) -o $(NAME) -L./libft -lft -lreadline -g -fsanitize=address
-				@echo "$(GREEN)$(NAME) Created √$(DEFAULT)"
+				@$(CC) $(OBJS) -o $(NAME) -L./libft -lft -lreadline 
+				@echo "$(GREEN)$(NAME) Created √$(DEFAULT)" 
 
 
-all:			$(NAME)
+all:			$(NAME) clean
 
 clean:
 				@$(RM) $(OBJS)

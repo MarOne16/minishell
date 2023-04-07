@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:56:50 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/06 00:57:50 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/07 00:25:29 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,16 +62,16 @@ char    *add_spaces_around_operators(char *s, int *hash)
             }
             result[j++] = ' ';
         }
-        else if(c > 0)
+        else if(c > 2)
         {
             while (c)
             {
                 result[j++] = s[i++];
                 c--;
             }
-        }
-        result[j++] = s[i];
-        i++;
+		}
+		else
+			result[j++] = s[i++];
     }
     result[j]='\0';
     return (result);
@@ -156,13 +156,7 @@ void    feedlist(t_prc **all, char *input)
 		printf(AC_RED"syntax error\n");
 		return ;
 	}
-	if (ft_strlen(input) > 2)
-	{
-		// newinput = add_space_before_double_quote(input, hash);
-		newinput = add_spaces_around_operators(input, hash);
-	}
-	else
-		newinput = input;
+	newinput = add_spaces_around_operators(input, hash);
 	feedhashtable(&hash, newinput);
 	allcmd = ft_splithash(newinput, '|', hash);
 	i = -1;
@@ -207,13 +201,16 @@ void forcfree(t_prc *input)
 	}
 }
 
-int main()
+int main(int argc, char *argv[], char **env)
 {
+	(void)argv;
+	(void)argc;
+	environ = env;
 	char *input = NULL;
 	char *newinput = NULL;
 	t_prc       *all = NULL;
 
-	while ((input = readline("prompt: ")))
+	while ((input = readline(AC_GREEN"prompt: ")))
 	{
 		if (input)
 		{
