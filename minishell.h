@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/07 00:23:44 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/07 05:13:03 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ typedef struct s_env
 
 typedef struct s_cmd
 {
-	char			*type;
+	int				type;
 	char			*cmd;
 	struct s_cmd	*next;
 	struct s_cmd	*previus;
@@ -58,7 +58,7 @@ typedef struct s_prc
 
 // list tools
 t_prc	*ft_lstnewallcmd(char *allcmd, t_cmd *cmd);
-t_cmd	*ft_lstnewcmd(char *cmd, char *type);
+t_cmd	*ft_lstnewcmd(char *cmd, int type);
 void	ft_lstadd_frontcmd(t_prc **lst, t_prc *new);
 t_prc	*ft_lstlastallcmd(t_prc *lst);
 t_cmd	*ft_lstlastcmd(t_cmd *lst);
@@ -78,10 +78,11 @@ char	*get_env_value(char *name);
 char	*replace_env_vars(char *str);
 // readline
 void    feedlist(t_prc **all, char *input);
+void	forcfree(t_prc **input);
 void	feedhashtable(int **hush, char *input);
 int		operatorscount(char *str, int *hash);
 char	*add_spaces_around_operators(char *s, int *hash);
-char	*typing(char *spl);
+int		typing(char *spl);
 
 // typedef struct s_data
 // {

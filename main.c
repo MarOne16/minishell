@@ -391,16 +391,28 @@ char* add_space_before_double_quote(char* str) {
     return new_str;
 }
 
+int check_pip(char *newinput)
+{
+	int		index;
+    char	*pipe_ptr;
+	pipe_ptr= strchr(newinput, '|');
+    if (pipe_ptr != NULL)
+	{
+        int i = 0;
+        while ((pipe_ptr + i))
+        {
+            /* code */
+        }
+        
+    }
+	return (0);
+}
 
-int main() {
-    char str[] = "The quick\"brown\"fox jumps\"over\"the\"lazy\"dog.";
-    printf("Original string: %s\n", str);
-    
-    char* new_str = add_space_before_double_quote(str);
-    printf("New string: %s\n", new_str);
-    
-    free(new_str); // free memory allocated for new string
-    
+int main(int argc, char **argv) {
+    if (check_pip(argv[1]))
+        puts("error");
+    else
+        puts("good");
     return 0;
 }
 

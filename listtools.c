@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:49:29 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/04 03:58:21 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/07 03:30:56 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_prc	*ft_lstnewallcmd(char *allcmd, t_cmd *cmd)
 	return (node);
 }
 
-t_cmd	*ft_lstnewcmd(char *cmd, char *type)
+t_cmd	*ft_lstnewcmd(char *cmd, int type)
 {
 	t_cmd	*newcmd;
 
