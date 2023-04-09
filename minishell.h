@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/07 05:13:03 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/09 03:01:32 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ int		double_quote(char *str, int *hash);
 char	*add_space_before_double_quote(char* str, int *hash);
 char	*ft_strjoin_char(char *s, char c);
 char	*get_env_value(char *name);
+char	*ft_strjoin_char(char *s, char c);
+char	*removequote(char *str);
 char	*replace_env_vars(char *str);
 // readline
 void    feedlist(t_prc **all, char *input);

@@ -8,6 +8,29 @@
 # include <readline/history.h>
 # include "./libft/libft.h"
 
+char	*ft_strjoin_char(char *s, char c)
+{
+	size_t	len;
+	char	*str;
+	int		i;
+
+	if (!s)
+		return (NULL);
+	len = ft_strlen(s) + 1;
+	str = (char *)malloc(sizeof(char) * (len + 1));
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (s[i])
+	{
+		str[i] = s[i];
+		i++;
+	}
+	str[i] = c;
+	str[i + 1] = '\0';
+    free(s);
+	return (str);
+}
 // char* replace(char *str, char *from, char *to)
 // {
 //     char *newinput = malloc(strlen(str) + (strlen(to) - strlen(from)) + 10);
@@ -372,47 +395,62 @@
 
 // 	return 0;
 // }
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+// #include <stdio.h>
+// #include <stdlib.h>
+// #include <string.h>
 
-char* add_space_before_double_quote(char* str) {
-    char* new_str = malloc(strlen(str) * 2 + 1);
+// char* add_space_before_double_quote(char* str) {
+//     char* new_str = malloc(strlen(str) * 2 + 1);
     
-    int i = 0, j = 0;
-    while (str[i] != '\0') {
-        if (str[i] == '"') {
-            new_str[j++] = ' '; 
-        }
-        new_str[j++] = str[i++]; 
-    }
-    new_str[j] = '\0';
+//     int i = 0, j = 0;
+//     while (str[i] != '\0') {
+//         if (str[i] == '"') {
+//             new_str[j++] = ' '; 
+//         }
+//         new_str[j++] = str[i++]; 
+//     }
+//     new_str[j] = '\0';
     
-    return new_str;
-}
+//     return new_str;
+// }
 
-int check_pip(char *newinput)
+
+// int main(int argc, char **argv) {
+//     if (check_pip(argv[1]))
+//         puts("error");
+//     else
+//         puts("good");
+//     return 0;
+// }
+
+char *removequote(char *str)
 {
-	int		index;
-    char	*pipe_ptr;
-	pipe_ptr= strchr(newinput, '|');
-    if (pipe_ptr != NULL)
-	{
-        int i = 0;
-        while ((pipe_ptr + i))
-        {
-            /* code */
-        }
-        
-    }
-	return (0);
-}
+    char *newstr;
+    int  i;
 
-int main(int argc, char **argv) {
-    if (check_pip(argv[1]))
-        puts("error");
-    else
-        puts("good");
+    i = 0;
+    newstr = ft_strdup("");
+    while (str[i])
+    {
+        if (str[i] == '\"' || str[i] == '\'')
+            i++;
+        else
+        {
+            newstr = ft_strjoin_char(newstr , str[i]);
+            i++;
+        }
+    }
+    return(newstr);
+}
+int main()
+{
+    char *newstr;
+    char str[] = "hello\"maro";
+    newstr = removequote(str);
+    while (1)
+    {
+        /* code */
+    }
+    
     return 0;
 }
-

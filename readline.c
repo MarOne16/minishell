@@ -6,17 +6,16 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:56:50 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/08 05:03:31 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/09 03:30:02 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
-
 int operatorscount(char *str, int *hash)
 {
     int i;
-    int count = 0;
+	int count = 0;
     int c = 0;
 
     i = -1;
@@ -47,7 +46,7 @@ char    *add_spaces_around_operators(char *s, int *hash)
     {
         u = i;
         c = 0;
-		if (s[i] == '|')
+		if (s[i] == '|' && hash[i] == 0)
 		{
 			result[j++] = ' '; 
                 result[j++] = s[i++];
@@ -176,8 +175,8 @@ void    feedlist(t_prc **all, char *input)
 	cmd = ft_splithash(newinput, ' ', hash);
 	u = -1;
 	while (cmd[++u])
-		ft_lstadd_backcmd(&cmdspl, ft_lstnewcmd(cmd[u], typing(cmd[u])));
-	ft_lstadd_backallcmd(all, ft_lstnewallcmd(newinput, cmdspl));
+		ft_lstadd_backcmd(&cmdspl, ft_lstnewcmd(removequote(cmd[u]), typing(cmd[u])));
+	ft_lstadd_backallcmd(all, ft_lstnewallcmd(removequote(newinput), cmdspl));
 	cmdspl = NULL;
 	if (checkcmd(newinput, hash) || check_rid(all))
 	{
