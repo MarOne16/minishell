@@ -7,6 +7,8 @@ t_list	*ft_lstnew(char *name , char  *value)
 	new = (t_list *)malloc(sizeof(t_list));
 	if (!new)
 		return (0);
+	if(!name && !value)
+		return(0);
 	new -> name = name;
 	new -> value = value;
 	new -> next = NULL;
@@ -30,27 +32,28 @@ t_list	*ft_lstlast(t_list *lst)
 {
 	t_list	*temp;
 
-	if (!lst && !lst->next)
+	if (!lst)
 	{
 		return (0);
 	}
-		temp = lst;
-	while ( temp && temp -> next != NULL)
+	temp = lst;
+	while (temp->next)
 	{
 		temp = temp -> next;
 	}
 	return (temp);
+
 }
 
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {
 	t_list	*last;
 
-	if (*lst && lst)
+	if (*lst)
 	{
 		last = ft_lstlast(*lst);
 		if(last)
-		last -> next = new;
+			last -> next = new;
 	}
 	else
 	{

@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 18:03:29 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/06 03:37:04 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/04/09 05:53:27 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,22 @@ void change_env(char *s,char *modified)
     change = find_var_exp(modified);
     change->value = s;
 }
+void chdir_home (void)
+{
+    char * old_path;
+    char *home;
+    home = NULL;
+
+    old_path = getcwd(NULL,0);
+    home = get_home();
+        if(chdir(home) == -1)
+        {
+                printf("Can't Find home path : %s\n",strerror(errno));
+                return;
+        }
+    change_env(home,"PWD");
+    change_env(old_path,"OLDPWD");
+}
 void ft_chdir(t_cmd *cmd)
 {
     int size;
@@ -78,27 +94,30 @@ void ft_chdir(t_cmd *cmd)
     size = size_cmd(cmd);
     if(size == 1)
     {
-        old_path = getcwd(NULL,0);
-        home = get_home();
-            if(chdir(home) == -1)
-            {
-                printf("Can't Find home path : %s\n",strerror(errno));
-                return;
-            }
-        change_env(home,"PWD");
-        change_env(old_path,"OLDPWD");
+        chdir_home();
     }
-    if(size == 2)
+    if(size >= 2)
     {
+
+        if(!ft_strncmp(cmd->next->cmd,"~",1) && ft_strlen(cmd->next->cmd) == 1)
+        {
+            chdir_home();
+            return;
+        }
         old_path = getcwd(NULL,0);
+        if (old_path == NULL && !ft_strncmp(cmd->next->cmd,".",1) && ft_strlen(cmd->next->cmd) == 1)
+        {
+           printf("%s\n",cmd->next->cmd);
+           return;
+        }
             home = cmd->next->cmd;
             if(chdir(home) == -1)
             {
                 printf("%s\n",strerror(errno));
                 return;
             }
+            home = getcwd(NULL,0);
         change_env(home,"PWD");
         change_env(old_path,"OLDPWD");
-        printf("%s\n",getcwd(NULL,0));
     }
 }

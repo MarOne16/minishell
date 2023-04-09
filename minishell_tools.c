@@ -6,23 +6,13 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 12:07:36 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/04 02:53:49 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/04/08 05:27:45 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
-// size_t	ft_strlen( char *s)
-// {
-// 	size_t	i;
 
-// 	i = 0;
-// 	while (s[i])
-// 	{
-// 		i++;
-// 	}
-// 	return (i);
-// }
 
 char	*ft_strdup( char *s1)
 {

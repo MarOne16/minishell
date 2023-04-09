@@ -4,11 +4,12 @@ GREEN = \033[1;32m
 DEFAULT = \033[0m
 NAME		=	minishell
 CC			=	cc
-FLAGS		=	-Wall -Wextra -Werror
+FLAGS		=	-Wall -Wextra -Werror #-g -fsanitize=address
 RM			=	rm -rf
 HEADER		=	minishell.h
 SOURCE		=	listtools.c readline.c minishell_tools.c builtin.c\
-	 ft_split.c list_tools.c newRealease.c ft_echo.c ft_chdir.c 
+	 ft_split.c list_tools.c newRealease.c ft_echo.c ft_chdir.c ft_exit.c\
+	ft_pwd.c ft_export.c  
 OBJS		=	$(SOURCE:.c=.o)
 LIBFT = libft/libft.a
 %.o: %.c

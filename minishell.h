@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/06 02:32:32 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/04/09 02:11:47 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
 
 typedef struct s_env
 {
@@ -86,6 +87,12 @@ void check_builtin(t_prc **all);
 void ft_echo(t_cmd *cmd);
 void ft_chdir(t_cmd *cmd);
 void iter(int i);
+void ft_exit(t_cmd *cmd);
+char ** empty_env(char **av);
+void print_exp();
+void ft_exp(t_cmd *cmd);
+void ft_pwd(t_cmd *pwd);
+char *get_orgin(void);
 
 
 // list tools
@@ -109,6 +116,7 @@ char	*ft_strdup(char *s1);
 char	*ft_substr(char *s, unsigned int start, size_t len);
 int count_words(char *str, char c, int *hash, size_t len);
 char **ft_split_hash(char *str, char c, int *hash, size_t len);
+char	*ft_strjoin(char  *s1, char  *s2);
 
 // readline
 void    feedlist(t_prc **all, char *input);

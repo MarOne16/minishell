@@ -5,12 +5,12 @@ void Creat_env(char **env)
 
 	int i;
 	char **tmp;
-	t_list **listenv = NULL;
-
+	t_list **listenv;
 	i = 0;
 	while (env[i])
 		i++;
 	listenv = (t_list **)malloc(sizeof(t_list *) * i + 1);
+	*listenv = NULL;
 	if (!listenv)
 		perror("malloc");
 	i = 0;
@@ -77,7 +77,6 @@ void Creat_exp(char **env)
 			ft_lstadd_back(list, ft_lstnew(tmp[0],tmp[1]));
 		i++;
 	}
-	
 	(glob->exp) = list;
 
 }

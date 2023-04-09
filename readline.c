@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:56:50 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/06 02:31:24 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/04/09 01:22:38 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -325,15 +325,15 @@ void forcfree(t_prc *input)
 }
 void iter(int i)
 {
-    t_list **temp;
+    t_list *temp;
     if( i == 1)
-	temp = glob->env;
+	temp = (*glob->env);
     else
-    temp = glob->exp;
-	while (temp != NULL && *temp != NULL)
+    temp = (*glob->exp);
+	while (temp != NULL)
 	{
-		printf("%s = %s\n", (*temp)->name, (*temp)->value);
-		temp = &((*temp)->next);
+		printf("%s=%s\n", (temp)->name, (temp)->value);
+		temp = (temp)->next;
 	}
 }
 int main(int ac, char **av,char ** env)
@@ -342,15 +342,18 @@ int main(int ac, char **av,char ** env)
 	t_prc       *all = NULL;
     glob = (t_global *)malloc(sizeof(t_global));
 	(void)ac;
-	(void)av;
+    if(*env == NULL)
+    {
+        env = empty_env(av);
+    }
     Creat_env(env);
     Creat_exp(env);
-	while ((input = readline("prompt: ")))
+	while ((input = readline("mini-1.0$")))
 	{
 		feedlist(&all, input);
         session(&all);
         all = NULL;
-		// forcfree(all);
+		forcfree(all);
 	}
     
 	return 0;
