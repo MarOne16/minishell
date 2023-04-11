@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:56:50 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/11 00:52:28 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/11 02:44:58 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int  checkcmd(char *cmd, int *hash)
 
 int    typing(char    *spl)
 {
-	if (((spl[0] == '>' && spl[1] != '<') || spl[0] == '='|| spl[0] == '|' || 
+	if (((spl[0] == '>' && spl[1] != '<') || spl[0] == '|' || 
 		(spl[0] == '<' && spl[1] != '>') || (spl[0] == '>' && spl[1] == '>') ||
 		((spl[0] == '<' && spl[1] == '<'))) && (ft_strlen(spl) <= 2))
 		return (1);
@@ -183,7 +183,7 @@ void    feedlist(t_prc **all, char *input)
 	int		*hash;
 	char	*newinput = NULL;
 	char    **cmd;
-	char    **cmdfinal = NULL;
+	// char    **cmdfinal = NULL;
 	t_cmd	*cmdspl = NULL;
 
 	hash = NULL;
@@ -193,11 +193,8 @@ void    feedlist(t_prc **all, char *input)
 	cmd = ft_splithash(newinput, ' ', hash);
 	u = -1;
 	while (cmd[++u])
-	{
 		ft_lstadd_backcmd(&cmdspl, ft_lstnewcmd(cmd[u], typing(cmd[u])));
-	}
 	ft_lstadd_backallcmd(all, ft_lstnewallcmd(newinput, cmdspl));
-	cmdspl = NULL;
 	if (checkcmd(newinput, hash) || check_rid(all))
 	{
 		free(hash);
@@ -206,10 +203,10 @@ void    feedlist(t_prc **all, char *input)
 		printf(AC_RED"syntax error\n");
 		return ;
 	}
-	cmdfinal = feedchardouble(all);
+	// cmdfinal = feedchardouble(all);
 	u = -1;
-	while (cmdfinal[++u])
-		printf(AC_RED"%s\n",cmdfinal[u]);
+	while (cmd[++u])
+		printf(AC_RED"%s\n",removequote(cmd[u]));
 }
 
 void forcfree(t_prc **input)
