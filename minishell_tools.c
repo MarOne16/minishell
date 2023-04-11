@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 12:07:36 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/04 03:55:38 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/11 00:46:59 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,26 @@ char	**ft_splithash(char *s, char c, int *hush)
 	}
 	str[j] = 0;
 	return (str);
+}
+
+int	ft_strncmpm(char *s1,  char *s2, size_t n)
+{
+	size_t			i;
+	size_t			x;
+
+	i = 0;
+	x = -1;
+	while (s1[++x] != '=' && s1[x])
+	{
+
+	}
+	if (x < ft_strlen(s2))
+		return (1);
+	while ((s1[i] || s2[i]) && s1[i] != '=' && i <= n)
+	{
+		if (s2[i] != s1[i])
+			return (1);
+		i++;
+	}
+	return (0);
 }

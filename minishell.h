@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/09 03:01:32 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/11 00:46:59 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,14 @@ typedef struct s_prc
 t_prc	*ft_lstnewallcmd(char *allcmd, t_cmd *cmd);
 t_cmd	*ft_lstnewcmd(char *cmd, int type);
 void	ft_lstadd_frontcmd(t_prc **lst, t_prc *new);
-t_prc	*ft_lstlastallcmd(t_prc *lst);
+int		ft_lstsizetprc(t_prc *lst);
+t_cmd	*ft_lstlastcmd(t_cmd *lst);
 t_cmd	*ft_lstlastcmd(t_cmd *lst);
 void	ft_lstadd_backallcmd(t_prc **lst, t_prc *new);
 void	ft_lstadd_backcmd(t_cmd **lst, t_cmd *new);
 // atoi & split tools
-int	nb_c(char *s, char c,int *hash);
+int		nb_c(char *s, char c,int *hash);
+int		ft_strncmpm(char *s1,  char *s2, size_t n);
 int		strlenword(char *s, char c, int i, int *hush);
 void	ft_free(char **strs, int j);
 char	**ft_splithash(char *s, char c, int *hush);

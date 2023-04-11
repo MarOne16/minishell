@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:49:29 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/07 03:30:56 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/10 01:22:01 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,23 @@ t_cmd	*ft_lstlastcmd(t_cmd *lst)
 		l = l -> next;
 	}
 	return (l);
+}
+
+int	ft_lstsizetprc(t_prc *lst)
+{
+	t_prc	*l;
+	int		i;
+
+	if (!lst)
+		return (0x0);
+	l = lst;
+	i = 0;
+	while (l)
+	{
+		l = l -> next;
+		i++;
+	}
+	return (i);
 }
 
 void	ft_lstadd_backallcmd(t_prc **lst, t_prc *new)

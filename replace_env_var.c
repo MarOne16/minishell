@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 03:59:05 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/09 03:58:30 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/11 01:25:37 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,32 +32,38 @@ char	*ft_strjoin_char(char *s, char c)
 	}
 	str[i] = c;
 	str[i + 1] = '\0';
-	free(s);
+	// free(s);
 	return (str);
 }
 
 char *removequote(char *str)
 {
-    char	*newstr;
-    int		*hash;
-    int  i;
+    char    *newstr;
+    int     *hash;
+    char    *temp;
+    int     i;
 
     i = 0;
-	hash = NULL;
-	feedhashtable(&hash, str);
+    hash = NULL;
+    feedhashtable(&hash, str);
     newstr = ft_strdup("");
-    while (str[i])
-    {
+    while (str[i]) {
         if ((str[i] == '\"' || str[i] == '\'') && hash[i] == 0)
             i++;
-        else
-        {
-            newstr = ft_strjoin_char(newstr , str[i]);
+        else {
+            temp = newstr;
+            newstr = ft_strjoin_char(newstr, str[i]);
+            free(temp);
             i++;
         }
     }
-    return(newstr);
+    temp = newstr;
+    newstr = ft_strjoin_char(newstr, str[i]);
+    free(temp);
+    free(hash); // Freeing the memory pointed to by hash
+    return newstr;
 }
+
 
 char *get_env_value(char *name)
 {
@@ -68,7 +74,7 @@ char *get_env_value(char *name)
 	i = 0;
 	while (environ[i] != NULL)
 	{
-		if ((ft_strncmp(environ[i], name, (ft_strlen(environ[i]))) == 0) && len)
+		if ((ft_strncmpm(environ[i], name, (ft_strlen(environ[i]))) == 0) && len)
 			return (environ[i] + len + 1);
 		i++;
 	}
@@ -135,7 +141,7 @@ char	*replace_env_vars(char *str)
 			{
 				temp = result;
 				result = ft_strjoin(result, env_value);
-				// free(temp);
+				free(temp);
 				free(env_var);
 				i = j;
 				continue ;
@@ -145,7 +151,7 @@ char	*replace_env_vars(char *str)
 		}
 		temp = result;
 		result = ft_strjoin_char(result, str[i]);
-		// free(temp);
+		free(temp);
 		i++;
 	}
 	return (result);

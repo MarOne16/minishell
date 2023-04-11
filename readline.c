@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:56:50 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/09 03:30:02 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/11 00:52:28 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,72 +14,72 @@
 
 int operatorscount(char *str, int *hash)
 {
-    int i;
+	int i;
 	int count = 0;
-    int c = 0;
+	int c = 0;
 
-    i = -1;
-    while (str[++i])
-    {
-            count = 0;
-            while (str[i] && (str[i] == '<' || str[i] == '>') && hash[i] == 0)
-            {
-                count++;
-                i++;
-            }
-            if ((count == 1 || count == 2))
-                c++;
-    }
-    return (c);
+	i = -1;
+	while (str[++i])
+	{
+			count = 0;
+			while (str[i] && (str[i] == '<' || str[i] == '>') && hash[i] == 0)
+			{
+				count++;
+				i++;
+			}
+			if ((count == 1 || count == 2))
+				c++;
+	}
+	return (c);
 }
 
 char    *add_spaces_around_operators(char *s, int *hash)
 {
-    char    *result = malloc(ft_strlen(s) + (operatorscount(s, hash) * 2) + 1);
-    int i;
-    int u;
-    int j = 0;
-    int c;
+	char    *result = malloc(ft_strlen(s) + (operatorscount(s, hash) * 2) + 1);
+	int i;
+	int u;
+	int j = 0;
+	int c;
 
-    i = 0;
-    while (s[i])
-    {
-        u = i;
-        c = 0;
+	i = 0;
+	while (s[i])
+	{
+		u = i;
+		c = 0;
 		if (s[i] == '|' && hash[i] == 0)
 		{
 			result[j++] = ' '; 
-                result[j++] = s[i++];
-            result[j++] = ' ';
+				result[j++] = s[i++];
+			result[j++] = ' ';
 		}
-        while(s[u] && (s[u] == '<' || s[u] == '>') && hash[u] == 0 )
-        {
-            c++;
-            u++;
-        }
-        if (c == 1 || c == 2)
-        {
-            result[j++] = ' '; 
-            while (c)
-            {
-                result[j++] = s[i++];
-                c--;
-            }
-            result[j++] = ' ';
-        }
-        else if(c > 2)
-        {
-            while (c)
-            {
-                result[j++] = s[i++];
-                c--;
-            }
+		while(s[u] && (s[u] == '<' || s[u] == '>') && hash[u] == 0 )
+		{
+			c++;
+			u++;
+		}
+		if (c == 1 || c == 2)
+		{
+			result[j++] = ' '; 
+			while (c)
+			{
+				result[j++] = s[i++];
+				c--;
+			}
+			result[j++] = ' ';
+		}
+		else if(c > 2)
+		{
+			while (c)
+			{
+				result[j++] = s[i++];
+				c--;
+			}
 		}
 		else
 			result[j++] = s[i++];
-    }
-    result[j]='\0';
-    return (result);
+	}
+	result[j]='\0';
+	return (result);
 }
 
 int  checkcmd(char *cmd, int *hash)
@@ -118,27 +118,26 @@ int    typing(char    *spl)
 
 void	feedhashtable(int **hash, char *input)
 {
-	size_t i;
+	size_t	i;
 
 	i = -1;
-	if (*hash)
+	if (*hash || hash)
+	{
 		free(*hash);
+		*hash = NULL;
+	}
 	*hash = ft_calloc(ft_strlen(input) + 1, sizeof(int));
 	while (input[++i])
 	{
 		if (input[i] == '\"' && input[i + 1])
-		{
 			while (input[++i] != '\"' && input[i + 1])
 				(*hash)[i] = 1;
-		}
-		if(input[i] == '\''&& input[i + 1])
-		{
+		if (input[i] == '\'' && input[i + 1])
 			while (input[++i] != '\'' && input[i + 1])
 				(*hash)[i] = 1;
-		}
 	}
-	
 }
+
 
 int check_rid(t_prc **all)
 {
@@ -155,9 +154,27 @@ int check_rid(t_prc **all)
 				return (1);
 			reset2 = reset2->next;
 		}
-		reset = reset->next; 
+		reset = reset->next;
 	}
 	return (0);
+}
+
+char **feedchardouble(t_prc **all)
+{
+	char	**spl;
+	int		i;
+	t_cmd	*rest3;
+
+	spl = (char **)malloc((sizeof(char *) * 1) + 1);
+	i = 0;
+	rest3 = (*all)->cmd;
+	while (rest3)
+	{
+		spl[i++] = removequote(rest3->cmd);
+		// spl[i++] = rest3->cmd;
+		rest3 = rest3->next;
+	}
+	return (spl[i] = 0, spl);
 }
 
 void    feedlist(t_prc **all, char *input)
@@ -166,6 +183,7 @@ void    feedlist(t_prc **all, char *input)
 	int		*hash;
 	char	*newinput = NULL;
 	char    **cmd;
+	char    **cmdfinal = NULL;
 	t_cmd	*cmdspl = NULL;
 
 	hash = NULL;
@@ -175,28 +193,23 @@ void    feedlist(t_prc **all, char *input)
 	cmd = ft_splithash(newinput, ' ', hash);
 	u = -1;
 	while (cmd[++u])
-		ft_lstadd_backcmd(&cmdspl, ft_lstnewcmd(removequote(cmd[u]), typing(cmd[u])));
-	ft_lstadd_backallcmd(all, ft_lstnewallcmd(removequote(newinput), cmdspl));
+	{
+		ft_lstadd_backcmd(&cmdspl, ft_lstnewcmd(cmd[u], typing(cmd[u])));
+	}
+	ft_lstadd_backallcmd(all, ft_lstnewallcmd(newinput, cmdspl));
 	cmdspl = NULL;
 	if (checkcmd(newinput, hash) || check_rid(all))
 	{
 		free(hash);
 		forcfree(all);
+		free(newinput);
 		printf(AC_RED"syntax error\n");
 		return ;
 	}
-	while ((*all))
-	{
-		printf(AC_YELLOW"\ncmd : %s -->  ",(*all)->allcmd);
-		while ((*all)->cmd)
-		{
-			printf(AC_CYAN"[%s]->type \"%d\"\t",(*all)->cmd->cmd, (*all)->cmd->type);
-			(*all)->cmd = (*all)->cmd->next;
-		}
-		printf("\n");
-		(*all) = (*all)->next;
-	}
-	forcfree(all);
+	cmdfinal = feedchardouble(all);
+	u = -1;
+	while (cmdfinal[++u])
+		printf(AC_RED"%s\n",cmdfinal[u]);
 }
 
 void forcfree(t_prc **input)
@@ -234,10 +247,11 @@ int main(int argc, char *argv[], char **env)
 			newinput = replace_env_vars(input);
 			add_history(input);
 			feedlist(&all, newinput);
-			// forcfree(all);
+			all = NULL;
+			// forcfree(&all);
 		}
 	}
-
+	exit(0);
 	return 0;
 }
 
