@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:56:50 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/11 02:44:58 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/13 02:50:01 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int operatorscount(char *str, int *hash)
 	int c = 0;
 
 	i = -1;
+	feedhashtable(&hash, str);
 	while (str[++i])
 	{
 			count = 0;
@@ -29,6 +30,8 @@ int operatorscount(char *str, int *hash)
 			}
 			if ((count == 1 || count == 2))
 				c++;
+			else if (count > 2)
+				return (1337);
 	}
 	return (c);
 }
@@ -84,17 +87,19 @@ char    *add_spaces_around_operators(char *s, int *hash)
 
 int  checkcmd(char *cmd, int *hash)
 {
-	int i = 0;
-	int dq;
-	int sq;
-	
+	int	i;
+	int	dq;
+	int	sq;
+
 	dq = 0;
 	sq = 0;
+	i = 0;
+	feedhashtable(&hash, cmd);
 	while (cmd[i])
 	{
-		if ((cmd[i] == '>' && cmd[i + 1] == '<') || 
-		((cmd[i] == '<' && cmd[i + 1] == '>') && hash[i] == 0))
-			return(1);
+		if (((cmd[i] == '>' && cmd[i + 1] == '<') || \
+		(cmd[i] == '<' && cmd[i + 1] == '>')) && hash[i] == 0)
+			return (1);
 		if (cmd[i] == '\"' && hash[i] == 0)
 			dq++;
 		if (cmd[i] == '\'' && hash[i] == 0)
@@ -102,14 +107,14 @@ int  checkcmd(char *cmd, int *hash)
 		i++;
 	}
 	if ((dq % 2) || (sq % 2))
-		return(1);
-	return(0);
+		return (1);
+	return (0);
 }
 
 int    typing(char    *spl)
 {
-	if (((spl[0] == '>' && spl[1] != '<') || spl[0] == '|' || 
-		(spl[0] == '<' && spl[1] != '>') || (spl[0] == '>' && spl[1] == '>') ||
+	if (((spl[0] == '>' && spl[1] != '<') || spl[0] == '|' || \
+		(spl[0] == '<' && spl[1] != '>') || (spl[0] == '>' && spl[1] == '>') || \
 		((spl[0] == '<' && spl[1] == '<'))) && (ft_strlen(spl) <= 2))
 		return (1);
 	else
@@ -183,7 +188,6 @@ void    feedlist(t_prc **all, char *input)
 	int		*hash;
 	char	*newinput = NULL;
 	char    **cmd;
-	// char    **cmdfinal = NULL;
 	t_cmd	*cmdspl = NULL;
 
 	hash = NULL;
@@ -195,7 +199,8 @@ void    feedlist(t_prc **all, char *input)
 	while (cmd[++u])
 		ft_lstadd_backcmd(&cmdspl, ft_lstnewcmd(cmd[u], typing(cmd[u])));
 	ft_lstadd_backallcmd(all, ft_lstnewallcmd(newinput, cmdspl));
-	if (checkcmd(newinput, hash) || check_rid(all))
+	if (checkcmd(newinput, hash) || check_rid(all) || \
+	operatorscount(input, hash) == 1337)
 	{
 		free(hash);
 		forcfree(all);
@@ -203,7 +208,6 @@ void    feedlist(t_prc **all, char *input)
 		printf(AC_RED"syntax error\n");
 		return ;
 	}
-	// cmdfinal = feedchardouble(all);
 	u = -1;
 	while (cmd[++u])
 		printf(AC_RED"%s\n",removequote(cmd[u]));
@@ -235,7 +239,8 @@ int main(int argc, char *argv[], char **env)
 	environ = env;
 	char *input = NULL;
 	char *newinput = NULL;
-	t_prc       *all = NULL;
+	t_prc       *all;
+
 
 	while ((input = readline(AC_GREEN"prompt: ")))
 	{

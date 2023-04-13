@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 12:07:36 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/11 00:46:59 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/12 23:54:32 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ char	**ft_splithash(char *s, char c, int *hush)
 	return (str);
 }
 
-int	ft_strncmpm(char *s1,  char *s2, size_t n)
+int	ft_strncmpm(char *s1, char *s2, size_t n)
 {
 	size_t			i;
 	size_t			x;

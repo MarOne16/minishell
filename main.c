@@ -8,29 +8,29 @@
 # include <readline/history.h>
 # include "./libft/libft.h"
 
-char	*ft_strjoin_char(char *s, char c)
-{
-	size_t	len;
-	char	*str;
-	int		i;
+// char	*ft_strjoin_char(char *s, char c)
+// {
+// 	size_t	len;
+// 	char	*str;
+// 	int		i;
 
-	if (!s)
-		return (NULL);
-	len = ft_strlen(s) + 1;
-	str = (char *)malloc(sizeof(char) * (len + 1));
-	if (!str)
-		return (NULL);
-	i = 0;
-	while (s[i])
-	{
-		str[i] = s[i];
-		i++;
-	}
-	str[i] = c;
-	str[i + 1] = '\0';
-    free(s);
-	return (str);
-}
+// 	if (!s)
+// 		return (NULL);
+// 	len = ft_strlen(s) + 1;
+// 	str = (char *)malloc(sizeof(char) * (len + 1));
+// 	if (!str)
+// 		return (NULL);
+// 	i = 0;
+// 	while (s[i])
+// 	{
+// 		str[i] = s[i];
+// 		i++;
+// 	}
+// 	str[i] = c;
+// 	str[i + 1] = '\0';
+//     free(s);
+// 	return (str);
+// }
 // char* replace(char *str, char *from, char *to)
 // {
 //     char *newinput = malloc(strlen(str) + (strlen(to) - strlen(from)) + 10);
@@ -423,34 +423,58 @@ char	*ft_strjoin_char(char *s, char c)
 //     return 0;
 // }
 
-char *removequote(char *str)
-{
-    char *newstr;
-    int  i;
+// char *removequote(char *str)
+// {
+//     char *newstr;
+//     int  i;
 
-    i = 0;
-    newstr = ft_strdup("");
-    while (str[i])
-    {
-        if (str[i] == '\"' || str[i] == '\'')
-            i++;
-        else
-        {
-            newstr = ft_strjoin_char(newstr , str[i]);
-            i++;
-        }
-    }
-    return(newstr);
-}
-int main()
-{
-    char *newstr;
-    char str[] = "hello\"maro";
-    newstr = removequote(str);
-    while (1)
-    {
-        /* code */
-    }
+//     i = 0;
+//     newstr = ft_strdup("");
+//     while (str[i])
+//     {
+//         if (str[i] == '\"' || str[i] == '\'')
+//             i++;
+//         else
+//         {
+//             newstr = ft_strjoin_char(newstr , str[i]);
+//             i++;
+//         }
+//     }
+//     return(newstr);
+// }
+// int main()
+// {
+//     char *newstr;
+//     char str[] = "hello\"maro";
+//     newstr = removequote(str);
+//     while (1)
+//     {
+//         /* code */
+//     }
     
-    return 0;
-}
+//     return 0;
+// }
+#include <stdio.h>
+#include <fcntl.h>
+#include <unistd.h>
+
+int main() {
+   int fd;
+   char *buf = "Hello, world!\n";
+   int len = strlen(buf);
+
+   fd = open("example.txt", O_CREAT | O_TRUNC | O_WRONLY, 0644);
+   if(fd == -1) {
+      printf("Error creating file.\n");
+      return 1;
+   }
+
+   if(write(fd, buf, len) != len) {
+      printf("Error writing to file.\n");
+      close(fd);
+      return 1;
+   }
+
+   printf("File created and written successfully!\n");
+
+

@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 03:59:05 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/11 01:31:20 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/13 00:21:16 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,16 +64,17 @@ char *removequote(char *str)
 }
 
 
-char *get_env_value(char *name)
+char	*get_env_value(char *name)
 {
-	int i;
-	size_t len;
+	int		i;
+	size_t	len;
 
 	len = ft_strlen(name);
 	i = 0;
 	while (environ[i] != NULL)
 	{
-		if ((ft_strncmpm(environ[i], name, (ft_strlen(environ[i]))) == 0) && len)
+		if ((ft_strncmpm(environ[i], name, (ft_strlen(environ[i]))) == 0) && \
+		len)
 			return (environ[i] + len + 1);
 		i++;
 	}
@@ -85,8 +86,6 @@ int	checkbefor(char *cmd, int i, int *hash)
 	int	count;
 	int	u;
 
-	if (i < 2)
-		return (0);
 	u = i;
 	i--;
 	count = 0;
@@ -100,14 +99,15 @@ int	checkbefor(char *cmd, int i, int *hash)
 		return (1);
 	while (cmd[i])
 	{
-		if (cmd[i] == '>' && cmd[i - 1] == '>' && hash[i] == 0)
+		if (cmd[i] == '<' && cmd[i - 1] == '<' && \
+		cmd[i - 2] != '<' && hash[i] == 0)
 			return (1);
 		else if (cmd[i] == 32)
 			i--;
 		else
 			return (0);
 	}
-	return(0);
+	return (0);
 }
 
 char	*replace_env_vars(char *str)
@@ -145,13 +145,16 @@ char	*replace_env_vars(char *str)
 				i = j;
 				continue ;
 			}
-			free(env_var);
 			i = j;
+			free(env_var);
 		}
-		temp = result;
-		result = ft_strjoin_char(result, str[i]);
-		free(temp);
-		i++;
+		else
+		{
+			temp = result;
+			result = ft_strjoin_char(result, str[i]);
+			free(temp);
+			i++;
+		}
 	}
 	return (result);
 }
