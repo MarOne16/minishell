@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/09 02:11:47 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/04/14 22:58:50 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,10 @@ void print_exp();
 void ft_exp(t_cmd *cmd);
 void ft_pwd(t_cmd *pwd);
 char *get_orgin(void);
+t_list *find_var_env(char *s , int size);
+t_list *find_var_exp(char *s , int size);
+t_list *var_exp(char *s , int size);
+char * ft_strncpy(char *src , char *dest ,int size);
 
 
 // list tools

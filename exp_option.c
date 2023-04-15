@@ -1,40 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   exp_option.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/09 01:56:51 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/14 01:01:56 by mbousouf         ###   ########.fr       */
+/*   Created: 2023/04/14 01:16:42 by mbousouf          #+#    #+#             */
+/*   Updated: 2023/04/14 22:58:37 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-char *get_orgin(void)
+
+t_list *var_exp(char *s , int size)
 {
-    t_list *list;
-    list = (*glob->env);
-    while(list)
+    t_list* temp_env = *(glob->exp); 
+    while(temp_env)
     {
-        if(!ft_strncmp(list->name,"PWD=",4) && ft_strlen(list->name) == 4)
+        if(!ft_strncmp(s,temp_env->name,size))
         {
-            return(list->value);
+            return(temp_env);
         }
-        list = list->next;
+        temp_env = temp_env->next;
     }
-    return(NULL);
+    return(0);
 }
-void ft_pwd(t_cmd *pwd)
+
+char * ft_strncpy(char *src , char *dest ,int size)
 {
-    char *s;
-    if(pwd->cmd)
+    int i;
+
+    i = 0;
+    if(!src || size <= 0)
+        return(NULL);
+    while(size)
     {
-        s = getcwd(NULL,0);
-        if(s == NULL)
-        {
-            s = get_orgin();
-        }       
-        printf("%s\n",s);
+        dest[i] = src[i];
+            i++;
+            size--;
     }
+    return(dest);
 }

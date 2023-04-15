@@ -56,7 +56,7 @@ void ft_env()
     {
         while(temp)
         {
-            printf("%s=%s\n",temp->name,temp->value);
+            printf("%s%s\n",temp->name,temp->value);
             temp = temp->next;
         }
     }
