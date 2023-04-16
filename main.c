@@ -454,27 +454,322 @@
     
 //     return 0;
 // }
+// #include <stdlib.h> // for malloc and free functions
+
+char	*ft_strjoin_char(char *s, char c)
+{
+	size_t	len;
+	char	*str;
+	int		i;
+
+	if (!s)
+		return (NULL);
+	len = ft_strlen(s) + 1;
+	str = (char *)malloc(sizeof(char) * (len + 1));
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (s[i])
+	{
+		str[i] = s[i];
+		i++;
+	}
+	str[i] = c;
+	str[i + 1] = '\0';
+	free(s);
+	return (str);
+}
+
+static char *ft_strjoinn(const char *s1, const char *s2)
+{
+    if (s1 == NULL || s2 == NULL)
+        return NULL;
+
+    size_t len_s1 = strlen(s1);
+    size_t len_s2 = strlen(s2);
+
+    char *result = malloc(len_s1 + len_s2 + 1);
+
+    if (result == NULL)
+        return NULL;
+
+    strcpy(result, s1);
+    strcat(result, s2);
+
+    return result;
+}
+
 #include <stdio.h>
 #include <fcntl.h>
 #include <unistd.h>
+size_t	ft_strlenn(const char *str)
+{
+	size_t	i;
 
-int main() {
-   int fd;
-   char *buf = "Hello, world!\n";
-   int len = strlen(buf);
+	i = 0;
+	if (!str)
+		return (0);
+	while (str[i] && str[i] != '\n')
+		i++;
+	while (str[i] == '\n')
+		i++;
+	return (i);
+}
 
-   fd = open("example.txt", O_CREAT | O_TRUNC | O_WRONLY, 0644);
-   if(fd == -1) {
-      printf("Error creating file.\n");
-      return 1;
-   }
+char	*ft_join(char *s1, char *s2)
+{
+	int		i;
+	int		u;
+	char	*s3;
 
-   if(write(fd, buf, len) != len) {
-      printf("Error writing to file.\n");
-      close(fd);
-      return 1;
-   }
+	i = -1;
+	u = -1;
+	s3 = malloc(ft_strlenn(s1) + ft_strlenn(s2) + 1);
+	if (!s3)
+		return (0);
+	while (s1 && s1[++i])
+		s3[++u] = s1[i];
+	i = -1;
+	while (s2[++i] && s2)
+	{
+		s3[++u] = s2[i];
+		if (s3[u] == '\n')
+			break ;
+	}
+	s3[++u] = '\0';
+	free(s1);
+	return (s3);
+}
 
-   printf("File created and written successfully!\n");
+int	removeline(char *str)
+{
+	int	start;
+	int	sar;
+	int	x;
+
+	start = 0;
+	sar = 0;
+	x = 0;
+	while (str[start])
+	{
+		if (x)
+			str[sar++] = str[start];
+		if (str[start] == '\n')
+			x = 1;
+		str[start] = '\0';
+		start++;
+	}
+	return (x);
+}
+
+char	*get_next_line(int fd)
+{
+	static char	buffmax[2147483647];
+	char		*buff;
+
+	buff = NULL;
+	while (buffmax[0] || read(fd, buffmax, 3) > 0)
+	{
+		buff = ft_join(buff, buffmax);
+		if (removeline(buffmax))
+			break ;
+		if (read(fd, buffmax, 0) < 0)
+			return (free(buff), NULL);
+	}
+	return (buff);
+}
+char    *add_spaces_around_operators(char *s)
+{
+	char    *result;
+	int i;
+	int u;
+	int j = 0;
+	int c;
+
+	i = 0;
+	result = ft_strdup("");
+	while (s[i])
+	{
+		u = i - 1;
+		c = 0;
+		if (s[i] == '|')
+		{
+			result = ft_strjoin_char(result,' ');
+			result = ft_strjoin_char(result, s[i++]);
+			result = ft_strjoin_char(result,' ');
+		}
+		while(s[++u] && (s[u] == '<' || s[u] == '>') )
+			c++;
+		if (c == 1 || c == 2)
+		{
+			result = ft_strjoin_char(result,' ');
+			while (s[i] && (s[i] == '>' || s[i] == '<'))
+				result = ft_strjoin_char(result, s[i++]);
+			result = ft_strjoin_char(result,' ');
+		}
+		else if(c > 2)
+			while (s[i] && c--)
+				result = ft_strjoin_char(result, s[i++]);
+		else
+			result = ft_strjoin_char(result, s[i++]);
+	}
+	return (result);
+}
+
+t_list *env_list()
+{
+	int i;
+	extern char **environ;
+	t_list	*all;
+
+	i = 0;
+	all = NULL;
+	while (environ[i])
+		ft_lstadd_back(&all,ft_lstnew(environ[i++]));
+	return (all);
+}
+
+// char	*get_env_value(char *name)
+// {
+// 	int		i;
+// 	extern char **environ;
+// 	size_t	len;
+
+// 	len = ft_strlen(name);
+// 	i = 0;
+// 	while (environ[i] != NULL)
+// 	{
+// 		if ((ft_strncmpm(environ[i], name, (ft_strlen(environ[i]))) == 0) && len)
+// 			return (environ[i] + len + 1);
+// 		i++;
+// 	}
+// 	return (NULL);
+// }
+
+#include <stdlib.h>
+#include <string.h>
+
+#include <stdlib.h>
+#include <string.h>
+
+static size_t get_new_length(const char* str) {
+    size_t new_len = strlen(str) + 1;
+    const char* p = str;
+    while (*p != '\0') {
+        if (*p == '$') {
+            const char* var_start = p + 1;
+            const char* var_end = p + 1;
+            while (*var_end != '\0' && (*var_end == '_' || (*var_end >= 'a' && *var_end <= 'z') || (*var_end >= 'A' && *var_end <= 'Z') || (*var_end >= '0' && *var_end <= '9'))) {
+                var_end++;
+            }
+            if (var_end > var_start) {
+                char var_name[1024];
+                size_t var_name_len = var_end - var_start;
+                if (var_name_len > sizeof(var_name) - 1) {
+                    return 0; // Error: variable name too long
+                }
+                strncpy(var_name, var_start, var_name_len);
+                var_name[var_name_len] = '\0';
+                char* var_value = getenv(var_name);
+                if (var_value != NULL) {
+                    new_len += strlen(var_value) - (var_end - var_start);
+                }
+                p = var_end;
+            } else {
+                p++;
+            }
+        } else {
+            p++;
+        }
+    }
+    return new_len;
+}
+
+char* replace_vars(const char* str) {
+    size_t new_len = get_new_length(str);
+    if (new_len == 0) {
+        return NULL; // Error: variable name too long
+    }
+    char* new_str = malloc(new_len);
+    if (new_str == NULL) {
+        return NULL; // Error: out of memory
+    }
+    char* new_str_ptr = new_str;
+    const char* p = str;
+    while (*p != '\0') {
+        if (*p == '$') {
+            const char* var_start = p + 1;
+            const char* var_end = p + 1;
+            while (*var_end != '\0' && (*var_end == '_' || ft_isalnum(*var_end))) {
+                var_end++;
+            }
+            if (var_end > var_start) {
+                char var_name[1024];
+                size_t var_name_len = var_end - var_start;
+                strncpy(var_name, var_start, var_name_len);
+                var_name[var_name_len] = '\0';
+                char* var_value = getenv(var_name);
+                if (var_value != NULL) {
+                    size_t var_value_len = strlen(var_value);
+                    memcpy(new_str_ptr, var_value, var_value_len);
+                    new_str_ptr += var_value_len;
+                }
+                p = var_end;
+            } else {
+                *new_str_ptr++ = *p++;
+            }
+        } else {
+            *new_str_ptr++ = *p++;
+        }
+    }
+    *new_str_ptr = '\0';
+    return new_str;
+}
 
 
+
+
+int main(int ac, char **av) {
+	(void)ac;
+    char str[] = "The value of PATH is $PATH and the value of FOO is $USER";
+    // replace_vars(str);
+    printf("%s\n", replace_vars(str));
+    // printf("%s\n", str);
+	// system("leaks a.out");
+    return 0;
+}
+
+// int main() {
+// //    int fd;
+// extern char **environ;
+// t_list *all = env_list();
+// while ((all))		
+// {
+// 	printf("%s\n",(char *)(all)->content);
+// 	(all) = (all)->next;
+// }
+
+// //    char *buf = NULL;
+// //    char *result = ft_strdup("");
+// //    while ((buf = get_next_line(0)))
+// //         result = ft_strjoinn(result,buf);
+// //    puts("here");
+// //    printf("\n%s",result);
+// //    int len = strlen(result);
+// //    fd = open("example.txt", O_CREAT | O_TRUNC | O_WRONLY, 0644);
+// //    if(fd == -1) {
+// //       printf("Error creating file.\n");
+// //       return 1;
+// //    }
+
+// //    if(write(fd, result, len) != len) {
+// //       printf("Error writing to file.\n");
+// //       close(fd);
+// //       return 1;
+// //    }
+// //    printf("File created and written successfully!\n");
+// 	// char str[] = ">>hello>>hi>>maro";
+// 	// char *new = add_spaces_around_operators(str);
+// 	// printf("%s", new);
+// 	// system("leaks a.out");
+// }

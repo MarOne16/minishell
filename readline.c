@@ -6,11 +6,24 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:56:50 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/13 02:50:01 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/16 02:57:24 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
+
+t_list *env_list()
+{
+	int i;
+	extern char **environ;
+	t_list	*all;
+
+	i = 0;
+	all = NULL;
+	while (environ[i])
+		ft_lstadd_back(&all,ft_lstnew(environ[i++]));
+	return (all);
+}
 
 int operatorscount(char *str, int *hash)
 {
@@ -38,50 +51,40 @@ int operatorscount(char *str, int *hash)
 
 char    *add_spaces_around_operators(char *s, int *hash)
 {
-	char    *result = malloc(ft_strlen(s) + (operatorscount(s, hash) * 2) + 1);
+	char    *result;
 	int i;
 	int u;
-	int j = 0;
 	int c;
 
 	i = 0;
+	
+	result = ft_strdup("");
+	feedhashtable(&hash, s);
 	while (s[i])
 	{
-		u = i;
+		u = i - 1;
 		c = 0;
 		if (s[i] == '|' && hash[i] == 0)
 		{
-			result[j++] = ' '; 
-				result[j++] = s[i++];
-			result[j++] = ' ';
+			result = ft_strjoin_char(result,' ');
+			result = ft_strjoin_char(result, s[i++]);
+			result = ft_strjoin_char(result,' ');
 		}
-		while(s[u] && (s[u] == '<' || s[u] == '>') && hash[u] == 0 )
-		{
+		while(s[++u] && (s[u] == '<' || s[u] == '>') && hash[u] == 0)
 			c++;
-			u++;
-		}
 		if (c == 1 || c == 2)
 		{
-			result[j++] = ' '; 
-			while (c)
-			{
-				result[j++] = s[i++];
-				c--;
-			}
-			result[j++] = ' ';
+			result = ft_strjoin_char(result,' ');
+			while (s[i] && (s[i] == '>' || s[i] == '<'))
+				result = ft_strjoin_char(result, s[i++]);
+			result = ft_strjoin_char(result,' ');
 		}
 		else if(c > 2)
-		{
-			while (c)
-			{
-				result[j++] = s[i++];
-				c--;
-			}
-		}
+			while (s[i] && c--)
+				result = ft_strjoin_char(result, s[i++]);
 		else
-			result[j++] = s[i++];
+			result = ft_strjoin_char(result, s[i++]);
 	}
-	result[j]='\0';
 	return (result);
 }
 
@@ -113,10 +116,12 @@ int  checkcmd(char *cmd, int *hash)
 
 int    typing(char    *spl)
 {
-	if (((spl[0] == '>' && spl[1] != '<') || spl[0] == '|' || \
-		(spl[0] == '<' && spl[1] != '>') || (spl[0] == '>' && spl[1] == '>') || \
+	if (((spl[0] == '>' && spl[1] != '<') ||(spl[0] == '<' && spl[1] != '>') || \
+	(spl[0] == '>' && spl[1] == '>') || \
 		((spl[0] == '<' && spl[1] == '<'))) && (ft_strlen(spl) <= 2))
 		return (1);
+	else if (spl[0] == '|' && ft_strlen(spl) <= 2)
+		return (2);
 	else
 		return (0);
 }
@@ -126,11 +131,11 @@ void	feedhashtable(int **hash, char *input)
 	size_t	i;
 
 	i = -1;
-	if (*hash || hash)
-	{
-		free(*hash);
-		*hash = NULL;
-	}
+	// if (*hash)
+	// {
+	// 	free(*hash);
+	// 	*hash = NULL;
+	// }
 	*hash = ft_calloc(ft_strlen(input) + 1, sizeof(int));
 	while (input[++i])
 	{
@@ -155,7 +160,7 @@ int check_rid(t_prc **all)
 		reset2 = reset->cmd;
 		while (reset2)
 		{
-			if (reset2->type == 1 && (!reset2->next || reset2->next->type == 1))
+			if (reset2->type != 0 && (!reset2->next || (reset2->next->type == reset2->type)))
 				return (1);
 			reset2 = reset2->next;
 		}
@@ -211,6 +216,7 @@ void    feedlist(t_prc **all, char *input)
 	u = -1;
 	while (cmd[++u])
 		printf(AC_RED"%s\n",removequote(cmd[u]));
+	// creat_var(all);
 }
 
 void forcfree(t_prc **input)
@@ -232,6 +238,7 @@ void forcfree(t_prc **input)
 	}
 }
 
+
 int main(int argc, char *argv[], char **env)
 {
 	(void)argv;
@@ -239,15 +246,14 @@ int main(int argc, char *argv[], char **env)
 	environ = env;
 	char *input = NULL;
 	char *newinput = NULL;
-	t_prc       *all;
-
+	t_prc       *all = NULL;
 
 	while ((input = readline(AC_GREEN"prompt: ")))
 	{
 		if (input)
 		{
-			newinput = replace_env_vars(input);
-			add_history(input);
+			// input = replace_env_vars(input);
+			newinput = replace_vars(input);
 			feedlist(&all, newinput);
 			all = NULL;
 			// forcfree(&all);

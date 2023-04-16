@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/11 00:46:59 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/16 03:19:29 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 
 # include <unistd.h>
 # include <ctype.h>
+# include <fcntl.h>
 # include <stdio.h>
 # include <limits.h>
 # include <string.h>
@@ -38,6 +39,7 @@ char **environ;
 typedef struct s_env
 {
 	char **env;
+	int	*fd;
 }t_env;
 
 typedef struct s_cmd
@@ -73,13 +75,9 @@ void	ft_free(char **strs, int j);
 char	**ft_splithash(char *s, char c, int *hush);
 int		count_words(char *str, char c, int *hash, size_t len);
 // replace_env_vars
-int		double_quote(char *str, int *hash);
-char	*add_space_before_double_quote(char* str, int *hash);
-char	*ft_strjoin_char(char *s, char c);
-char	*get_env_value(char *name);
+char* replace_vars(char* str);
 char	*ft_strjoin_char(char *s, char c);
 char	*removequote(char *str);
-char	*replace_env_vars(char *str);
 // readline
 void    feedlist(t_prc **all, char *input);
 void	forcfree(t_prc **input);
@@ -87,6 +85,7 @@ void	feedhashtable(int **hush, char *input);
 int		operatorscount(char *str, int *hash);
 char	*add_spaces_around_operators(char *s, int *hash);
 int		typing(char *spl);
+void	creat_var(t_prc **cmd);
 
 // typedef struct s_data
 // {
