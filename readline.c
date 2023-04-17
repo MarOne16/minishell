@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:56:50 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/09 01:22:38 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/04/17 01:23:37 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -332,7 +332,7 @@ void iter(int i)
     temp = (*glob->exp);
 	while (temp != NULL)
 	{
-		printf("%s=%s\n", (temp)->name, (temp)->value);
+		printf("%s || %s\n", (temp)->name, (temp)->value);
 		temp = (temp)->next;
 	}
 }
@@ -348,8 +348,11 @@ int main(int ac, char **av,char ** env)
     }
     Creat_env(env);
     Creat_exp(env);
-	while ((input = readline("mini-1.0$")))
+	while ((input = readline("mini-1.0$ ")))
 	{
+        if (!input)
+            return(1);
+        add_history(input);
 		feedlist(&all, input);
         session(&all);
         all = NULL;

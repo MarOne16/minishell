@@ -30,10 +30,12 @@ char	*ft_strjoin(char  *s1, char  *s2)
 	int		j;
 
 	j = -1;
-	if (!s1 || !s2)
+    s1len=0;
+    s2len=0;
+	if (!s1 && !s2)
 		return (NULL);
-	s1len = ft_strlen(s1);
-	s2len = ft_strlen(s2);
+	    s1len = ft_strlen(s1);
+	    s2len = ft_strlen(s2);
 		ptr = (char *)malloc(s2len + s1len + 1);
 		if (!ptr)
 			return (NULL);

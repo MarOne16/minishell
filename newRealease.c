@@ -17,7 +17,7 @@ void Creat_env(char **env)
 	while (env[i])
 	{
 		tmp = ft_my_split(env[i],'=');
-		ft_lstadd_back(listenv,ft_lstnew(ft_strjoin(tmp[0],"="),tmp[1]));
+		ft_lstadd_back(listenv,ft_lstnew(tmp[0],ft_strjoin("=",tmp[1])));
 		i++;
 	}
 	glob->env = listenv;
@@ -74,7 +74,7 @@ void Creat_exp(char **env)
 	{
 		tmp = ft_my_split(s_env[i],'=');
 		if(tmp[0] && tmp[1])
-			ft_lstadd_back(list, ft_lstnew(ft_strjoin(tmp[0],"="),tmp[1]));
+			ft_lstadd_back(list, ft_lstnew(tmp[0],ft_strjoin("=",tmp[1])));
 		i++;
 	}
 	(glob->exp) = list;

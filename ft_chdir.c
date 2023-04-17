@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 18:03:29 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/14 01:11:01 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/04/17 01:24:46 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char * get_home(void)
             return(0);
     while(temp_env)
     {
-        if(!ft_strncmp("HOME=",temp_env->name,5) && ft_strlen(temp_env->name) == 5) 
+        if(!ft_strncmp("HOME",temp_env->name,4) && ft_strlen(temp_env->name) == 4) 
         {
             return(temp_env->value);
         }
@@ -107,7 +107,7 @@ void ft_chdir(t_cmd *cmd)
         }
         else if(!ft_strncmp(cmd->next->cmd,"-",1) && ft_strlen(cmd->next->cmd) == 1)
         {
-            home = find_var_env("OLDPWD=",ft_strlen("OLDPWD="))->value;
+            home = find_var_env("OLDPWD",ft_strlen("OLDPWD"))->value;
             if(chdir(home) == -1)
             {
                 printf("%s\n",strerror(errno));
@@ -115,8 +115,8 @@ void ft_chdir(t_cmd *cmd)
             }
             printf("%s\n",home);
             home = getcwd(NULL,0);
-                change_env(home,"PWD=");
-                change_env(old_path,"OLDPWD=");
+                change_env(home,"PWD");
+                change_env(old_path,"OLDPWD");
             return;
         }
         else if (old_path == NULL && !ft_strncmp(cmd->next->cmd,".",1) && ft_strlen(cmd->next->cmd) == 1)
@@ -131,7 +131,7 @@ void ft_chdir(t_cmd *cmd)
                 return;
             }
             home = getcwd(NULL,0);
-        change_env(home,"PWD=");
-        change_env(old_path,"OLDPWD=");
+        change_env(home,"PWD");
+        change_env(old_path,"OLDPWD");
     }
 }

@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 01:16:42 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/14 22:58:37 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/04/16 01:07:30 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,19 @@
 t_list *var_exp(char *s , int size)
 {
     t_list* temp_env = *(glob->exp); 
+    while(temp_env)
+    {
+        if(!ft_strncmp(s,temp_env->name,size))
+        {
+            return(temp_env);
+        }
+        temp_env = temp_env->next;
+    }
+    return(0);
+}
+t_list *var_env(char *s , int size)
+{
+    t_list* temp_env = *(glob->env); 
     while(temp_env)
     {
         if(!ft_strncmp(s,temp_env->name,size))

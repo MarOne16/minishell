@@ -65,6 +65,8 @@ size_t	ft_strlen(char *s)
 	size_t	i;
 
 	i = 0;
+	if(!s)
+		return(i);
 	while (s[i] != '\0')
 	{
 		i++;

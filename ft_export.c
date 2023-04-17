@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 02:57:56 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/15 05:21:56 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/04/17 01:06:00 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,58 @@ int first_check(char *s)
     }
     return(1);
 }
+void put_plus(char *cmd,char *val)
+{
+    t_list *s;
 
+    s = var_exp(cmd,ft_strlen(cmd) - 1);
+    if(s != NULL)
+    {
+        if(s->value)
+        {
+            if(!ft_strncmp(s->value,"=",1))
+                val = ft_substr(val,1,ft_strlen(val) - 1);
+            s->value = ft_strjoin(s->value,val);
+        }
+    }
+    else if (s == NULL)
+    {
+            cmd = ft_substr(cmd,0,ft_strlen(cmd) - 1);
+                ft_lstadd_back(glob->exp,ft_lstnew(cmd,val));
+    }
+    put_env_plus(cmd,val);
+}
+void put_env_plus(char *cmd,char *val)
+{
+    t_list *e;
+    
+    e = var_env(cmd,ft_strlen(cmd) - 1);
+    if(e)
+    {
+        if(e->value)
+            e->value = ft_strjoin(e->value,val);
+    }
+    else
+    {
+            ft_lstadd_back(glob->env,ft_lstnew(cmd,val));
+    }
+}
+ void put_env(char *cmd,char *val)
+ {
+    t_list *e;
+    e = var_env(cmd,ft_strlen(cmd));
+    if(e)
+    {
+        if(e->value && val)
+            e->value = val;
+    }
+    else
+    {
+        if(val)
+            ft_lstadd_back(glob->env,ft_lstnew(cmd,val));
+    }
+    
+ }
  void put_in_exp(char *cmd,char * val)
  {
     int i;
@@ -105,29 +156,26 @@ int first_check(char *s)
     while(cmd[i])
         i++;
     if(cmd[i - 1] == '+')
-    {
-            s = var_exp(cmd,ft_strlen(cmd) - 1);
-            if(s != NULL)
-            {
-                if(s->value)
-                {
-                    val = ft_substr(val,1,ft_strlen(val) - 1);
-                    s->value = ft_strjoin(s->value,val);
-                }
-            }
-            else if (s == NULL)
-            {
-                    cmd = ft_substr(cmd,0,ft_strlen(cmd) - 1);
-                        ft_lstadd_back(glob->exp,ft_lstnew(cmd,val));
-            }
-    }
+        put_plus(cmd , val);
     else
     {
-            s = var_exp(cmd,ft_strlen(cmd));
-            if(s)
+        s = var_exp(cmd,ft_strlen(cmd));
+        if(s)
+        {
+            if(val)
                 s->value = val;
+        }
+        else
+        {
+            if(val == NULL)
+            {
+                
+                ft_lstadd_back(glob->exp,ft_lstnew(cmd,""));
+            }
             else
-                ft_lstadd_back(glob->exp,ft_lstnew(cmd,val));
+                    ft_lstadd_back(glob->exp,ft_lstnew(cmd,val)); 
+        }
+        put_env(cmd,val);
     }
  }
 void ad_exp(t_cmd * cmd)
@@ -135,6 +183,8 @@ void ad_exp(t_cmd * cmd)
     char **tmp;
     char *val;
     
+    val = NULL;
+    tmp = NULL;
         if(first_check(cmd->cmd))
         {
             tmp = ft_my_split(cmd->cmd,'=');
@@ -175,6 +225,4 @@ void ft_exp(t_cmd *cmd)
             cmd = cmd->next;
         }
     }
-    // printf("%s\n",tmp[0]);
-    // printf("%s\n",val);
 }
