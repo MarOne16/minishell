@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/16 03:19:29 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/17 05:12:56 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,20 @@
 
 char **environ;
 
-typedef struct s_env
+typedef struct s_fd
 {
-	char **env;
-	int	*fd;
-}t_env;
+	char		*type;
+	int			fd;
+	struct s_fd	*next;
+}			t_fd;
+
+typedef struct s_exe
+{
+	void			**lakher;
+	t_fd			*fd;
+	struct s_exe	*next;
+	struct s_exe	*previus;
+}t_exe;
 
 typedef struct s_cmd
 {
@@ -50,22 +59,13 @@ typedef struct s_cmd
 	struct s_cmd	*previus;
 }				t_cmd;
 
-typedef struct s_prc
-{
-	char			*allcmd;
-	t_cmd			*cmd;
-	struct s_prc	*next;
-	struct s_prc	*previus;
-}					t_prc;
-
 // list tools
-t_prc	*ft_lstnewallcmd(char *allcmd, t_cmd *cmd);
+t_exe	*ft_lstnewallcmd(void **cmd, void *fd);
 t_cmd	*ft_lstnewcmd(char *cmd, int type);
-void	ft_lstadd_frontcmd(t_prc **lst, t_prc *new);
-int		ft_lstsizetprc(t_prc *lst);
+void	ft_lstadd_frontcmd(t_exe **lst, t_exe *new);
+int		ft_lstsizetprc(t_cmd *lst);
 t_cmd	*ft_lstlastcmd(t_cmd *lst);
-t_cmd	*ft_lstlastcmd(t_cmd *lst);
-void	ft_lstadd_backallcmd(t_prc **lst, t_prc *new);
+void	ft_lstadd_backallcmd(t_exe **lst, t_exe *new);
 void	ft_lstadd_backcmd(t_cmd **lst, t_cmd *new);
 // atoi & split tools
 int		nb_c(char *s, char c,int *hash);
@@ -75,17 +75,17 @@ void	ft_free(char **strs, int j);
 char	**ft_splithash(char *s, char c, int *hush);
 int		count_words(char *str, char c, int *hash, size_t len);
 // replace_env_vars
-char* replace_vars(char* str);
+char	*replace_vars(char* str);
 char	*ft_strjoin_char(char *s, char c);
 char	*removequote(char *str);
 // readline
-void    feedlist(t_prc **all, char *input);
-void	forcfree(t_prc **input);
+void    feedlist(t_exe **all, char *input);
+void	forcfree(t_cmd *input);
 void	feedhashtable(int **hush, char *input);
 int		operatorscount(char *str, int *hash);
 char	*add_spaces_around_operators(char *s, int *hash);
 int		typing(char *spl);
-void	creat_var(t_prc **cmd);
+void	creat_var(t_exe **cmd);
 
 // typedef struct s_data
 // {

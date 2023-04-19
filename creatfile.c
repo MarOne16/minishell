@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 03:04:10 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/14 03:07:19 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/17 05:15:24 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,31 +128,31 @@ int	get_content(char *name)
 	return (fd);
 }
 
-void creat_var(t_prc **cmd)
-{
-    t_prc   *rest;
-    t_cmd   *rest2;
-	int		*hash;
-	int		i;
-	int		*fd;
+// void creat_var(t_exe **cmd)
+// {
+//     t_exe   *rest;
+//     t_cmd   *rest2;
+// 	int		*hash;
+// 	int		i;
+// 	int		*fd;
 
-    rest = *cmd;
-	i = 0;
-	hash = NULL;
-	fd = ft_calloc(operatorscount((*cmd)->allcmd, hash) , sizeof(int));
-    while (rest)
-    {
-        rest2 = (*cmd)->cmd;
-        while (rest2->next)
-        {
-            if (rest2->type == 1 && ft_strncmp(rest2->cmd, ">>", 2) == 0)
-                fd[i++] = open(rest2->next->cmd, O_CREAT | O_TRUNC | O_WRONLY, 0777);
-            else if (rest2->type == 1 && ft_strncmp(rest2->cmd, "<<", 2) == 0)
-				fd[i++] = get_content(rest2->next->cmd);
-			rest2 = rest2->next;
-        }
-    }
-    for (int i = 0; i < operatorscount((*cmd)->allcmd, hash); i++)
-		printf(AC_YELLOW"%d\n",fd[i]);
+//     rest = *cmd;
+// 	i = 0;
+// 	hash = NULL;
+// 	fd = ft_calloc(operatorscount((*cmd)->allcmd, hash) , sizeof(int));
+//     while (rest)
+//     {
+//         rest2 = (*cmd)->cmd;
+//         while (rest2->next)
+//         {
+//             if (rest2->type == 1 && ft_strncmp(rest2->cmd, ">>", 2) == 0)
+//                 fd[i++] = open(rest2->next->cmd, O_CREAT | O_TRUNC | O_WRONLY, 0777);
+//             else if (rest2->type == 1 && ft_strncmp(rest2->cmd, "<<", 2) == 0)
+// 				fd[i++] = get_content(rest2->next->cmd);
+// 			rest2 = rest2->next;
+//         }
+//     }
+//     for (int i = 0; i < operatorscount((*cmd)->allcmd, hash); i++)
+// 		printf(AC_YELLOW"%d\n",fd[i]);
 	
-}
+// }

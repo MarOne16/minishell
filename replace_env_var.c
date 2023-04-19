@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 03:59:05 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/16 05:38:29 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/17 01:07:46 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int	checkbefor(char *cmd, int i, int *hash)
 }
 
 static size_t get_new_length(char* str) {
-    size_t new_len = strlen(str) + 1;
+    size_t new_len = ft_strlen(str) + 1;
     char* p = str;
     while (*p != '\0') {
         if (*p == '$') {
@@ -126,7 +126,7 @@ static size_t get_new_length(char* str) {
                 var_name[var_name_len] = '\0';
                 char* var_value = getenv(var_name);
                 if (var_value != NULL) {
-                    new_len += strlen(var_value) - (var_end - var_start);
+                    new_len += ft_strlen(var_value) - (var_end - var_start);
                 }
                 p = var_end;
             } else {

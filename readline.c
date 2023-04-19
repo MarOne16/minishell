@@ -6,11 +6,48 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:56:50 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/16 02:57:24 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/17 05:15:58 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
+int		sizechar(t_cmd *cmd)
+{
+	t_cmd	*rest;
+	int		i;
+
+	i = 0;
+	rest = cmd;
+	while (rest)
+	{
+		if (rest->type == 2)
+			break;
+		rest = rest->next;
+		i++;
+	}
+	return (i);
+}
+void	feedexe1(t_cmd *cmd, t_exe **exe)
+{
+	char	**lakher;
+	int		i;
+
+	while (cmd)
+	{
+		i = 0;
+		lakher = malloc(sizeof(void *) * sizechar(cmd) + 1);
+		while (cmd->type != 2)
+		{
+			lakher[i++] = cmd->cmd;
+			cmd = cmd->next;
+		}
+		lakher[i] = NULL;
+		ft_lstadd_backallcmd(exe, ft_lstnewallcmd((void **)lakher, NULL));
+		cmd = cmd->next;
+		// free(lakher);
+	}
+	
+}
 
 t_list *env_list()
 {
@@ -70,20 +107,23 @@ char    *add_spaces_around_operators(char *s, int *hash)
 			result = ft_strjoin_char(result, s[i++]);
 			result = ft_strjoin_char(result,' ');
 		}
-		while(s[++u] && (s[u] == '<' || s[u] == '>') && hash[u] == 0)
-			c++;
-		if (c == 1 || c == 2)
-		{
-			result = ft_strjoin_char(result,' ');
-			while (s[i] && (s[i] == '>' || s[i] == '<'))
-				result = ft_strjoin_char(result, s[i++]);
-			result = ft_strjoin_char(result,' ');
-		}
-		else if(c > 2)
-			while (s[i] && c--)
-				result = ft_strjoin_char(result, s[i++]);
 		else
-			result = ft_strjoin_char(result, s[i++]);
+		{
+			while(s[++u] && (s[u] == '<' || s[u] == '>') && hash[u] == 0)
+				c++;
+			if (c == 1 || c == 2)
+			{
+				result = ft_strjoin_char(result,' ');
+				while (s[i] && (s[i] == '>' || s[i] == '<'))
+					result = ft_strjoin_char(result, s[i++]);
+				result = ft_strjoin_char(result,' ');
+			}
+			else if(c > 2)
+				while (s[i] && c--)
+					result = ft_strjoin_char(result, s[i++]);
+			else
+				result = ft_strjoin_char(result, s[i++]);
+		}
 	}
 	return (result);
 }
@@ -149,51 +189,30 @@ void	feedhashtable(int **hash, char *input)
 }
 
 
-int check_rid(t_prc **all)
+int check_rid(t_cmd *cmdspl)
 {
-	t_prc	*reset;
 	t_cmd	*reset2;
 
-	reset = *all;
-	while (reset && all && (*all))
+	reset2 = cmdspl;
+
+	while (reset2)
 	{
-		reset2 = reset->cmd;
-		while (reset2)
-		{
-			if (reset2->type != 0 && (!reset2->next || (reset2->next->type == reset2->type)))
-				return (1);
-			reset2 = reset2->next;
-		}
-		reset = reset->next;
+		if (reset2->type != 0 && (!reset2->next || (reset2->next->type == reset2->type)))
+			return (1);
+		reset2 = reset2->next;
 	}
 	return (0);
 }
 
-char **feedchardouble(t_prc **all)
-{
-	char	**spl;
-	int		i;
-	t_cmd	*rest3;
 
-	spl = (char **)malloc((sizeof(char *) * 1) + 1);
-	i = 0;
-	rest3 = (*all)->cmd;
-	while (rest3)
-	{
-		spl[i++] = removequote(rest3->cmd);
-		// spl[i++] = rest3->cmd;
-		rest3 = rest3->next;
-	}
-	return (spl[i] = 0, spl);
-}
-
-void    feedlist(t_prc **all, char *input)
+void    feedlist(t_exe **all, char *input)
 {
 	int		u;
 	int		*hash;
 	char	*newinput = NULL;
 	char    **cmd;
 	t_cmd	*cmdspl = NULL;
+	(void)all;
 
 	hash = NULL;
 	feedhashtable(&hash, input);
@@ -203,37 +222,30 @@ void    feedlist(t_prc **all, char *input)
 	u = -1;
 	while (cmd[++u])
 		ft_lstadd_backcmd(&cmdspl, ft_lstnewcmd(cmd[u], typing(cmd[u])));
-	ft_lstadd_backallcmd(all, ft_lstnewallcmd(newinput, cmdspl));
-	if (checkcmd(newinput, hash) || check_rid(all) || \
+	if (checkcmd(newinput, hash) || check_rid(cmdspl) || \
 	operatorscount(input, hash) == 1337)
 	{
 		free(hash);
-		forcfree(all);
+		forcfree(cmdspl);
 		free(newinput);
 		printf(AC_RED"syntax error\n");
 		return ;
 	}
+	// feedexe1(cmdspl, all);
 	u = -1;
 	while (cmd[++u])
 		printf(AC_RED"%s\n",removequote(cmd[u]));
 	// creat_var(all);
 }
 
-void forcfree(t_prc **input)
+void forcfree(t_cmd *input)
 {
-	t_prc	*help;
-	t_cmd	*help2;
+	t_cmd	*help;
 
-	while (*input)
+	while ((input))
 	{
-		while ((*input)->cmd)
-		{
-			help2 = (*input)->cmd;
-			(*input)->cmd = (*input)->cmd->next;
-			free(help2);
-		}
-		help = (*input);
-		(*input) = (*input)->next;
+		help = (input);
+		(input)= (input)->next;
 		free(help);
 	}
 }
@@ -246,7 +258,7 @@ int main(int argc, char *argv[], char **env)
 	environ = env;
 	char *input = NULL;
 	char *newinput = NULL;
-	t_prc       *all = NULL;
+	t_exe       *all = NULL;
 
 	while ((input = readline(AC_GREEN"prompt: ")))
 	{
