@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/16 03:21:48 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/04/18 01:55:39 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,10 @@ t_list *var_exp(char *s , int size);
 char * ft_strncpy(char *src , char *dest ,int size);
 t_list *var_env(char *s , int size);
 void put_env_plus(char *cmd,char *val);
+void ft_unset(t_cmd *cmd);
+int check_unset_var(char *s);
+void free_var_exp(char *s , int size);
+void free_var_env(char *s , int size);
 
 
 // list tools

@@ -67,6 +67,7 @@ void check_builtin(t_prc **all)
 {
     char *s;
     t_cmd *n;
+    extern char **environ;
 
     s = (*all)->cmd->cmd;
     n = (*all)->cmd;
@@ -78,8 +79,8 @@ void check_builtin(t_prc **all)
         ft_pwd(n);
     else if(!(ft_strncmp(s,"export",6)) && ft_strlen(s) == 6)
         ft_exp(n);
-    // else if(!(ft_strncmp(s,"unset",3)) && ft_strlen(s) == 5)
-    //     ft_unset(s);
+    else if(!(ft_strncmp(s,"unset",3)) && ft_strlen(s) == 5)
+        ft_unset(n);
     else if((!(ft_strncmp(s,"env",3)) && ft_strlen(s) == 3) || (!(ft_strncmp(s,"ENV",3)) && ft_strlen(s) == 3))
         ft_env();
     else if(!(ft_strncmp(s,"exit",4)) && ft_strlen(s) == 4)

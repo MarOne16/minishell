@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 18:03:29 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/17 01:24:46 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/04/17 05:18:24 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ t_list *find_var_exp(char *s , int size)
 
 void change_env(char *s,char *modified)
 {
-    (void)s;
     t_list *change;
     change = find_var_env(modified,ft_strlen(modified));
     change->value = s;
@@ -131,7 +130,7 @@ void ft_chdir(t_cmd *cmd)
                 return;
             }
             home = getcwd(NULL,0);
-        change_env(home,"PWD");
-        change_env(old_path,"OLDPWD");
+            change_env(home,"PWD");
+            change_env(old_path,"OLDPWD");
     }
 }

@@ -7,8 +7,10 @@ void Creat_env(char **env)
 	char **tmp;
 	t_list **listenv;
 	i = 0;
-	while (env[i])
+	while (env[i] != NULL)
+	{
 		i++;
+	}
 	listenv = (t_list **)malloc(sizeof(t_list *) * i + 1);
 	*listenv = NULL;
 	if (!listenv)
@@ -17,7 +19,10 @@ void Creat_env(char **env)
 	while (env[i])
 	{
 		tmp = ft_my_split(env[i],'=');
-		ft_lstadd_back(listenv,ft_lstnew(tmp[0],ft_strjoin("=",tmp[1])));
+		if(tmp[0] && tmp[1])
+		{
+			ft_lstadd_back(listenv,ft_lstnew(tmp[0],ft_strjoin("=",tmp[1])));
+		}
 		i++;
 	}
 	glob->env = listenv;

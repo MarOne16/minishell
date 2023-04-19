@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:56:50 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/17 01:23:37 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/04/18 01:32:43 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -330,6 +330,8 @@ void iter(int i)
 	temp = (*glob->env);
     else
     temp = (*glob->exp);
+    if(temp == NULL)
+        return;
 	while (temp != NULL)
 	{
 		printf("%s || %s\n", (temp)->name, (temp)->value);
@@ -357,6 +359,7 @@ int main(int ac, char **av,char ** env)
         session(&all);
         all = NULL;
 		forcfree(all);
+        
 	}
     
 	return 0;
