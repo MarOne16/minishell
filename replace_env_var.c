@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 03:59:05 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/19 01:02:22 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/19 05:21:22 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ int	checkbefor(char *cmd, int i, int *hash)
 	u = i;
 	i--;
 	count = 0;
+    if ((i < 0) || (i >= (int)strlen(cmd)))
+        return 0;
 	while (u >= 0)
 	{
 		if (cmd[u] == '\'' && hash[u] == 0)
@@ -94,7 +96,7 @@ int	checkbefor(char *cmd, int i, int *hash)
 	}
 	if (count % 2)
 		return (1);
-	while (cmd[i])
+	while (cmd[i] && i >= 1)
 	{
 		if (i >= 1 &&  cmd[i] == '<' && cmd[i - 1] == '<' && cmd[i] != 32 && hash[i] == 0)
 			return (1);
@@ -126,7 +128,7 @@ static size_t get_new_length(char* str) {
                 var_name[var_name_len] = '\0';
                 char* var_value = getenv(var_name);
                 if (var_value != NULL) {
-                    new_len += ft_strlen(var_value) - (var_end - var_start);
+                    new_len += strlen(var_value) - (var_end - var_start);
                 }
                 p = var_end;
             } else {

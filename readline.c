@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:56:50 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/19 03:11:45 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/19 05:25:46 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,10 @@ int check_rid(t_cmd *cmdspl)
 
 	while (reset2)
 	{
-		if (reset2->type != 0 && (!reset2->next || (reset2->next->type == reset2->type)))
+		if (reset2->type == 1 && \
+		(!reset2->next || (reset2->next->type != 0) || reset2->next->cmd[0] == '\t'))
+			return (1);
+		else if (reset2->type == 2 && (!reset2->next || (reset2->next->type == 2)))
 			return (1);
 		reset2 = reset2->next;
 	}
@@ -218,13 +221,13 @@ void    feedlist(t_exe **all, char *input)
 		return ;
 	}
 	table_lakher(cmdspl, all);
-	while ((*all))
-	{
-		// while ((*all)->lakher)
-			printf(AC_RED"\n%s\n",(*all)->lakher[0]);
-			printf(AC_RED"\n%s\n",(*all)->lakher[1]);
-		(*all) = (*all)->next;
-	}
+	// while ((*all))
+	// {
+	// 	// while ((*all)->lakher)
+	// 		printf(AC_RED"\n%s\n",(*all)->lakher[0]);
+	// 		printf(AC_RED"\n%s\n",(*all)->lakher[1]);
+	// 	(*all) = (*all)->next;
+	// }
 	
 	// printf(AC_RED"\n%s\n",(*all)->lakher[0]);
 	return ;
@@ -270,6 +273,18 @@ int main(int argc, char *argv[], char **env)
 			// input = replace_env_vars(input);
 			newinput = replace_vars(input);
 			feedlist(&all, newinput);
+			while (all)
+			{
+				int i = 0;
+				while (all->lakher[i])
+				{
+					printf(AC_BLUE"%s \t", all->lakher[i]);
+					i++;
+				}
+				puts("\n");
+				all = all->next;
+			}
+			
 			all = NULL;
 			// forcfree(&all);
 		}

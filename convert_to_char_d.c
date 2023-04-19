@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 01:40:48 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/19 03:05:36 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/19 22:54:40 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,8 @@ void    table_lakher(t_cmd *cmd, t_exe **lakher)
         }
     }
     spl[i] = NULL;
-    ft_lstadd_backallcmd(lakher,ft_lstnewallcmd((void *)spl, NULL));
-    if (rest && rest->next && rest->next->next)
+    ft_lstadd_backallcmd(lakher,ft_lstnewallcmd((void **)spl, NULL));
+    if (rest && rest->next)
         table_lakher(rest, lakher);
     
 }
