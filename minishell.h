@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/17 05:12:56 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/19 02:56:47 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,10 @@ int		operatorscount(char *str, int *hash);
 char	*add_spaces_around_operators(char *s, int *hash);
 int		typing(char *spl);
 void	creat_var(t_exe **cmd);
+// convert_to_char
+int		sizechar(t_cmd *cmd);
+int		size_pip(t_cmd *cmd);
+void	table_lakher(t_cmd *cmd, t_exe **lakher);
 
 // typedef struct s_data
 // {

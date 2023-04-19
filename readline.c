@@ -6,27 +6,13 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:56:50 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/17 05:15:58 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/19 03:11:45 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
-int		sizechar(t_cmd *cmd)
-{
-	t_cmd	*rest;
-	int		i;
 
-	i = 0;
-	rest = cmd;
-	while (rest)
-	{
-		if (rest->type == 2)
-			break;
-		rest = rest->next;
-		i++;
-	}
-	return (i);
-}
+
 void	feedexe1(t_cmd *cmd, t_exe **exe)
 {
 	char	**lakher;
@@ -231,11 +217,28 @@ void    feedlist(t_exe **all, char *input)
 		printf(AC_RED"syntax error\n");
 		return ;
 	}
+	table_lakher(cmdspl, all);
+	while ((*all))
+	{
+		// while ((*all)->lakher)
+			printf(AC_RED"\n%s\n",(*all)->lakher[0]);
+			printf(AC_RED"\n%s\n",(*all)->lakher[1]);
+		(*all) = (*all)->next;
+	}
+	
+	// printf(AC_RED"\n%s\n",(*all)->lakher[0]);
+	return ;
 	// feedexe1(cmdspl, all);
-	u = -1;
-	while (cmd[++u])
-		printf(AC_RED"%s\n",removequote(cmd[u]));
+	// u = -1;
+	// while (cmd[++u])
+	// 	printf(AC_RED"%s\n",removequote(cmd[u]));
 	// creat_var(all);
+	// while (cmdspl)
+	// {
+	// 	printf(AC_GREEN"%s\n",cmdspl->cmd);
+	// 	cmdspl = cmdspl->next;
+	// }
+	
 }
 
 void forcfree(t_cmd *input)

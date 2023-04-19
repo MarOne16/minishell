@@ -7,7 +7,7 @@ CC			=	cc
 FLAGS		=	-Wall -Wextra -Werror -g -fsanitize=address
 RM			=	rm -rf
 HEADER		=	minishell.h
-SOURCE		=	listtools.c readline.c minishell_tools.c replace_env_var.c creatfile.c
+SOURCE		=	listtools.c readline.c minishell_tools.c replace_env_var.c creatfile.c convert_to_char_d.c
 
 OBJS		=	$(SOURCE:.c=.o)
 LIBFT		= ./libft/libft.a
