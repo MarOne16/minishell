@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/19 02:56:47 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/20 03:11:48 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,13 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "./libft/libft.h"
+# define MAX_VAR_LENGTH 1024
 
 char **environ;
 
 typedef struct s_fd
 {
-	char		*type;
+	char		type;
 	int			fd;
 	struct s_fd	*next;
 }			t_fd;

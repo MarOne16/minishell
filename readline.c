@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:56:50 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/19 05:25:46 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/19 23:02:16 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,27 +221,6 @@ void    feedlist(t_exe **all, char *input)
 		return ;
 	}
 	table_lakher(cmdspl, all);
-	// while ((*all))
-	// {
-	// 	// while ((*all)->lakher)
-	// 		printf(AC_RED"\n%s\n",(*all)->lakher[0]);
-	// 		printf(AC_RED"\n%s\n",(*all)->lakher[1]);
-	// 	(*all) = (*all)->next;
-	// }
-	
-	// printf(AC_RED"\n%s\n",(*all)->lakher[0]);
-	return ;
-	// feedexe1(cmdspl, all);
-	// u = -1;
-	// while (cmd[++u])
-	// 	printf(AC_RED"%s\n",removequote(cmd[u]));
-	// creat_var(all);
-	// while (cmdspl)
-	// {
-	// 	printf(AC_GREEN"%s\n",cmdspl->cmd);
-	// 	cmdspl = cmdspl->next;
-	// }
-	
 }
 
 void forcfree(t_cmd *input)
