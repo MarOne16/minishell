@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/20 03:11:48 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/21 01:46:06 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # define AC_WHITE "\x1b[37m"
 # define AC_NORMAL "\x1b[m"
 
+# include <errno.h>
 # include <unistd.h>
 # include <ctype.h>
 # include <fcntl.h>
@@ -42,6 +43,8 @@ typedef struct s_fd
 	char		type;
 	int			fd;
 	struct s_fd	*next;
+	struct s_fd	*previus;
+	
 }			t_fd;
 
 typedef struct s_exe
@@ -68,6 +71,9 @@ int		ft_lstsizetprc(t_cmd *lst);
 t_cmd	*ft_lstlastcmd(t_cmd *lst);
 void	ft_lstadd_backallcmd(t_exe **lst, t_exe *new);
 void	ft_lstadd_backcmd(t_cmd **lst, t_cmd *new);
+void	ft_lstadd_back_fd(t_fd **lst, t_fd *new);
+t_fd	*ft_lstlast_fd(t_fd *lst);
+t_fd	*ft_lstnew_fd(char type, int fd);
 // atoi & split tools
 int		nb_c(char *s, char c,int *hash);
 int		ft_strncmpm(char *s1,  char *s2, size_t n);

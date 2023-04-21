@@ -6,29 +6,11 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 03:04:10 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/17 05:15:24 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/21 02:46:11 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
-
-static char *ft_strjoinn(const char *s1, const char *s2)
-{
-    if (s1 == NULL || s2 == NULL)
-        return NULL;
-
-    size_t len_s1 = strlen(s1);
-    size_t len_s2 = strlen(s2);
-
-    char *result = malloc(len_s1 + len_s2 + 1);
-
-    if (result == NULL)
-        return NULL;
-
-    strcpy(result, s1);
-    strcat(result, s2);
-    return result;
-}
 
 size_t	ft_strlenn(const char *str)
 {
@@ -128,31 +110,24 @@ int	get_content(char *name)
 	return (fd);
 }
 
-// void creat_var(t_exe **cmd)
-// {
-//     t_exe   *rest;
-//     t_cmd   *rest2;
-// 	int		*hash;
-// 	int		i;
-// 	int		*fd;
+int	creat_fd(char type, char *name)
+{
+	int fd;
 
-//     rest = *cmd;
-// 	i = 0;
-// 	hash = NULL;
-// 	fd = ft_calloc(operatorscount((*cmd)->allcmd, hash) , sizeof(int));
-//     while (rest)
-//     {
-//         rest2 = (*cmd)->cmd;
-//         while (rest2->next)
-//         {
-//             if (rest2->type == 1 && ft_strncmp(rest2->cmd, ">>", 2) == 0)
-//                 fd[i++] = open(rest2->next->cmd, O_CREAT | O_TRUNC | O_WRONLY, 0777);
-//             else if (rest2->type == 1 && ft_strncmp(rest2->cmd, "<<", 2) == 0)
-// 				fd[i++] = get_content(rest2->next->cmd);
-// 			rest2 = rest2->next;
-//         }
-//     }
-//     for (int i = 0; i < operatorscount((*cmd)->allcmd, hash); i++)
-// 		printf(AC_YELLOW"%d\n",fd[i]);
+	if (type == 'a')
+	{
+		fd = open(name, O_RDWR);
+		if (fd == -1 && errno == ENOENT)
+			fd = open(name, O_CREAT | O_RDWR, 0644);		
+	}
+	else if (type == 'h')
+	{
+		fd = open()
+	}
 	
-// }
+}
+
+void creat_files(t_cmd *cmd, t_exe *exe)
+{
+	
+}

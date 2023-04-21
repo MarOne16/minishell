@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:49:29 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/17 02:02:11 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/21 01:24:54 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,20 @@ t_exe	*ft_lstnewallcmd(void **cmd, void *fd)
 	if (!node)
 		return (0);
 	node->lakher = cmd;
+	node->fd = fd;
+	node-> next = 0;
+	node-> previus = 0;
+	return (node);
+}
+
+t_fd	*ft_lstnew_fd(char type, int fd)
+{
+	t_fd	*node;
+
+	node = (t_fd *)malloc(sizeof(*node));
+	if (!node)
+		return (0);
+	node->type = type;
 	node->fd = fd;
 	node-> next = 0;
 	node-> previus = 0;
@@ -52,6 +66,19 @@ void	ft_lstadd_frontcmd(t_exe **lst, t_exe *new)
 t_exe	*ft_lstlastallcmd(t_exe *lst)
 {
 	t_exe	*l;
+
+	if (!lst)
+		return (0x0);
+	l = lst;
+	while (l -> next != 0)
+	{
+		l = l -> next;
+	}
+	return (l);
+}
+t_fd	*ft_lstlast_fd(t_fd *lst)
+{
+	t_fd	*l;
 
 	if (!lst)
 		return (0x0);
@@ -107,6 +134,22 @@ void	ft_lstadd_backallcmd(t_exe **lst, t_exe *new)
 	else
 	{
 		lst2 = ft_lstlastallcmd(*lst);
+		lst2 -> next = new;
+		new -> previus = lst2;
+	}
+}
+
+void	ft_lstadd_back_fd(t_fd **lst, t_fd *new)
+{
+	t_fd	*lst2;
+
+	if (lst == 0)
+		return ;
+	if (*lst == 0)
+		*lst = new;
+	else
+	{
+		lst2 = ft_lstlast_fd(*lst);
 		lst2 -> next = new;
 		new -> previus = lst2;
 	}
