@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 18:03:29 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/17 05:18:24 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/04/21 04:52:58 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,11 @@
 
 char * get_home(void)
 {
-    t_list* temp_env;
-    
-    temp_env = NULL;
-
+    t_my_list* temp_env;
     temp_env = *(glob->env);
         if(!temp_env)
             return(0);
-    while(temp_env)
+    while(temp_env && temp_env->next)
     {
         if(!ft_strncmp("HOME",temp_env->name,4) && ft_strlen(temp_env->name) == 4) 
         {
@@ -31,9 +28,9 @@ char * get_home(void)
     }
     return(0);
 }
-t_list *find_var_env(char *s , int size)
+t_my_list *find_var_env(char *s , int size)
 {
-    t_list* temp_env = *(glob->env);
+    t_my_list* temp_env = *(glob->env);
     while(temp_env)
     {
         if(!ft_strncmp(s,temp_env->name,size) && (int)ft_strlen(temp_env->name) == size)
@@ -45,9 +42,9 @@ t_list *find_var_env(char *s , int size)
     return(0);
 }
 
-t_list *find_var_exp(char *s , int size)
+t_my_list *find_var_exp(char *s , int size)
 {
-    t_list* temp_env = *(glob->exp); 
+    t_my_list* temp_env = *(glob->exp); 
     while(temp_env)
     {
         if(!ft_strncmp(s,temp_env->name,size) && (int)ft_strlen(temp_env->name) == size)
@@ -61,7 +58,7 @@ t_list *find_var_exp(char *s , int size)
 
 void change_env(char *s,char *modified)
 {
-    t_list *change;
+    t_my_list *change;
     change = find_var_env(modified,ft_strlen(modified));
     change->value = s;
     change = NULL;
@@ -76,6 +73,8 @@ void chdir_home (void)
 
     old_path = getcwd(NULL,0);
     home = get_home();
+    if(!home)
+        return;
         if(chdir(home) == -1)
         {
                 printf("Can't Find home path : %s\n",strerror(errno));
@@ -84,7 +83,7 @@ void chdir_home (void)
     change_env(home,"PWD=");
     change_env(old_path,"OLDPWD=");
 }
-void ft_chdir(t_cmd *cmd)
+void ft_chdir(char **cmd)
 {
     int size;
     char * old_path;
@@ -95,18 +94,18 @@ void ft_chdir(t_cmd *cmd)
     {
         chdir_home();
     }
-    if(size >= 2)
+    else if(size >= 2)
     {
 
         old_path = getcwd(NULL,0);
-        if(!ft_strncmp(cmd->next->cmd,"~",1) && ft_strlen(cmd->next->cmd) == 1)
+        if(!ft_strncmp(cmd[1],"~",1) && ft_strlen(cmd[1]) == 1)
         {
             chdir_home();
             return;
         }
-        else if(!ft_strncmp(cmd->next->cmd,"-",1) && ft_strlen(cmd->next->cmd) == 1)
+        else if(!ft_strncmp(cmd[1],"-",1) && ft_strlen(cmd[1]) == 1)
         {
-            home = find_var_env("OLDPWD",ft_strlen("OLDPWD"))->value;
+            home = find_var_env("OLDPWD=",ft_strlen("OLDPWD="))->value;
             if(chdir(home) == -1)
             {
                 printf("%s\n",strerror(errno));
@@ -114,23 +113,23 @@ void ft_chdir(t_cmd *cmd)
             }
             printf("%s\n",home);
             home = getcwd(NULL,0);
-                change_env(home,"PWD");
-                change_env(old_path,"OLDPWD");
+                change_env(home,"PWD=");
+                change_env(old_path,"OLDPWD=");
             return;
         }
-        else if (old_path == NULL && !ft_strncmp(cmd->next->cmd,".",1) && ft_strlen(cmd->next->cmd) == 1)
+        else if (old_path == NULL && !ft_strncmp(cmd[1],".",1) && ft_strlen(cmd[1]) == 1)
         {
-           printf("%s\n",cmd->next->cmd);
+           printf("%s\n",cmd[1]);
            return;
         }
-            home = cmd->next->cmd;
+            home = cmd[1];
             if(chdir(home) == -1)
             {
                 printf("%s\n",strerror(errno));
                 return;
             }
             home = getcwd(NULL,0);
-            change_env(home,"PWD");
-            change_env(old_path,"OLDPWD");
+            change_env(home,"PWD=");
+            change_env(old_path,"OLDPWD=");
     }
 }

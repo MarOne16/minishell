@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 02:57:56 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/17 01:06:00 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/04/21 01:00:06 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void print_exp()
 {
-    t_list *list;
+    t_my_list *list;
     if(*glob->exp)
     {
         list = (*glob->exp);
@@ -97,7 +97,7 @@ int first_check(char *s)
 }
 void put_plus(char *cmd,char *val)
 {
-    t_list *s;
+    t_my_list *s;
 
     s = var_exp(cmd,ft_strlen(cmd) - 1);
     if(s != NULL)
@@ -112,13 +112,13 @@ void put_plus(char *cmd,char *val)
     else if (s == NULL)
     {
             cmd = ft_substr(cmd,0,ft_strlen(cmd) - 1);
-                ft_lstadd_back(glob->exp,ft_lstnew(cmd,val));
+                ft_my_lstadd_back(glob->exp,ft_my_lstnew(cmd,val));
     }
     put_env_plus(cmd,val);
 }
 void put_env_plus(char *cmd,char *val)
 {
-    t_list *e;
+    t_my_list *e;
     
     e = var_env(cmd,ft_strlen(cmd) - 1);
     if(e)
@@ -128,12 +128,12 @@ void put_env_plus(char *cmd,char *val)
     }
     else
     {
-            ft_lstadd_back(glob->env,ft_lstnew(cmd,val));
+            ft_my_lstadd_back(glob->env,ft_my_lstnew(cmd,val));
     }
 }
  void put_env(char *cmd,char *val)
  {
-    t_list *e;
+    t_my_list *e;
     e = var_env(cmd,ft_strlen(cmd));
     if(e)
     {
@@ -143,14 +143,14 @@ void put_env_plus(char *cmd,char *val)
     else
     {
         if(val)
-            ft_lstadd_back(glob->env,ft_lstnew(cmd,val));
+            ft_my_lstadd_back(glob->env,ft_my_lstnew(cmd,val));
     }
     
  }
  void put_in_exp(char *cmd,char * val)
  {
     int i;
-    t_list *s;
+    t_my_list *s;
 
     i = 0;
     while(cmd[i])
@@ -170,59 +170,56 @@ void put_env_plus(char *cmd,char *val)
             if(val == NULL)
             {
                 
-                ft_lstadd_back(glob->exp,ft_lstnew(cmd,""));
+                ft_my_lstadd_back(glob->exp,ft_my_lstnew(cmd,""));
             }
             else
-                    ft_lstadd_back(glob->exp,ft_lstnew(cmd,val)); 
+                    ft_my_lstadd_back(glob->exp,ft_my_lstnew(cmd,val)); 
         }
         put_env(cmd,val);
     }
  }
-void ad_exp(t_cmd * cmd)
+void ad_exp(char ** cmd)
 {
     char **tmp;
     char *val;
     
     val = NULL;
     tmp = NULL;
-        if(first_check(cmd->cmd))
+        if(first_check(*cmd))
         {
-            tmp = ft_my_split(cmd->cmd,'=');
+            tmp = ft_my_split(*cmd,'=');
             if(tmp[0])
             {
                 if(check_var(tmp[0]))
                 {
-                    val = check_value(cmd->cmd);
+                    val = check_value(*cmd);
                     put_in_exp(tmp[0],val); 
                 }
             }
             else
-                printf("'%s' not Valid 2\n",cmd->cmd);
+                printf("'%s' not Valid 2\n",*cmd);
         }
         else
-            printf("'%s' not Valid 2\n",cmd->cmd);
+            printf("'%s' not Valid 2\n",*cmd);
 }
  
-void ft_exp(t_cmd *cmd)
+void ft_exp(char **cmd)
 {
     int size;
     size = size_cmd(cmd);
-    char **tmp;
-    char *val;
-
-    tmp = NULL;
-    val = NULL;
+    int i;
     if(size == 1)
     {
         print_exp();
     }
     else if (size >= 2)
     {
-        cmd = cmd->next;
-        while(cmd)
+        i = 0;
+        cmd = &cmd[1];
+        while(cmd[i])
         {
             ad_exp(cmd);
-            cmd = cmd->next;
+            i++;
         }
     }
 }

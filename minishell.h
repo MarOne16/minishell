@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/18 01:55:39 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/04/21 01:22:18 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,50 +24,54 @@
 # define AC_NORMAL "\x1b[m"
 
 # include <unistd.h>
-# include <string.h>
-# include <errno.h>
 # include <ctype.h>
+# include <fcntl.h>
 # include <stdio.h>
 # include <limits.h>
-# include <ctype.h>
+# include <errno.h>
 # include <string.h>
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include <signal.h>
+# include "libft/libft.h"
+# define MAX_VAR_LENGTH 1024
 
-typedef struct s_env
+char **environ;
+
+typedef struct s_fd
 {
-	char **env;
-}t_env;
+	char		type;
+	int			fd;
+	struct s_fd	*next;
+}			t_fd;
+
+typedef struct s_exe
+{
+	void			**lakher;
+	t_fd			*fd;
+	struct s_exe	*next;
+	struct s_exe	*previus;
+}t_exe;
 
 typedef struct s_cmd
 {
-	char			*type;
+	int				type;
 	char			*cmd;
 	struct s_cmd	*next;
 	struct s_cmd	*previus;
 }				t_cmd;
 
-typedef struct s_prc
-{
-	char			*allcmd;
-	t_cmd			*cmd;
-	struct s_prc	*next;
-	struct s_prc	*previus;
-}					t_prc;
-
-typedef struct s_list
+typedef struct s_my_list
 {
 	char			*name;
 	char			*value;
-	struct s_list	*next;
-}t_list;
+	struct s_my_list	*next;
+}t_my_list;
 
 typedef struct s_global
 {
-	t_list **env;
-	t_list **exp;
+	t_my_list **env;
+	t_my_list **exp;
 }	t_global;
 
 t_global *glob;
@@ -76,68 +80,70 @@ t_global *glob;
 void Creat_env(char **env);
 char ** sort_env(char **env);
 void Creat_exp(char **env);
-t_list	*ft_lstnew(char *name , char  *value);
-int		ft_lstsize(t_list *lst);
-t_list	*ft_lstlast(t_list *lst);
-void	ft_lstadd_back(t_list **lst, t_list *new);
+t_my_list	*ft_my_lstnew(char *name , char  *value);
+int		ft_my_lstsize(t_my_list *lst);
+t_my_list	*ft_my_lstlast(t_my_list *lst);
+void	ft_my_lstadd_back(t_my_list **lst, t_my_list *new);
 char	**ft_my_split(char *s, char c);
-void	session(t_prc ** all);
-int	ft_strncmp(char *s1,char *s2, size_t count);
-void check_builtin(t_prc **all);
-void ft_echo(t_cmd *cmd);
-void ft_chdir(t_cmd *cmd);
+void	session(t_exe *all);
+// int	ft_strncmp(char *s1,char *s2, size_t count);
+void check_builtin(t_exe *all);
+void ft_echo(char **cmd);
+void ft_chdir(char **cmd);
 void iter(int i);
-void ft_exit(t_cmd *cmd);
+void ft_exit(char **cmd);
 char ** empty_env(char **av);
 void print_exp();
-void ft_exp(t_cmd *cmd);
-void ft_pwd(t_cmd *pwd);
+void ft_exp(char **cmd);
+void ft_pwd(char **pwd);
 char *get_orgin(void);
-t_list *find_var_env(char *s , int size);
-t_list *find_var_exp(char *s , int size);
-t_list *var_exp(char *s , int size);
+t_my_list *find_var_env(char *s , int size);
+t_my_list *find_var_exp(char *s , int size);
+t_my_list *var_exp(char *s , int size);
 char * ft_strncpy(char *src , char *dest ,int size);
-t_list *var_env(char *s , int size);
+t_my_list *var_env(char *s , int size);
 void put_env_plus(char *cmd,char *val);
-void ft_unset(t_cmd *cmd);
+void ft_unset(char **cmd);
 int check_unset_var(char *s);
 void free_var_exp(char *s , int size);
 void free_var_env(char *s , int size);
+int size_prc(t_exe *allcmd);
+int size_cmd(char **cmd);
+
+
 
 
 // list tools
-t_prc	*ft_lstnewallcmd(char *allcmd, t_cmd *cmd);
-t_cmd	*ft_lstnewcmd(char *cmd, char *type);
-void	ft_lstadd_front(t_prc **lst, t_prc *new);
-t_prc	*ft_lstlastallcmd(t_prc *lst);
+t_exe	*ft_lstnewallcmd(void **cmd, void *fd);
+t_cmd	*ft_lstnewcmd(char *cmd, int type);
+void	ft_lstadd_frontcmd(t_exe **lst, t_exe *new);
+int		ft_lstsizetprc(t_cmd *lst);
 t_cmd	*ft_lstlastcmd(t_cmd *lst);
-void	ft_lstadd_backallcmd(t_prc **lst, t_prc *new);
+void	ft_lstadd_backallcmd(t_exe **lst, t_exe *new);
 void	ft_lstadd_backcmd(t_cmd **lst, t_cmd *new);
-int size_prc(t_prc ** allcmd);
-int size_cmd(t_cmd *cmd);
 // atoi & split tools
-long	ft_atoi(char *str);
-size_t	ft_strlen(char *s);
-int	nb_c(char *s, char c,int *hash);
+int		nb_c(char *s, char c,int *hash);
+int		ft_strncmpm(char *s1,  char *s2, size_t n);
 int		strlenword(char *s, char c, int i, int *hush);
 void	ft_free(char **strs, int j);
-char	**ft_split(char *s, char c, int *hush);
-char	*ft_strdup(char *s1);
-char	*ft_substr(char *s, unsigned int start, size_t len);
-int count_words(char *str, char c, int *hash, size_t len);
-char **ft_split_hash(char *str, char c, int *hash, size_t len);
-char	*ft_strjoin(char  *s1, char  *s2);
-
+char	**ft_splithash(char *s, char c, int *hush);
+int		count_words(char *str, char c, int *hash, size_t len);
+// replace_env_vars
+char	*replace_vars(char* str);
+char	*ft_strjoin_char(char *s, char c);
+char	*removequote(char *str);
 // readline
-void    feedlist(t_prc **all, char *input);
-void	feedhashtable(int *hush, char *input);
+void    feedlist(t_exe **all, char *input);
+void	forcfree(t_cmd *input);
+void	feedhashtable(int **hush, char *input);
 int		operatorscount(char *str, int *hash);
 char	*add_spaces_around_operators(char *s, int *hash);
-char	*typing(char *spl);
-char	*getvariable(char *input);
-int		getsize(char *str);
-char	*remplace(char *old, char **env);
-
+int		typing(char *spl);
+void	creat_var(t_exe **cmd);
+// convert_to_char
+int		sizechar(t_cmd *cmd);
+int		size_pip(t_cmd *cmd);
+void	table_lakher(t_cmd *cmd, t_exe **lakher);
 
 // typedef struct s_data
 // {

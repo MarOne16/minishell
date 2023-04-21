@@ -1,10 +1,10 @@
 #include "minishell.h"
 
-t_list	*ft_lstnew(char *name , char  *value)
+t_my_list	*ft_my_lstnew(char *name , char  *value)
 {
-	t_list	*new;
+	t_my_list	*new;
 
-	new = (t_list *)malloc(sizeof(t_list));
+	new = (t_my_list *)malloc(sizeof(t_my_list));
 	if (!new)
 		return (0);
 	if(!name && !value)
@@ -15,7 +15,7 @@ t_list	*ft_lstnew(char *name , char  *value)
 	return (new);
 }
 
-int	ft_lstsize(t_list *lst)
+int	ft_my_lstsize(t_my_list *lst)
 {
 	int	i;
 
@@ -28,56 +28,59 @@ int	ft_lstsize(t_list *lst)
 	return (i);
 }
 
-t_list *ft_lstlast(t_list *lst)
+t_my_list *ft_my_lstlast(t_my_list *lst)
 {
-    t_list *temp = lst;
-    if (!temp)
-        return (NULL);
-    while (temp->next != NULL)
-        temp = temp->next;
-    return (temp);
-}
-
-void ft_lstadd_back(t_list **lst, t_list *new)
-{
-    t_list *last;
-
-    if (lst == NULL)
-        return ;
-    if (*lst == NULL)
-    {
-        *lst = new;
-        return;
-    }
-    last = ft_lstlast(*lst);
-	if(new != NULL)
-    	last->next = new;
-}
-size_t	ft_strlen(char *s)
-{
-	size_t	i;
-
-	i = 0;
-	if(!s)
-		return(i);
-	while (s[i] != '\0')
+    t_my_list *l = lst;
+	if (!lst)
+		return (0x0);
+	l = lst;
+	while (l -> next != 0)
 	{
-		i++;
+		l = l -> next;
 	}
-	return (i);
+	return (l);
 }
 
-int size_prc(t_prc ** allcmd)
+void ft_my_lstadd_back(t_my_list **lst, t_my_list *new)
 {
-	t_prc *tmp;
-	int i;
+    t_my_list *lst2;
 
+	if (lst == 0)
+		return ;
+	if (*lst == 0)
+	{
+		*lst = new;
+	}
+	else
+	{
+		lst2 = ft_my_lstlast(*lst);
+		lst2 -> next = new;
+	}
+}
+// size_t	ft_strlen(char *s)
+// {
+// 	size_t	i;
+
+// 	i = 0;
+// 	if(!s)
+// 		return(i);
+// 	while (s[i] != '\0')
+// 	{
+// 		i++;
+// 	}
+// 	return (i);
+// }
+
+int size_prc(t_exe *allcmd)
+{
+	int i;
+	t_exe *tmp;
 	i = 0;
-	tmp = *allcmd;
+	tmp = allcmd;
 	while(tmp)
 	{
 		i++;
-		tmp = tmp->next;
+		tmp = tmp->next; 
 	}
 	return (i);
 }

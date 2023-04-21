@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 17:47:41 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/04 17:48:26 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/04/21 01:20:45 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,54 +34,56 @@ int check_n(char *s)
     return(1);
 }
 
-void print_cmd(t_cmd *cmd)
+void print_cmd(char **cmd)
 {
-    while(cmd)
+    int i;
+    i = 0;
+    while(cmd[i])
     {
-        printf("%s",cmd->cmd);
-        if(cmd->next)
+        printf("%s",cmd[i]);
+        if(cmd[i + 1])
         printf(" ");
-        cmd = cmd->next;
+        i++;
     }
 }
 
-int size_cmd(t_cmd *cmd)
+int size_cmd(char **cmd)
 {
-	t_cmd *tmp;
+	char **tmp;
 	int i;
 
 	i = 0;
 	tmp = cmd;
-	while(tmp)
+	while(tmp[i])
 	{
 		i++;
-		tmp = tmp->next;
 	}
 	return (i);
 }
 
-void ft_echo(t_cmd *cmd)
+void ft_echo(char **cmd)
 {
     int size = size_cmd(cmd);
+    int i = 0;
     if(size == 1)
         printf("\n");
     else if (size == 2)
     {
-        if(check_n(cmd->next->cmd))
+        if(check_n(cmd[1]))
             return;
         else
-            printf("%s\n",cmd->next->cmd);
+            printf("%s\n",cmd[1]);
     }
     else if(size > 2)
     {
-        cmd = cmd->next;
-        if(check_n(cmd->cmd))
+        cmd = &cmd[1];
+        if(check_n(*cmd))
         {
-            while (cmd)
+            while (cmd[i])
             {
-                if(!check_n(cmd->cmd))
+                if(!check_n(cmd[i]))
                     break;
-                cmd = cmd->next;
+                i++;
             }
             print_cmd(cmd);
         }

@@ -6,14 +6,14 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 01:56:51 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/14 01:01:56 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/04/21 00:57:09 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 char *get_orgin(void)
 {
-    t_list *list;
+    t_my_list *list;
     list = (*glob->env);
     while(list)
     {
@@ -25,10 +25,10 @@ char *get_orgin(void)
     }
     return(NULL);
 }
-void ft_pwd(t_cmd *pwd)
+void ft_pwd(char **pwd)
 {
     char *s;
-    if(pwd->cmd)
+    if(pwd[0])
     {
         s = getcwd(NULL,0);
         if(s == NULL)

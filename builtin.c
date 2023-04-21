@@ -9,51 +9,51 @@ char ** empty_env(char **av)
     env[3] = NULL;
     return(env);
 }
-int	ft_strncmp(char *s1,char *s2, size_t count)
-{
-	size_t	i;
+// int	ft_strncmp(char *s1,char *s2, size_t count)
+// {
+// 	size_t	i;
 
-	i = -1;
-	while (++i < count && (s1[i] || s2[i]))
-	{
-		if (s2[i] != s1[i])
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-	}
-	return (0);
-}
+// 	i = -1;
+// 	while (++i < count && (s1[i] || s2[i]))
+// 	{
+// 		if (s2[i] != s1[i])
+// 			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+// 	}
+// 	return (0);
+// }
 
-char	*ft_strjoin(char  *s1, char  *s2)
-{
-	int	s1len;
-	int	s2len;
-	char	*ptr;
-	int		j;
+// char	*ft_strjoin(char  *s1, char  *s2)
+// {
+// 	int	s1len;
+// 	int	s2len;
+// 	char	*ptr;
+// 	int		j;
 
-	j = -1;
-    s1len=0;
-    s2len=0;
-	if (!s1 && !s2)
-		return (NULL);
-	    s1len = ft_strlen(s1);
-	    s2len = ft_strlen(s2);
-		ptr = (char *)malloc(s2len + s1len + 1);
-		if (!ptr)
-			return (NULL);
-		while( ++j <= s1len)
-			ptr[j] = s1[j];
-		j=0;
-		while (s2len)
-		{
-			ptr[s1len++] = s2[j++];
-				s2len--;
-		}
-		ptr[s1len] = '\0';
-		return (ptr);
-}
+// 	j = -1;
+//     s1len=0;
+//     s2len=0;
+// 	if (!s1 && !s2)
+// 		return (NULL);
+// 	    s1len = ft_strlen(s1);
+// 	    s2len = ft_strlen(s2);
+// 		ptr = (char *)malloc(s2len + s1len + 1);
+// 		if (!ptr)
+// 			return (NULL);
+// 		while( ++j <= s1len)
+// 			ptr[j] = s1[j];
+// 		j=0;
+// 		while (s2len)
+// 		{
+// 			ptr[s1len++] = s2[j++];
+// 				s2len--;
+// 		}
+// 		ptr[s1len] = '\0';
+// 		return (ptr);
+// }
 
 void ft_env()
 {
-    t_list *temp = (*glob->env);
+    t_my_list *temp = (*glob->env);
     if(temp)
     {
         while(temp)
@@ -63,14 +63,14 @@ void ft_env()
         }
     }
 }
-void check_builtin(t_prc **all)
+void check_builtin(t_exe *all)
 {
     char *s;
-    t_cmd *n;
+    char **n;
     extern char **environ;
 
-    s = (*all)->cmd->cmd;
-    n = (*all)->cmd;
+    s = all->lakher[0];
+    n = (char **)all->lakher;
     if(!(ft_strncmp(s,"echo",4)) && ft_strlen(s) == 4)
         ft_echo(n);
     else if(!(ft_strncmp(s,"cd",2)) && ft_strlen(s) == 2)

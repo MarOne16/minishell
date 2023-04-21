@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 01:33:25 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/18 02:04:01 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/04/21 01:03:28 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int check_unset_var(char *s)
 
 void free_var_exp(char *s , int size)
 {
-    t_list* temp_env = *(glob->exp); 
+    t_my_list* temp_env = *(glob->exp); 
     while(temp_env && temp_env->next)
     {
         if(!ft_strncmp(s,temp_env->next->name,size) && (int)ft_strlen(temp_env->next->name) == size)
@@ -53,7 +53,7 @@ void free_var_exp(char *s , int size)
 }
 void free_var_env(char *s , int size)
 {
-    t_list* temp_env = *(glob->env); 
+    t_my_list* temp_env = *(glob->env); 
     while(temp_env && temp_env->next)
     {
         if(!ft_strncmp(s,temp_env->next->name,size) && (int)ft_strlen(temp_env->next->name) == size)
@@ -66,27 +66,28 @@ void free_var_env(char *s , int size)
     return;
 }
 
-void ft_unset(t_cmd *cmd)
+void ft_unset(char **cmd)
 {
-    t_cmd *tmp;
     int size = size_cmd(cmd);
+    int i;
     if(size == 1)
     {
         return;
     }
     else if(size == 2)
     {
-        if(check_unset_var(cmd->next->cmd))
-            free_var_exp(cmd->next->cmd,ft_strlen(cmd->next->cmd));
+        if(check_unset_var(cmd[1]))
+            free_var_exp(cmd[1],ft_strlen(cmd[1]));
     }
     else if(size >2)
     {
-        tmp = cmd->next;
-        while(tmp && tmp->next)
+        cmd = &cmd[1];
+        i = 0;
+        while(cmd[i])
         {
-            if(check_unset_var(tmp->cmd))
-                free_var_exp(tmp->cmd,ft_strlen(tmp->cmd));
-            tmp = tmp->next;
+            if(check_unset_var(cmd[i]))
+                free_var_exp(cmd[i],ft_strlen(cmd[i]));
+            i++;
         }
     }
 }

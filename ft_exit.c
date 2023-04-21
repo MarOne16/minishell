@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 22:31:11 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/08 02:17:19 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/04/21 01:05:17 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,14 @@ void check_num(char *s)
     }
 }
 
-void multi_cmd(t_cmd *cmd)
+void multi_cmd(char *cmd)
 {
     
-    check_num(cmd->cmd);
+    check_num(cmd);
     printf("exit\ntoo many arguments\n");
 }
 
-void ft_exit(t_cmd *cmd)
+void ft_exit(char **cmd)
 {
     int size;
     int i;
@@ -56,7 +56,7 @@ void ft_exit(t_cmd *cmd)
     }
     else if(size == 2)
     {
-            s = cmd->next->cmd;
+            s = cmd[1];
             check_num(s);
             estatus = ft_atoi(s);
             if(estatus < -2147483648 || estatus > 2147483647)
@@ -68,5 +68,5 @@ void ft_exit(t_cmd *cmd)
             exit(estatus);
     }
     else if(size > 2)
-        multi_cmd(cmd->next);
+        multi_cmd(cmd[1]);
 }

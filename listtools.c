@@ -6,27 +6,27 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:49:29 by mqaos             #+#    #+#             */
-/*   Updated: 2023/03/24 23:53:52 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/17 02:02:11 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_prc	*ft_lstnewallcmd(char *allcmd, t_cmd *cmd)
+t_exe	*ft_lstnewallcmd(void **cmd, void *fd)
 {
-	t_prc	*node;
+	t_exe	*node;
 
-	node = (t_prc *)malloc(sizeof(*node));
+	node = (t_exe *)malloc(sizeof(*node));
 	if (!node)
 		return (0);
-	node->cmd = cmd;
-	node->allcmd = allcmd;
+	node->lakher = cmd;
+	node->fd = fd;
 	node-> next = 0;
 	node-> previus = 0;
 	return (node);
 }
 
-t_cmd	*ft_lstnewcmd(char *cmd, char *type)
+t_cmd	*ft_lstnewcmd(char *cmd, int type)
 {
 	t_cmd	*newcmd;
 
@@ -40,7 +40,7 @@ t_cmd	*ft_lstnewcmd(char *cmd, char *type)
 	return (newcmd);
 }
 
-void	ft_lstadd_front(t_prc **lst, t_prc *new)
+void	ft_lstadd_frontcmd(t_exe **lst, t_exe *new)
 {
 	if (lst && new)
 	{
@@ -49,9 +49,9 @@ void	ft_lstadd_front(t_prc **lst, t_prc *new)
 	}
 }
 
-t_prc	*ft_lstlastallcmd(t_prc *lst)
+t_exe	*ft_lstlastallcmd(t_exe *lst)
 {
-	t_prc	*l;
+	t_exe	*l;
 
 	if (!lst)
 		return (0x0);
@@ -77,9 +77,26 @@ t_cmd	*ft_lstlastcmd(t_cmd *lst)
 	return (l);
 }
 
-void	ft_lstadd_backallcmd(t_prc **lst, t_prc *new)
+int	ft_lstsizetprc(t_cmd *lst)
 {
-	t_prc	*lst2;
+	t_cmd	*l;
+	int		i;
+
+	if (!lst)
+		return (0x0);
+	l = lst;
+	i = 0;
+	while (l)
+	{
+		l = l -> next;
+		i++;
+	}
+	return (i);
+}
+
+void	ft_lstadd_backallcmd(t_exe **lst, t_exe *new)
+{
+	t_exe	*lst2;
 
 	if (lst == 0)
 		return ;
