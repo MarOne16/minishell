@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_chdir.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 18:03:29 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/21 04:52:58 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/04/23 07:16:22 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char * get_home(void)
 {
     t_my_list* temp_env;
-    temp_env = *(glob->env);
+    temp_env = (glob->env);
         if(!temp_env)
             return(0);
     while(temp_env && temp_env->next)
@@ -30,7 +30,7 @@ char * get_home(void)
 }
 t_my_list *find_var_env(char *s , int size)
 {
-    t_my_list* temp_env = *(glob->env);
+    t_my_list* temp_env = (glob->env);
     while(temp_env)
     {
         if(!ft_strncmp(s,temp_env->name,size) && (int)ft_strlen(temp_env->name) == size)
@@ -44,7 +44,7 @@ t_my_list *find_var_env(char *s , int size)
 
 t_my_list *find_var_exp(char *s , int size)
 {
-    t_my_list* temp_env = *(glob->exp); 
+    t_my_list* temp_env = (glob->exp); 
     while(temp_env)
     {
         if(!ft_strncmp(s,temp_env->name,size) && (int)ft_strlen(temp_env->name) == size)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:56:50 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/21 05:45:57 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/04/23 07:19:48 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,7 +239,7 @@ void iter(int n)
 	t_my_list * tmp;
 	if(n == 1)
 	{
-		tmp = (*glob->env);
+		tmp = (glob->env);
 		while(tmp)
 		{
 			printf("%s%s\n",tmp->name,tmp->value);
@@ -248,7 +248,7 @@ void iter(int n)
 	}
 	else
 	{
-		tmp = (*glob->exp);
+		tmp = (glob->exp);
 		while(tmp)
 		{
 			printf("%s%s\n",tmp->name,tmp->value);
@@ -264,8 +264,7 @@ int main(int argc, char *argv[], char **env)
 	char *input = NULL;
 	char *newinput = NULL;
 	t_exe       *all = NULL;
-	glob = (t_global *)malloc(sizeof(t_global *));
-	
+	glob = (t_global *)malloc(sizeof(t_global));
 	if( *env == NULL)
 	{
 		env = empty_env(argv);

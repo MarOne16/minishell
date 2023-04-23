@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 02:57:56 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/21 01:00:06 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/04/23 07:16:32 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 void print_exp()
 {
     t_my_list *list;
-    if(*glob->exp)
+    if(glob->exp)
     {
-        list = (*glob->exp);
+        list = (glob->exp);
         while(list)
         {
             printf("declare -x %s%s\n",list->name,list->value);
@@ -112,7 +112,7 @@ void put_plus(char *cmd,char *val)
     else if (s == NULL)
     {
             cmd = ft_substr(cmd,0,ft_strlen(cmd) - 1);
-                ft_my_lstadd_back(glob->exp,ft_my_lstnew(cmd,val));
+                ft_my_lstadd_back(&glob->exp,ft_my_lstnew(cmd,val));
     }
     put_env_plus(cmd,val);
 }
@@ -128,7 +128,7 @@ void put_env_plus(char *cmd,char *val)
     }
     else
     {
-            ft_my_lstadd_back(glob->env,ft_my_lstnew(cmd,val));
+            ft_my_lstadd_back(&glob->env,ft_my_lstnew(cmd,val));
     }
 }
  void put_env(char *cmd,char *val)
@@ -143,7 +143,7 @@ void put_env_plus(char *cmd,char *val)
     else
     {
         if(val)
-            ft_my_lstadd_back(glob->env,ft_my_lstnew(cmd,val));
+            ft_my_lstadd_back(&glob->env,ft_my_lstnew(cmd,val));
     }
     
  }
@@ -170,10 +170,10 @@ void put_env_plus(char *cmd,char *val)
             if(val == NULL)
             {
                 
-                ft_my_lstadd_back(glob->exp,ft_my_lstnew(cmd,""));
+                ft_my_lstadd_back(&glob->exp,ft_my_lstnew(cmd,""));
             }
             else
-                    ft_my_lstadd_back(glob->exp,ft_my_lstnew(cmd,val)); 
+                    ft_my_lstadd_back(&glob->exp,ft_my_lstnew(cmd,val)); 
         }
         put_env(cmd,val);
     }

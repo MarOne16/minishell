@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/21 01:22:18 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/04/23 07:10:59 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ typedef struct s_my_list
 
 typedef struct s_global
 {
-	t_my_list **env;
-	t_my_list **exp;
+	t_my_list *env;
+	t_my_list *exp;
 }	t_global;
 
 t_global *glob;

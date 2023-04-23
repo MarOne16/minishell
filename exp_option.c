@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_option.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 01:16:42 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/20 23:58:33 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/04/23 07:15:34 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_my_list *var_exp(char *s , int size)
 {
-    t_my_list* temp_env = *(glob->exp); 
+    t_my_list* temp_env = (glob->exp); 
     while(temp_env)
     {
         if(!ft_strncmp(s,temp_env->name,size))
@@ -27,7 +27,7 @@ t_my_list *var_exp(char *s , int size)
 }
 t_my_list *var_env(char *s , int size)
 {
-    t_my_list* temp_env = *(glob->env); 
+    t_my_list* temp_env = (glob->env); 
     while(temp_env)
     {
         if(!ft_strncmp(s,temp_env->name,size))

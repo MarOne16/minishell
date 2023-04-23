@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 01:33:25 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/21 01:03:28 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/04/23 07:15:56 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int check_unset_var(char *s)
 
 void free_var_exp(char *s , int size)
 {
-    t_my_list* temp_env = *(glob->exp); 
+    t_my_list* temp_env = (glob->exp); 
     while(temp_env && temp_env->next)
     {
         if(!ft_strncmp(s,temp_env->next->name,size) && (int)ft_strlen(temp_env->next->name) == size)
@@ -53,7 +53,7 @@ void free_var_exp(char *s , int size)
 }
 void free_var_env(char *s , int size)
 {
-    t_my_list* temp_env = *(glob->env); 
+    t_my_list* temp_env = (glob->env); 
     while(temp_env && temp_env->next)
     {
         if(!ft_strncmp(s,temp_env->next->name,size) && (int)ft_strlen(temp_env->next->name) == size)

@@ -53,7 +53,7 @@ char ** empty_env(char **av)
 
 void ft_env()
 {
-    t_my_list *temp = (*glob->env);
+    t_my_list *temp = (glob->env);
     if(temp)
     {
         while(temp)
