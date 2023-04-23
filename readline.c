@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:56:50 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/19 23:02:16 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/23 14:28:09 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,6 +221,7 @@ void    feedlist(t_exe **all, char *input)
 		return ;
 	}
 	table_lakher(cmdspl, all);
+	creat_files(cmdspl, all);
 }
 
 void forcfree(t_cmd *input)
@@ -260,10 +261,14 @@ int main(int argc, char *argv[], char **env)
 					printf(AC_BLUE"%s \t", all->lakher[i]);
 					i++;
 				}
-				puts("\n");
+				while (all->fd)
+				{
+					printf(AC_BLUE"%d \t", all->fd->fd);
+					all->fd = all->fd->next;
+				}
+				puts("");
 				all = all->next;
 			}
-			
 			all = NULL;
 			// forcfree(&all);
 		}
@@ -271,4 +276,3 @@ int main(int argc, char *argv[], char **env)
 	exit(0);
 	return 0;
 }
-

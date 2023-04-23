@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:49:29 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/21 01:24:54 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/23 14:10:22 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,19 +76,7 @@ t_exe	*ft_lstlastallcmd(t_exe *lst)
 	}
 	return (l);
 }
-t_fd	*ft_lstlast_fd(t_fd *lst)
-{
-	t_fd	*l;
 
-	if (!lst)
-		return (0x0);
-	l = lst;
-	while (l -> next != 0)
-	{
-		l = l -> next;
-	}
-	return (l);
-}
 
 t_cmd	*ft_lstlastcmd(t_cmd *lst)
 {
@@ -139,6 +127,39 @@ void	ft_lstadd_backallcmd(t_exe **lst, t_exe *new)
 	}
 }
 
+void	ft_lstadd_backcmd(t_cmd **lst, t_cmd *new)
+{
+	t_cmd	*lst2;
+
+	if (lst == 0)
+		return ;
+	if (*lst == 0)
+	{
+		*lst = new;
+	}
+	else
+	{
+		lst2 = ft_lstlastcmd(*lst);
+		lst2 -> next = new;
+		new -> previus = lst2;
+	}
+}
+
+// t_fd
+t_fd	*ft_lstlast_fd(t_fd *lst)
+{
+	t_fd	*l;
+
+	if (!lst)
+		return (0x0);
+	l = lst;
+	while (l -> next != 0)
+	{
+		l = l -> next;
+	}
+	return (l);
+}
+
 void	ft_lstadd_back_fd(t_fd **lst, t_fd *new)
 {
 	t_fd	*lst2;
@@ -155,20 +176,11 @@ void	ft_lstadd_back_fd(t_fd **lst, t_fd *new)
 	}
 }
 
-void	ft_lstadd_backcmd(t_cmd **lst, t_cmd *new)
+void	ft_lstadd_front_fd(t_fd **lst, t_fd *new)
 {
-	t_cmd	*lst2;
-
-	if (lst == 0)
-		return ;
-	if (*lst == 0)
+	if (lst && new)
 	{
+		new -> next = *lst;
 		*lst = new;
-	}
-	else
-	{
-		lst2 = ft_lstlastcmd(*lst);
-		lst2 -> next = new;
-		new -> previus = lst2;
 	}
 }

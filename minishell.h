@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/21 01:46:06 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/23 14:10:32 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	ft_lstadd_backcmd(t_cmd **lst, t_cmd *new);
 void	ft_lstadd_back_fd(t_fd **lst, t_fd *new);
 t_fd	*ft_lstlast_fd(t_fd *lst);
 t_fd	*ft_lstnew_fd(char type, int fd);
+void	ft_lstadd_front_fd(t_fd **lst, t_fd *new);
 // atoi & split tools
 int		nb_c(char *s, char c,int *hash);
 int		ft_strncmpm(char *s1,  char *s2, size_t n);
@@ -97,6 +98,13 @@ void	creat_var(t_exe **cmd);
 int		sizechar(t_cmd *cmd);
 int		size_pip(t_cmd *cmd);
 void	table_lakher(t_cmd *cmd, t_exe **lakher);
+// creat_fd
+void	creat_files(t_cmd *cmd, t_exe **exe);
+int		herdoc(char *name);
+int		output_input(char *name, char type);
+int		append(char *name);
+int		creat_fd(char type, char *name);
+char	get_type(char *str);
 
 // typedef struct s_data
 // {
