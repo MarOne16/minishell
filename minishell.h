@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/23 14:10:32 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/23 18:35:09 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <limits.h>
+# include <termios.h>
 # include <string.h>
+# include <signal.h>
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "./libft/libft.h"
 # define MAX_VAR_LENGTH 1024
-
-char **environ;
 
 typedef struct s_fd
 {
@@ -77,6 +77,7 @@ t_fd	*ft_lstnew_fd(char type, int fd);
 void	ft_lstadd_front_fd(t_fd **lst, t_fd *new);
 // atoi & split tools
 int		nb_c(char *s, char c,int *hash);
+int		ft_strcmp(const char *s1, const char *s2);
 int		ft_strncmpm(char *s1,  char *s2, size_t n);
 int		strlenword(char *s, char c, int i, int *hush);
 void	ft_free(char **strs, int j);
@@ -94,6 +95,7 @@ int		operatorscount(char *str, int *hash);
 char	*add_spaces_around_operators(char *s, int *hash);
 int		typing(char *spl);
 void	creat_var(t_exe **cmd);
+void    sig_handler(int signum);
 // convert_to_char
 int		sizechar(t_cmd *cmd);
 int		size_pip(t_cmd *cmd);

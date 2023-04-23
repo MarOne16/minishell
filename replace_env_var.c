@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 03:59:05 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/20 03:26:40 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/23 16:02:30 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ char	*removequote(char *str)
 {
 	char	*newstr;
 	int		*hash;
-	char	*temp;
 	int		i;
 
 	i = 0;
@@ -53,12 +52,10 @@ char	*removequote(char *str)
 			i++;
 		else
 		{
-			temp = newstr;
 			newstr = ft_strjoin_char(newstr, str[i]);
 			i++;
 		}
 	}
-	temp = newstr;
 	newstr = ft_strjoin_char(newstr, str[i]);
 	return (newstr);
 }
@@ -134,7 +131,7 @@ size_t	get_new_length(char	*str)
 				strncpy(var_name, var_start, (v_end - var_start));
 				var_name[(v_end - var_start)] = '\0';
 				if (getenv(var_name) != NULL)
-					new_len += strlen(getenv(var_name)) - (v_end - var_start);
+					new_len += ft_strlen(getenv(var_name)) - (v_end - var_start);
 				str = v_end;
 			}
 			else

@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:56:50 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/23 14:28:09 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/23 17:52:15 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,6 +236,32 @@ void forcfree(t_cmd *input)
 	}
 }
 
+char    *ft_readline()
+{
+    char *line;
+
+    line = NULL;
+    if (line)
+    {
+        free(line);
+        line = NULL;
+    }
+    line = readline(AC_GREEN"Minishell> ");
+    if (line)
+        add_history(line);
+    return (line);
+}
+
+void    sig_handler(int signum)
+{
+    if (signum == SIGINT)
+    {
+        printf("\n");
+        rl_on_new_line();
+        rl_replace_line("", 0);
+        rl_redisplay();
+    }
+}
 
 int main(int argc, char *argv[], char **env)
 {
@@ -246,32 +272,32 @@ int main(int argc, char *argv[], char **env)
 	char *newinput = NULL;
 	t_exe       *all = NULL;
 
-	while ((input = readline(AC_GREEN"prompt: ")))
-	{
-		if (input)
+	while ((input = ft_readline()))
+	{	
+		signal(SIGINT, sig_handler);
+		signal(SIGQUIT, SIG_IGN);
+		if (!ft_strcmp(input, "exit"))
+			break;
+		newinput = replace_vars(input);
+		feedlist(&all, newinput);
+		while (all)
 		{
-			// input = replace_env_vars(input);
-			newinput = replace_vars(input);
-			feedlist(&all, newinput);
-			while (all)
+			int i = 0;
+			while (all->lakher[i])
 			{
-				int i = 0;
-				while (all->lakher[i])
-				{
-					printf(AC_BLUE"%s \t", all->lakher[i]);
-					i++;
-				}
-				while (all->fd)
-				{
-					printf(AC_BLUE"%d \t", all->fd->fd);
-					all->fd = all->fd->next;
-				}
-				puts("");
-				all = all->next;
+				printf(AC_BLUE"%s \t",(char *)all->lakher[i]);
+				i++;
 			}
-			all = NULL;
-			// forcfree(&all);
+			while (all->fd)
+			{
+				printf(AC_BLUE"%d \t", all->fd->fd);
+				all->fd = all->fd->next;
+			}
+			puts("");
+			all = all->next;
 		}
+		all = NULL;
+		// // forcfree(&all);
 	}
 	exit(0);
 	return 0;

@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 03:04:10 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/23 14:14:23 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/23 18:34:24 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,11 @@ int ft_strcmp(const char *s1, const char *s2)
 int herdoc(char *name)
 {
 	int fd[2];
+	struct sigaction sa;
 	char *content;
 
 	pipe(fd);
-	while ((content = readline("haerdoc>")))
+	while ((content = readline(AC_WHITE"haerdoc>")))
 	{
 		if (strcmp(content, name) == 0)
 			break ;
@@ -107,6 +108,8 @@ void creat_files(t_cmd *cmd, t_exe **exe)
 	t_fd *fd_list;
 	int fd;
 
+	if (!cmd || !exe)
+		return ;
 	tmp = cmd;
 	fd_list = NULL;
 	tmp_exe = *exe;
