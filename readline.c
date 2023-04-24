@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:56:50 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/23 17:52:15 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/24 15:08:02 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,71 +48,7 @@ t_list *env_list()
 	return (all);
 }
 
-int operatorscount(char *str, int *hash)
-{
-	int i;
-	int count = 0;
-	int c = 0;
 
-	i = -1;
-	feedhashtable(&hash, str);
-	while (str[++i])
-	{
-			count = 0;
-			while (str[i] && (str[i] == '<' || str[i] == '>') && hash[i] == 0)
-			{
-				count++;
-				i++;
-			}
-			if ((count == 1 || count == 2))
-				c++;
-			else if (count > 2)
-				return (1337);
-	}
-	return (c);
-}
-
-char    *add_spaces_around_operators(char *s, int *hash)
-{
-	char    *result;
-	int i;
-	int u;
-	int c;
-
-	i = 0;
-	
-	result = ft_strdup("");
-	feedhashtable(&hash, s);
-	while (s[i])
-	{
-		u = i - 1;
-		c = 0;
-		if (s[i] == '|' && hash[i] == 0)
-		{
-			result = ft_strjoin_char(result,' ');
-			result = ft_strjoin_char(result, s[i++]);
-			result = ft_strjoin_char(result,' ');
-		}
-		else
-		{
-			while(s[++u] && (s[u] == '<' || s[u] == '>') && hash[u] == 0)
-				c++;
-			if (c == 1 || c == 2)
-			{
-				result = ft_strjoin_char(result,' ');
-				while (s[i] && (s[i] == '>' || s[i] == '<'))
-					result = ft_strjoin_char(result, s[i++]);
-				result = ft_strjoin_char(result,' ');
-			}
-			else if(c > 2)
-				while (s[i] && c--)
-					result = ft_strjoin_char(result, s[i++]);
-			else
-				result = ft_strjoin_char(result, s[i++]);
-		}
-	}
-	return (result);
-}
 
 int  checkcmd(char *cmd, int *hash)
 {
@@ -263,11 +199,9 @@ void    sig_handler(int signum)
     }
 }
 
-int main(int argc, char *argv[], char **env)
+int main()
 {
-	(void)argv;
-	(void)argc;
-	environ = env;
+
 	char *input = NULL;
 	char *newinput = NULL;
 	t_exe       *all = NULL;

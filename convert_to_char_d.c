@@ -6,11 +6,35 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 01:40:48 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/19 23:12:41 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/24 12:08:00 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*removequote(char *str)
+{
+	char	*newstr;
+	int		*hash;
+	int		i;
+
+	i = 0;
+	hash = NULL;
+	feedhashtable(&hash, str);
+	newstr = ft_strdup("");
+	while (str[i])
+	{
+		if ((str[i] == '\"' || str[i] == '\'') && hash[i] == 0)
+			i++;
+		else
+		{
+			newstr = ft_strjoin_char(newstr, str[i]);
+			i++;
+		}
+	}
+	newstr = ft_strjoin_char(newstr, str[i]);
+	return (newstr);
+}
 
 int	sizechar(t_cmd *cmd)
 {
@@ -32,29 +56,6 @@ int	sizechar(t_cmd *cmd)
 			rest = rest->next;
 			i++;
 		}
-	}
-	return (i);
-}
-
-int	size_pip(t_cmd *cmd)
-{
-	t_cmd	*rest;
-	int		i;
-
-	i = 0;
-	rest = cmd;
-	if (rest && rest->type == 2)
-		rest = rest->next;
-	while (rest)
-	{
-		if (rest->type != 2)
-		{
-			i++;
-			while (rest && rest->type != 2)
-				rest = rest->next;
-		}
-		else
-			rest = rest->next;
 	}
 	return (i);
 }
@@ -84,4 +85,18 @@ void	table_lakher(t_cmd *cmd, t_exe **lakher)
 	ft_lstadd_backallcmd(lakher, ft_lstnewallcmd((void **)spl, NULL));
 	if (rest && rest->next)
 		table_lakher(rest, lakher);
+}
+
+char	get_type(char *str)
+{
+	if (ft_strcmp(str, ">>") == 0)
+		return ('a');
+	else if (ft_strcmp(str, "<<") == 0)
+		return ('h');
+	else if (ft_strcmp(str, "<") == 0)
+		return ('i');
+	else if (ft_strcmp(str, ">") == 0)
+		return ('o');
+	else
+		return ('x');
 }

@@ -6,11 +6,11 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 12:07:36 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/12 23:54:32 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/24 14:30:17 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 
 int	nb_c(char *str, char c, int *hash)

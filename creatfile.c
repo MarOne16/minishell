@@ -6,33 +6,25 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 03:04:10 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/23 18:34:24 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/24 15:02:45 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
-int ft_strcmp(const char *s1, const char *s2)
+int	herdoc(char *name)
 {
-    while (*s1 && (*s1 == *s2)) {
-        s1++;
-        s2++;
-    }
-    return *(const unsigned char*)s1 - *(const unsigned char*)s2;
-}
-
-int herdoc(char *name)
-{
-	int fd[2];
-	struct sigaction sa;
-	char *content;
+	int		fd[2];
+	char	*content;
 
 	pipe(fd);
-	while ((content = readline(AC_WHITE"haerdoc>")))
+	while (1)
 	{
-		if (strcmp(content, name) == 0)
+		content = readline(AC_WHITE"heredoc> ");
+		if (content == NULL || ft_strcmp(content, name) == 0)
 			break ;
-		if ((size_t)write(fd[1], content, ft_strlen(content)) != ft_strlen(content))
+		if ((size_t)write(fd[1], content, ft_strlen(content)) \
+		!= ft_strlen(content))
 		{
 			printf(AC_RED"\nError writing to file.\n");
 			close(fd[1]);
@@ -43,88 +35,70 @@ int herdoc(char *name)
 	return (fd[0]);
 }
 
-int input(char *name)
+int	output_input_append(char *name, char type)
 {
-	int fd;
+	int	fd;
 
-	fd = open(name, O_RDONLY);
-	return (fd);
-}
-
-int	output_input(char *name, char type)
-{
-	int fd;
-
+	fd = 0;
 	if (type == 'o')
-		fd = open(name, O_CREAT | O_TRUNC | O_WRONLY, 0644);
-	else
+	{
+		fd = open(name, O_WRONLY | O_TRUNC);
+		if (fd == -1 && errno == ENOENT)
+			fd = open(name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	}
+	else if (type == 'i')
+	{
 		fd = open(name, O_RDONLY);
-	return (fd);
-}
-
-int append(char *name)
-{
-	int fd;
-
-	fd = open(name, O_RDWR | O_APPEND);
-	if (fd == -1 && errno == ENOENT)
-		fd = open(name, O_CREAT | O_RDWR | O_APPEND, 0644);
+		if (fd == -1 && errno == ENOENT)
+			fd = open(name, O_CREAT | O_RDONLY, 0644);
+	}
+	else if (type == 'a')
+	{
+		fd = open(name, O_RDWR | O_APPEND);
+		if (fd == -1 && errno == ENOENT)
+			fd = open(name, O_CREAT | O_RDWR | O_APPEND, 0644);
+	}
 	return (fd);
 }
 
 int	creat_fd(char type, char *name)
 {
-	int fd;
+	int	fd;
 
 	fd = 0;
-	if (type == 'a')
-		fd = append(name);		
-	else if (type == 'h')
+	if (type == 'h')
 		fd = herdoc(name);
-	else if ((type == 'i') || (type == 'o'))
-		fd = output_input(name, type);
-	else
-		return(fd);
+	else if ((type == 'i') || (type == 'o') || (type == 'a'))
+		fd = output_input_append(name, type);
 	return (fd);
 }
-char	get_type(char *str)
+
+void	creat_file_2(t_cmd *tmp, t_fd **fd_list)
 {
-	if (ft_strcmp(str, ">>") == 0)
-		return ('a');
-	else if (ft_strcmp(str, "<<") == 0)
-		return ('h');
-	else if (ft_strcmp(str, "<") == 0)
-		return ('i');
-	else if (ft_strcmp(str, ">") == 0)
-		return ('o');
-	else
-		return ('x');
+	int	fd;
+
+	fd = creat_fd(get_type(tmp->cmd), tmp->next->cmd);
+	if (fd == -1)
+	{
+		printf(AC_RED"\nError opening file.\n");
+		return ;
+	}
+	ft_lstadd_back_fd(fd_list, ft_lstnew_fd(get_type(tmp->cmd), fd));
 }
 
-void creat_files(t_cmd *cmd, t_exe **exe)
+void	creat_files(t_cmd *cmd, t_exe **exe)
 {
-	t_cmd *tmp;
-	t_exe *tmp_exe;
-	t_fd *fd_list;
-	int fd;
+	t_cmd	*tmp;
+	t_exe	*tmp_exe;
+	t_fd	*fd_list;
 
-	if (!cmd || !exe)
-		return ;
 	tmp = cmd;
 	fd_list = NULL;
 	tmp_exe = *exe;
 	while (tmp->next)
 	{
-		if(tmp->type == 1)
-		{
-			fd = creat_fd(get_type(tmp->cmd), tmp->next->cmd);
-			if (fd == -1)
-			{
-				printf(AC_RED"\nError opening file.\n");
-				return ;
-			}
-			ft_lstadd_back_fd(&fd_list, ft_lstnew_fd(get_type(tmp->cmd), fd));
-		}
+		if (tmp->type == 1)
+			creat_file_2(tmp, &fd_list);
 		else if (tmp->type == 2)
 		{
 			tmp_exe->fd = fd_list;

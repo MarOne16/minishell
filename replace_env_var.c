@@ -6,76 +6,11 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 03:59:05 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/23 16:02:30 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/24 13:16:08 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
-
-char	*ft_strjoin_char(char *s, char c)
-{
-	size_t	len;
-	char	*str;
-	int		i;
-
-	if (!s)
-		return (NULL);
-	len = ft_strlen(s) + 1;
-	str = (char *)malloc(sizeof(char) * (len + 1));
-	if (!str)
-		return (NULL);
-	i = 0;
-	while (s[i])
-	{
-		str[i] = s[i];
-		i++;
-	}
-	str[i] = c;
-	str[i + 1] = '\0';
-	free(s);
-	return (str);
-}
-
-char	*removequote(char *str)
-{
-	char	*newstr;
-	int		*hash;
-	int		i;
-
-	i = 0;
-	hash = NULL;
-	feedhashtable(&hash, str);
-	newstr = ft_strdup("");
-	while (str[i])
-	{
-		if ((str[i] == '\"' || str[i] == '\'') && hash[i] == 0)
-			i++;
-		else
-		{
-			newstr = ft_strjoin_char(newstr, str[i]);
-			i++;
-		}
-	}
-	newstr = ft_strjoin_char(newstr, str[i]);
-	return (newstr);
-}
-
-char	*get_env_value(char *name)
-{
-	int		i;
-	size_t	len;
-
-	len = ft_strlen(name);
-	i = 0;
-	while (environ[i] != NULL)
-	{
-		if ((ft_strncmpm(environ[i], name, (ft_strlen(environ[i]))) == 0) && \
-		len)
-			return (environ[i] + len + 1);
-		i++;
-	}
-	return (NULL);
-}
 
 int	checkbefor(char *cmd, int i, int *hash)
 {
@@ -166,7 +101,7 @@ char* replace_vars(char* str)
 				char* var_value = getenv(var_name);
 				if (var_value != NULL) {
 					size_t var_value_len = strlen(var_value);
-					memcpy(new_str_ptr, var_value, var_value_len);
+					ft_memcpy(new_str_ptr, var_value, var_value_len);
 					new_str_ptr += var_value_len;
 				}
 				else
