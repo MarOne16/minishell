@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 01:40:48 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/24 12:08:00 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/24 17:45:49 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ char	get_type(char *str)
 		return ('i');
 	else if (ft_strcmp(str, ">") == 0)
 		return ('o');
+	else if (ft_strcmp(str, "\t") == 0)
+		return ('t');
 	else
 		return ('x');
 }

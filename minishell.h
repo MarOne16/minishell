@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/24 15:09:51 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/24 16:11:47 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,12 +98,8 @@ int		count_words(char *str, char c, int *hash, size_t len);
 // replace_env_vars
 char	*replace_vars(char* str);
 // readline
-void    feedlist(t_exe **all, char *input);
-void	forcfree(t_cmd *input);
-void	feedhashtable(int **hush, char *input);
-int		typing(char *spl);
-void	creat_var(t_exe **cmd);
 void    sig_handler(int signum);
+char	*ft_readline(void);
 // convert_to_char
 int		sizechar(t_cmd *cmd);
 char	*removequote(char *str);
@@ -116,7 +112,14 @@ int		output_input(char *name, char type);
 int		append(char *name);
 int		creat_fd(char type, char *name);
 // parcing_tools
+int		check_rid(t_cmd *cmdspl);
 char	*add_spaces_around_operators(char *s, int *hash);
 int		operatorscount(char *str, int *hash);
+// parcing tools 2
+int		typing(char *spl);
+int		checkcmd(char *cmd, int *hash);
+void	feedhashtable(int **hush, char *input);
+void    feedlist(t_exe **all, char *input);
+
 
 #endif // MINISHELL

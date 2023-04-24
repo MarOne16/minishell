@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 12:13:19 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/24 15:19:31 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/24 16:43:08 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,4 +98,23 @@ char	*add_spaces_around_operators(char *s, int *hash)
 	result = add_spaces_around_redirection(tmp, hash);
 	free(tmp);
 	return (result);
+}
+
+int	check_rid(t_cmd *cmdspl)
+{
+	t_cmd	*reset2;
+
+	reset2 = cmdspl;
+
+	while (reset2)
+	{
+		if (reset2->type == 1 && \
+		(!reset2->next || (reset2->next->type != 0)))
+			return (1);
+		else if (reset2->type == 2 && (!reset2->next || \
+		(reset2->next->type == 2)))
+			return (1);
+		reset2 = reset2->next;
+	}
+	return (0);
 }
