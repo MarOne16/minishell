@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 03:59:05 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/21 05:40:26 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/04/24 15:38:04 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ char	*removequote(char *str)
 {
 	char	*newstr;
 	int		*hash;
-	char	*temp;
 	int		i;
 
 	i = 0;
@@ -53,31 +52,12 @@ char	*removequote(char *str)
 			i++;
 		else
 		{
-			temp = newstr;
 			newstr = ft_strjoin_char(newstr, str[i]);
 			i++;
 		}
 	}
-	temp = newstr;
 	newstr = ft_strjoin_char(newstr, str[i]);
 	return (newstr);
-}
-
-char	*get_env_value(char *name)
-{
-	int		i;
-	size_t	len;
-
-	len = ft_strlen(name);
-	i = 0;
-	while (environ[i] != NULL)
-	{
-		if ((ft_strncmpm(environ[i], name, (ft_strlen(environ[i]))) == 0) && \
-		len)
-			return (environ[i] + len + 1);
-		i++;
-	}
-	return (NULL);
 }
 
 int	checkbefor(char *cmd, int i, int *hash)
@@ -134,7 +114,7 @@ size_t	get_new_length(char	*str)
 				strncpy(var_name, var_start, (v_end - var_start));
 				var_name[(v_end - var_start)] = '\0';
 				if (getenv(var_name) != NULL)
-					new_len += strlen(getenv(var_name)) - (v_end - var_start);
+					new_len += ft_strlen(getenv(var_name)) - (v_end - var_start);
 				str = v_end;
 			}
 			else
@@ -162,7 +142,7 @@ char* replace_vars(char* str)
 				var_end++;
 			}
 			if (var_end > var_start) {
-				char var_name[MAX_VAR_LENGTH];
+				char var_name[1024];
 				size_t var_name_len = var_end - var_start;
 				strncpy(var_name, str + var_start, var_name_len);
 				var_name[var_name_len] = '\0';

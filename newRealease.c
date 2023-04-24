@@ -80,14 +80,32 @@ void Creat_exp(char **env)
 	(glob->exp) = list;
 
 }
+int size_fd(t_fd *fd)
+{
+	int i = 0;
+	while(fd)
+	{
+		i++;
+		fd = fd->next;
+	}
+	return(i);
+}
+
 void session(t_exe *all)
 {
-	 int size;
-	 size = size_prc(all);
-	 if(size == 1)
-	 {
-				check_builtin(all);
-	 }
-			// else if(!(ft_strncmp((*all)->cmd->type,"token",5)))
-			// 	check_token(all);	
+    int size;
+    int sizefd;
+    int fd;
+    int saved_stdout_fd; // store the original file descriptor for stdout
+
+    size = size_prc(all);
+    sizefd = size_fd(all->fd);
+    if (size == 1 && sizefd == 0)
+    {
+		check_builtin(all);
+    }
+    else if (size == 1 && sizefd > 0)
+    {
+        
+    }
 }

@@ -68,7 +68,6 @@ void check_builtin(t_exe *all)
     char *s;
     char **n;
     extern char **environ;
-
     s = all->lakher[0];
     n = (char **)all->lakher;
     if(!(ft_strncmp(s,"echo",4)) && ft_strlen(s) == 4)

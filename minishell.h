@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/24 11:45:04 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/04/24 15:41:37 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,26 +23,29 @@
 # define AC_WHITE "\x1b[37m"
 # define AC_NORMAL "\x1b[m"
 
+# include <errno.h>
 # include <unistd.h>
 # include <ctype.h>
 # include <fcntl.h>
 # include <stdio.h>
 # include <limits.h>
 # include <errno.h>
+# include <termios.h>
 # include <string.h>
+# include <signal.h>
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft/libft.h"
 # define MAX_VAR_LENGTH 1024
 
-char **environ;
-
 typedef struct s_fd
 {
 	char		type;
 	int			fd;
 	struct s_fd	*next;
+	struct s_fd	*previus;
+	
 }			t_fd;
 
 typedef struct s_exe
@@ -123,8 +126,13 @@ int		ft_lstsizetprc(t_cmd *lst);
 t_cmd	*ft_lstlastcmd(t_cmd *lst);
 void	ft_lstadd_backallcmd(t_exe **lst, t_exe *new);
 void	ft_lstadd_backcmd(t_cmd **lst, t_cmd *new);
+void	ft_lstadd_back_fd(t_fd **lst, t_fd *new);
+t_fd	*ft_lstlast_fd(t_fd *lst);
+t_fd	*ft_lstnew_fd(char type, int fd);
+void	ft_lstadd_front_fd(t_fd **lst, t_fd *new);
 // atoi & split tools
 int		nb_c(char *s, char c,int *hash);
+int		ft_strcmp(const char *s1, const char *s2);
 int		ft_strncmpm(char *s1,  char *s2, size_t n);
 int		strlenword(char *s, char c, int i, int *hush);
 void	ft_free(char **strs, int j);
@@ -142,10 +150,18 @@ int		operatorscount(char *str, int *hash);
 char	*add_spaces_around_operators(char *s, int *hash);
 int		typing(char *spl);
 void	creat_var(t_exe **cmd);
+void    sig_handler(int signum);
 // convert_to_char
 int		sizechar(t_cmd *cmd);
 int		size_pip(t_cmd *cmd);
 void	table_lakher(t_cmd *cmd, t_exe **lakher);
+// creat_fd
+void	creat_files(t_cmd *cmd, t_exe **exe);
+int		herdoc(char *name);
+int		output_input(char *name, char type);
+int		append(char *name);
+int		creat_fd(char type, char *name);
+char	get_type(char *str);
 
 // typedef struct s_data
 // {

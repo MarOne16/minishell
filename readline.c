@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:56:50 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/23 07:19:48 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/24 15:37:52 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,6 +221,7 @@ void    feedlist(t_exe **all, char *input)
 		return ;
 	}
 	table_lakher(cmdspl, all);
+	creat_files(cmdspl, all);
 }
 
 void forcfree(t_cmd *input)
@@ -258,8 +259,36 @@ void iter(int n)
 	
 }
 
+char    *ft_readline()
+{
+    char *line;
+
+    line = NULL;
+    if (line)
+    {
+        free(line);
+        line = NULL;
+    }
+    line = readline(AC_GREEN"Minishell> ");
+    if (line)
+        add_history(line);
+    return (line);
+}
+
+void    sig_handler(int signum)
+{
+    if (signum == SIGINT)
+    {
+        printf("\n");
+        rl_on_new_line();
+        rl_replace_line("", 0);
+        rl_redisplay();
+    }
+}
+
 int main(int argc, char *argv[], char **env)
 {
+	(void)argv;
 	(void)argc;
 	char *input = NULL;
 	char *newinput = NULL;
@@ -271,31 +300,18 @@ int main(int argc, char *argv[], char **env)
 	}
 	Creat_env(env);
 	Creat_exp(env);
-	while ((input = readline(AC_GREEN"prompt: ")))
-	{
-		if (input)
-		{
-			// input = replace_env_vars(input);
-			newinput = replace_vars(input);
-			feedlist(&all, newinput);
-			session(all);
-			// while (all)
-			// {
-			// 	int i = 0;
-			// 	while (all->lakher[i])
-			// 	{
-			// 		printf(AC_BLUE"%s \t", all->lakher[i]);
-			// 		i++;
-			// 	}
-			// 	puts("\n");
-			// 	all = all->next;
-			// }
-			
-			all = NULL;
-			// forcfree(&all);
-		}
+	while ((input = ft_readline()))
+	{	
+		signal(SIGINT, sig_handler);
+		signal(SIGQUIT, SIG_IGN);
+		if (!ft_strcmp(input, "exit"))
+			break;
+		newinput = replace_vars(input);
+		feedlist(&all, newinput);
+		session(all);
+		all = NULL;
+		// // forcfree(&all);
 	}
 	exit(0);
 	return 0;
 }
-
