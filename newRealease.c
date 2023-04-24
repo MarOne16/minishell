@@ -91,21 +91,57 @@ int size_fd(t_fd *fd)
 	return(i);
 }
 
+int in_fd(t_fd *tabfd)
+{
+	int i = 0;
+	while(tabfd)
+	{
+		if(tabfd->type == 'i')
+			i = tabfd->fd;
+		tabfd = tabfd->next;
+	}
+	return(i);
+}
+
+int out_fd(t_fd *tabfd)
+{
+	int i = 0;
+	while(tabfd)
+	{
+		if(tabfd->type == 'a' || tabfd->type == 'o')
+			i = tabfd->fd;
+		tabfd = tabfd->next;
+	}
+	return(i);
+}
 void session(t_exe *all)
 {
     int size;
-    int sizefd;
-    int fd;
-    int saved_stdout_fd; // store the original file descriptor for stdout
+	int saved_stdin_fd;
+	int saved_stdout_fd;
+	int infd;
+	int outfd;
 
     size = size_prc(all);
-    sizefd = size_fd(all->fd);
-    if (size == 1 && sizefd == 0)
-    {
+
+    if (size == 1)
+	{
+		infd = in_fd(all->fd);
+		outfd = out_fd(all->fd);
+        if(infd)
+		{
+			saved_stdin_fd = dup(STDIN_FILENO);
+			dup2(infd,STDIN_FILENO);
+		}
+		if(outfd)
+		{
+			saved_stdout_fd = dup(STDOUT_FILENO);
+			dup2(outfd,STDOUT_FILENO);
+		}
 		check_builtin(all);
-    }
-    else if (size == 1 && sizefd > 0)
-    {
-        
+		if(infd)
+			dup2(saved_stdin_fd,STDIN_FILENO);
+		if(outfd)
+			dup2(saved_stdout_fd,STDOUT_FILENO);
     }
 }
