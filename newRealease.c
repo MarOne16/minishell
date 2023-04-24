@@ -19,7 +19,7 @@ void Creat_env(char **env)
 		tmp = ft_my_split(env[i],'=');
 		if(tmp[0] && tmp[1])
 		{
-			ft_my_lstadd_back(&listenv,ft_my_lstnew((ft_strjoin_char(tmp[0],'=')),tmp[1]));
+			ft_my_lstadd_back(&listenv,ft_my_lstnew(tmp[0],ft_strjoin("=",tmp[1])));
 		}
 		i++;
 	}
@@ -69,9 +69,6 @@ void Creat_exp(char **env)
 	s_env = sort_env(env);
 	while (s_env[i])
 		i++;
-	// list = (t_my_list **)malloc(sizeof(t_my_list *) * i + 1);
-	// if (!list)
-	// 	perror("malloc");
 	i = 0;
 	while (s_env[i])
 	{

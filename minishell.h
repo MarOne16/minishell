@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/23 07:10:59 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/24 11:45:04 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,8 @@ void free_var_exp(char *s , int size);
 void free_var_env(char *s , int size);
 int size_prc(t_exe *allcmd);
 int size_cmd(char **cmd);
+char	*ft_strjoin(char  *s1, char  *s2);
+void ex_cmd(char ** cmd);
 
 
 

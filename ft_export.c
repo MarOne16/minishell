@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 02:57:56 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/23 07:16:32 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/23 21:02:33 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,7 @@ int check_var(char *s)
 char  *check_value(char *s)
 {
     int i = 0;
-    int j = 0;
     int cmdsize = 0;
-    char *val = NULL;
     cmdsize = ft_strlen(s);
         if(cmdsize ==0)
             return(NULL);
@@ -70,16 +68,8 @@ char  *check_value(char *s)
             i++;
     if(s[i] == '\0' )
             return(NULL);
-    // if(s[i] == '=')
-    //         i++;
-    if(cmdsize > i)
-        val = (char *)malloc(sizeof(char) * cmdsize - i);
-    while(s[i] && i <= cmdsize)
-    {
-             val[j++] = s[i];
-                i++;
-    }
-    return(val);
+    s = &s[i];
+    return(s);
 }
 
 int first_check(char *s)

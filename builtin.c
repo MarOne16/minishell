@@ -22,34 +22,34 @@ char ** empty_env(char **av)
 // 	return (0);
 // }
 
-// char	*ft_strjoin(char  *s1, char  *s2)
-// {
-// 	int	s1len;
-// 	int	s2len;
-// 	char	*ptr;
-// 	int		j;
+char	*ft_strjoin(char  *s1, char  *s2)
+{
+	int	s1len;
+	int	s2len;
+	char	*ptr;
+	int		j;
 
-// 	j = -1;
-//     s1len=0;
-//     s2len=0;
-// 	if (!s1 && !s2)
-// 		return (NULL);
-// 	    s1len = ft_strlen(s1);
-// 	    s2len = ft_strlen(s2);
-// 		ptr = (char *)malloc(s2len + s1len + 1);
-// 		if (!ptr)
-// 			return (NULL);
-// 		while( ++j <= s1len)
-// 			ptr[j] = s1[j];
-// 		j=0;
-// 		while (s2len)
-// 		{
-// 			ptr[s1len++] = s2[j++];
-// 				s2len--;
-// 		}
-// 		ptr[s1len] = '\0';
-// 		return (ptr);
-// }
+	j = -1;
+    s1len=0;
+    s2len=0;
+	if (!s1 && !s2)
+		return (NULL);
+	    s1len = ft_strlen(s1);
+	    s2len = ft_strlen(s2);
+		ptr = (char *)malloc(s2len + s1len + 1);
+		if (!ptr)
+			return (NULL);
+		while( ++j <= s1len)
+			ptr[j] = s1[j];
+		j=0;
+		while (s2len)
+		{
+			ptr[s1len++] = s2[j++];
+				s2len--;
+		}
+		ptr[s1len] = '\0';
+		return (ptr);
+}
 
 void ft_env()
 {
@@ -87,6 +87,9 @@ void check_builtin(t_exe *all)
     {
         ft_exit(n);
     }
-    
+    else
+    {
+        ex_cmd(n);
+    }
 }
 

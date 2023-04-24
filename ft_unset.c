@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 01:33:25 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/23 07:15:56 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/24 11:25:51 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,15 @@ int check_unset_var(char *s)
 
 void free_var_exp(char *s , int size)
 {
-    t_my_list* temp_env = (glob->exp); 
+    t_my_list* temp_env = (glob->exp);
+    t_my_list* tmp;
     while(temp_env && temp_env->next)
     {
         if(!ft_strncmp(s,temp_env->next->name,size) && (int)ft_strlen(temp_env->next->name) == size)
         {
-            free(temp_env->next);
-            temp_env->next = NULL;
+            tmp = temp_env->next;
+            temp_env->next = tmp->next;
+            free(tmp);
             free_var_env(s,size);
         }
         temp_env = temp_env->next;
@@ -53,13 +55,15 @@ void free_var_exp(char *s , int size)
 }
 void free_var_env(char *s , int size)
 {
-    t_my_list* temp_env = (glob->env); 
+    t_my_list* temp_env = (glob->env);
+    t_my_list* tmp;
     while(temp_env && temp_env->next)
     {
         if(!ft_strncmp(s,temp_env->next->name,size) && (int)ft_strlen(temp_env->next->name) == size)
         {
-            free(temp_env->next);
-            temp_env->next = NULL;
+            tmp = temp_env->next;
+            temp_env->next = tmp->next;
+            free(tmp);
         }
         temp_env = temp_env->next;
     }
