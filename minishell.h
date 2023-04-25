@@ -6,22 +6,12 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/24 16:11:47 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/25 14:39:10 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #if !defined(MINISHELL)
 # define MINISHELL
-
-# define AC_BLACK "\x1b[30m"
-# define AC_RED "\x1b[31m"
-# define AC_GREEN "\x1b[32m"
-# define AC_YELLOW "\x1b[33m"
-# define AC_BLUE "\x1b[34m"
-# define AC_MAGENTA "\x1b[35m"
-# define AC_CYAN "\x1b[36m"
-# define AC_WHITE "\x1b[37m"
-# define AC_NORMAL "\x1b[m"
 
 # include <errno.h>
 # include <unistd.h>
@@ -37,6 +27,8 @@
 # include <readline/history.h>
 # include "./libft/libft.h"
 # define MAX_VAR_LENGTH 1024
+
+int ft_rl_done;
 
 typedef struct s_fd
 {
@@ -100,6 +92,10 @@ char	*replace_vars(char* str);
 // readline
 void    sig_handler(int signum);
 char	*ft_readline(void);
+void	sig_here(int sig);
+int		my_event(void);
+void	sig_int(void);
+
 // convert_to_char
 int		sizechar(t_cmd *cmd);
 char	*removequote(char *str);

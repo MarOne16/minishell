@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 03:04:10 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/24 17:45:18 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/25 14:44:23 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,22 @@ int	herdoc(char *name)
 	int		fd[2];
 	char	*content;
 
+	sig_int();
 	pipe(fd);
+	(void) name;
 	while (1)
 	{
-		content = readline(AC_WHITE"heredoc> ");
-		if (content == NULL || ft_strcmp(content, name) == 0)
+		content = readline("> ");
+		if (content == NULL || !ft_strcmp(content, name) || \
+		(ft_rl_done == 1 && rl_done == 1))
+		{
+			ft_rl_done = 0;
 			break ;
+		}
 		if ((size_t)write(fd[1], content, ft_strlen(content)) \
 		!= ft_strlen(content))
 		{
-			printf(AC_RED"\nError writing to file.\n");
+			printf("\nError writing to file.\n");
 			close(fd[1]);
 			return (1);
 		}
@@ -69,7 +75,9 @@ int	creat_fd(char type, char *name)
 	if (name[0] == '\t')
 		return (-1);
 	if (type == 'h')
+	{
 		fd = herdoc(name);
+	}
 	else if ((type == 'i') || (type == 'o') || (type == 'a'))
 		fd = output_input_append(name, type);
 	return (fd);
@@ -81,7 +89,7 @@ void	creat_file_2(t_cmd *tmp, t_fd **fd_list)
 
 	fd = creat_fd(get_type(tmp->cmd), tmp->next->cmd);
 	if (fd == -1)
-		printf(AC_RED"Error opening file.\n");
+		printf("Error opening file.\n");
 	ft_lstadd_back_fd(fd_list, ft_lstnew_fd(get_type(tmp->cmd), fd));
 }
 

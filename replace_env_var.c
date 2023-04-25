@@ -6,28 +6,42 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 03:59:05 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/24 13:16:08 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/25 11:03:12 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
+
+typedef struct s_tool
+{
+	size_t	new_len;
+	char	*vs;
+	char	*ve;
+	char	*new_str;
+	char	*new_str_ptr;
+	int		*hash;
+	size_t	var_start;
+	size_t	var_end;
+	size_t	i;
+	size_t	var_name_len;
+	size_t	var_value_len;
+	char 	*var_value;
+	char	var_name[MAX_VAR_LENGTH];
+}			t_tools;
 
 int	checkbefor(char *cmd, int i, int *hash)
 {
 	int	count;
 	int	u;
 
-	u = i;
+	u = i + 1;
 	i--;
 	count = 0;
 	if ((i < 0) || (i >= (int)strlen(cmd)))
 		return (0);
-	while (u >= 0)
-	{
+	while (--u >= 0)
 		if (cmd[u] == '\'' && hash[u] == 0)
 			count++;
-		u--;
-	}
 	if (count % 2)
 		return (1);
 	while (cmd[i] && i >= 1)
@@ -41,81 +55,93 @@ int	checkbefor(char *cmd, int i, int *hash)
 			return (0);
 	}
 	return (0);
+
+}
+
+int	new_len(char **str, size_t new_len)
+{
+	struct s_tool	t;
+
+	t.vs = *str + 1;
+	t.ve = *str + 1;
+	while (*t.ve != '\0' && (*t.ve == '_' || ft_isalnum(*t.ve)))
+		t.ve++;
+	if (t.ve > t.vs)
+	{
+		ft_memcpy(t.var_name, t.vs, t.ve - t.vs);
+		t.var_name[t.ve - t.vs] = '\0';
+		if (getenv(t.var_name) != NULL)
+			new_len += ft_strlen(getenv(t.var_name));
+		else
+			new_len += 1;
+		*str = t.ve;
+	}
+	else
+		*str = t.ve;
+	return (new_len);
 }
 
 size_t	get_new_length(char	*str)
 {
-	size_t	new_len;
-	char	*var_start;
-	char	*v_end;
-	char	var_name[MAX_VAR_LENGTH];
+	struct s_tool	t;
 
-	new_len = ft_strlen(str) + 1;
+	t.new_len = ft_strlen(str) + 1;
 	while (*str != '\0')
 	{
 		if (*str == '$')
-		{
-			var_start = str + 1;
-			v_end = str + 1;
-			while (*v_end != '\0' && (*v_end == '_' || ft_isalnum(*v_end)))
-				v_end++;
-			if (v_end > var_start)
-			{
-				if ((int)(v_end - var_start) > (int)(sizeof(var_name) - 1))
-					return (0);
-				strncpy(var_name, var_start, (v_end - var_start));
-				var_name[(v_end - var_start)] = '\0';
-				if (getenv(var_name) != NULL)
-					new_len += ft_strlen(getenv(var_name)) - (v_end - var_start);
-				str = v_end;
-			}
-			else
-				str++;
-		}
+			t.new_len += new_len(&str, t.new_len);
 		else
 			str++;
 	}
-	return (new_len);
+	return (t.new_len);
 }
 
-char* replace_vars(char* str)
+char	*return_new_ptr(char *str, char *new_str_ptr, t_tools t, int i)
 {
-	int *hash;
-	
-	feedhashtable(&hash, str);
-	char* new_str = malloc(get_new_length(str));
-	char* new_str_ptr = new_str;
-	size_t i = 0;
-	while (str[i] != '\0') {
-		if (str[i] == '$' && !checkbefor(str, i, hash)) {
-			size_t var_start = i + 1;
-			size_t var_end = i + 1;
-			while (str[var_end] != '\0' && (str[var_end] == '_' || ft_isalnum(str[var_end]))) {
-				var_end++;
-			}
-			if (var_end > var_start) {
-				char var_name[1024];
-				size_t var_name_len = var_end - var_start;
-				strncpy(var_name, str + var_start, var_name_len);
-				var_name[var_name_len] = '\0';
-				char* var_value = getenv(var_name);
-				if (var_value != NULL) {
-					size_t var_value_len = strlen(var_value);
-					ft_memcpy(new_str_ptr, var_value, var_value_len);
-					new_str_ptr += var_value_len;
+	while (str[i] != '\0') 
+	{
+		if (str[i] == '$' && !checkbefor(str, i, t.hash))
+		{
+			t.var_start = i + 1;
+			t.var_end = i + 1;
+			while (str[t.var_end] != '\0' && (str[t.var_end] == '_' || ft_isalnum(str[t.var_end])))
+				t.var_end++;
+			if (t.var_end > t.var_start)
+			{
+				t.var_name_len = t.var_end - t.var_start;
+				strncpy(t.var_name, str + t.var_start, t.var_name_len);
+				t.var_name[t.var_name_len] = '\0';
+				t.var_value = getenv(t.var_name);
+				if (t.var_value != NULL)
+				{
+					t.var_value_len = strlen(t.var_value);
+					ft_memcpy(new_str_ptr, t.var_value, t.var_value_len);
+					new_str_ptr += t.var_value_len;
 				}
 				else
 					*new_str_ptr++ = '\t';
-				i = var_end;
-			} else {
-				*new_str_ptr++ = str[i++];
+				i = t.var_end;
 			}
-		} else {
-			*new_str_ptr++ = str[i++];
+			else
+				*new_str_ptr++ = str[i++];
 		}
+		else
+			*new_str_ptr++ = str[i++];
 	}
-	*new_str_ptr = '\0';
-	return new_str;
+	return (new_str_ptr);
+}
+
+
+char* replace_vars(char* str)
+{
+	struct s_tool	t;
+
+	feedhashtable(&t.hash, str);
+	t.new_str = malloc(get_new_length(str));
+	t.new_str_ptr = t.new_str;
+	t.i = 0;
+	t.new_str_ptr = return_new_ptr(str, t.new_str_ptr, t, t.i);
+	return (*t.new_str_ptr = '\0', t.new_str);
 }
 
 

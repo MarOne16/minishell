@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:56:50 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/24 16:12:52 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/25 14:38:04 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_readline(void)
 		free(line);
 		line = NULL;
 	}
-	line = readline(AC_GREEN"Minishell> ");
+	line = readline("Minishell> ");
 	if (line)
 		add_history(line);
 	return (line);
@@ -37,4 +37,23 @@ void	sig_handler(int signum)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
+}
+
+void sig_here(int sig)
+{
+	(void)sig;
+	ft_rl_done = 1;
+	rl_done = 1;
+}
+
+int	my_event(void)
+{
+	return (0);
+}
+
+void	sig_int(void)
+{
+	rl_event_hook = my_event;
+	signal(SIGINT, sig_here);
+	signal(SIGQUIT, SIG_IGN);
 }

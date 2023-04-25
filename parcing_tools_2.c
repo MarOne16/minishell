@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 16:04:01 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/24 16:04:54 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/25 14:39:33 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	feedlist(t_exe **all, char *input)
 	{
 		free(hash);
 		free(newinput);
-		printf(AC_RED"syntax error\n");
+		printf("syntax error\n");
 		return ;
 	}
 	table_lakher(cmdspl, all);
