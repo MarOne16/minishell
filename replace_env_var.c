@@ -6,28 +6,11 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 03:59:05 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/25 11:03:12 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/25 15:08:19 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
-
-typedef struct s_tool
-{
-	size_t	new_len;
-	char	*vs;
-	char	*ve;
-	char	*new_str;
-	char	*new_str_ptr;
-	int		*hash;
-	size_t	var_start;
-	size_t	var_end;
-	size_t	i;
-	size_t	var_name_len;
-	size_t	var_value_len;
-	char 	*var_value;
-	char	var_name[MAX_VAR_LENGTH];
-}			t_tools;
+#include "minishell.h"
 
 int	checkbefor(char *cmd, int i, int *hash)
 {
@@ -55,7 +38,6 @@ int	checkbefor(char *cmd, int i, int *hash)
 			return (0);
 	}
 	return (0);
-
 }
 
 int	new_len(char **str, size_t new_len)
@@ -96,52 +78,30 @@ size_t	get_new_length(char	*str)
 	return (t.new_len);
 }
 
-char	*return_new_ptr(char *str, char *new_str_ptr, t_tools t, int i)
+t_tools	get_variable_info(char *str, int i)
 {
-	while (str[i] != '\0') 
+	t_tools	t;
+
+	t.var_start = i + 1;
+	t.v_e = i + 1;
+	while (str[t.v_e] && (str[t.v_e] == '_' || ft_isalnum(str[t.v_e])))
 	{
-		if (str[i] == '$' && !checkbefor(str, i, t.hash))
-		{
-			t.var_start = i + 1;
-			t.var_end = i + 1;
-			while (str[t.var_end] != '\0' && (str[t.var_end] == '_' || ft_isalnum(str[t.var_end])))
-				t.var_end++;
-			if (t.var_end > t.var_start)
-			{
-				t.var_name_len = t.var_end - t.var_start;
-				strncpy(t.var_name, str + t.var_start, t.var_name_len);
-				t.var_name[t.var_name_len] = '\0';
-				t.var_value = getenv(t.var_name);
-				if (t.var_value != NULL)
-				{
-					t.var_value_len = strlen(t.var_value);
-					ft_memcpy(new_str_ptr, t.var_value, t.var_value_len);
-					new_str_ptr += t.var_value_len;
-				}
-				else
-					*new_str_ptr++ = '\t';
-				i = t.var_end;
-			}
-			else
-				*new_str_ptr++ = str[i++];
-		}
-		else
-			*new_str_ptr++ = str[i++];
+		t.v_e++;
 	}
+	if (t.v_e > t.var_start)
+	{
+		t.var_name_len = t.v_e - t.var_start;
+		strncpy(t.var_name, str + t.var_start, t.var_name_len);
+		t.var_name[t.var_name_len] = '\0';
+		t.var_value = getenv(t.var_name);
+	}
+	return (t);
+}
+
+char	*append_variable_value(t_tools t, char *new_str_ptr)
+{
+	t.var_value_len = strlen(t.var_value);
+	ft_memcpy(new_str_ptr, t.var_value, t.var_value_len);
+	new_str_ptr += t.var_value_len;
 	return (new_str_ptr);
 }
-
-
-char* replace_vars(char* str)
-{
-	struct s_tool	t;
-
-	feedhashtable(&t.hash, str);
-	t.new_str = malloc(get_new_length(str));
-	t.new_str_ptr = t.new_str;
-	t.i = 0;
-	t.new_str_ptr = return_new_ptr(str, t.new_str_ptr, t, t.i);
-	return (*t.new_str_ptr = '\0', t.new_str);
-}
-
-

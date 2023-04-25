@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/25 14:39:10 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/25 15:10:47 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,23 @@ struct s_asao
 	int		*hash;
 }			t_asao;
 
+typedef struct s_tool
+{
+	size_t	new_len;
+	char	*vs;
+	char	*ve;
+	char	*new_str;
+	char	*new_str_ptr;
+	int		*hash;
+	size_t	var_start;
+	size_t	v_e;
+	size_t	i;
+	size_t	var_name_len;
+	size_t	var_value_len;
+	char	*var_value;
+	char	var_name[MAX_VAR_LENGTH];
+}			t_tools;
+
 // list tools allcmd
 t_exe	*ft_lstnewallcmd(void **cmd, void *fd);
 void	ft_lstadd_frontcmd(t_exe **lst, t_exe *new);
@@ -89,13 +106,19 @@ char	**ft_splithash(char *s, char c, int *hush);
 int		count_words(char *str, char c, int *hash, size_t len);
 // replace_env_vars
 char	*replace_vars(char* str);
+int		checkbefor(char *cmd, int i, int *hash);
+int		new_len(char **str, size_t new_len);
+size_t	get_new_length(char	*str);
+t_tools	get_variable_info(char *str, int i);
+char	*append_variable_value(t_tools t, char *new_str_ptr);
+char	*return_new_ptr(char *str, char *new_str_ptr, t_tools t, int i);
+char	*replace_vars(char	*str);
 // readline
 void    sig_handler(int signum);
 char	*ft_readline(void);
 void	sig_here(int sig);
 int		my_event(void);
 void	sig_int(void);
-
 // convert_to_char
 int		sizechar(t_cmd *cmd);
 char	*removequote(char *str);
@@ -116,6 +139,5 @@ int		typing(char *spl);
 int		checkcmd(char *cmd, int *hash);
 void	feedhashtable(int **hush, char *input);
 void    feedlist(t_exe **all, char *input);
-
 
 #endif // MINISHELL

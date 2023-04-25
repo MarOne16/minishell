@@ -8,7 +8,7 @@ FLAGS		=	-Wall -Wextra -Werror -I/goinfre/mqaos/.brew/opt/readline/include -g -f
 RM			=	rm -rf
 HEADER		=	minishell.h
 SOURCE		=	lsttools/lst_all_cmd.c lsttools/lst_cmd.c lsttools/lst_fd.c \
-				readline.c minishell_tools.c replace_env_var.c creatfile.c convert_to_char_d.c parcing_tools.c \
+				readline.c minishell_tools.c replace_env_var.c replace_env_var_2.c creatfile.c convert_to_char_d.c parcing_tools.c \
 				parcing_tools_2.c minishell.c
 
 OBJS		=	$(SOURCE:.c=.o)
