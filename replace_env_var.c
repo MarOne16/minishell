@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 03:59:05 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/25 16:06:03 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/25 16:38:42 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	checkbefor(char *cmd, int i, int *hash)
 	i--;
 	count = 0;
 	feedhashtable(&hash, cmd);
-	if ((i < 0) || (i >= (int)strlen(cmd)))
+	if ((i < 0) || (i >= (int)ft_strlen(cmd)))
 		return (0);
 	while (--u >= 0)
 		if (cmd[u] == '\'' && hash[u] == 0)

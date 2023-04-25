@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/25 15:10:47 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/25 16:52:06 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ int		check_rid(t_cmd *cmdspl);
 char	*add_spaces_around_operators(char *s, int *hash);
 int		operatorscount(char *str, int *hash);
 // parcing tools 2
+char	*add_space_before_quote(char	*s);
 int		typing(char *spl);
 int		checkcmd(char *cmd, int *hash);
 void	feedhashtable(int **hush, char *input);

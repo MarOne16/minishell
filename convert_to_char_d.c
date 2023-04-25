@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 01:40:48 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/24 17:45:49 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/25 17:01:46 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ char	*removequote(char *str)
 		}
 	}
 	newstr = ft_strjoin_char(newstr, str[i]);
+	str = NULL;
+	free(str);
 	return (newstr);
 }
 
@@ -77,7 +79,7 @@ void	table_lakher(t_cmd *cmd, t_exe **lakher)
 			rest = rest->next->next;
 		else
 		{
-			spl[i++] = removequote(rest->cmd);
+			spl[i++] = (rest->cmd);
 			rest = rest->next;
 		}
 	}

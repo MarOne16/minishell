@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 16:04:01 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/25 14:39:33 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/25 17:07:21 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,31 @@ void	feedhashtable(int **hash, char *input)
 	}
 }
 
+char	*add_space_before_quote(char	*s)
+{
+	char	*result;
+	int		*hash;
+	int		i;
+
+	i = 0;
+	feedhashtable(&hash, s);
+	result = ft_strdup("");
+	while (s[i])
+	{
+		if ((s[i] == '\"' || s[i] == '\'') && hash[i] == 0)
+		{
+			result = ft_strjoin_char(result, ' ');
+			result = ft_strjoin_char(result, s[i++]);
+			while (hash[i] == 1 && s[i])
+				result = ft_strjoin_char(result, s[i++]);
+			result = ft_strjoin_char(result, ' ');
+		}
+		else
+			result = ft_strjoin_char(result, s[i++]);
+	}
+	return (result);
+}
+
 void	feedlist(t_exe **all, char *input)
 {
 	int		u;
@@ -79,13 +104,13 @@ void	feedlist(t_exe **all, char *input)
 
 	hash = NULL;
 	cmdspl = NULL;
-	feedhashtable(&hash, input);
 	newinput = add_spaces_around_operators(input, hash);
 	feedhashtable(&hash, newinput);
 	cmd = ft_splithash(newinput, ' ', hash);
 	u = -1;
 	while (cmd[++u])
-		ft_lstadd_backcmd(&cmdspl, ft_lstnewcmd(cmd[u], typing(cmd[u])));
+		ft_lstadd_backcmd(&cmdspl, \
+		ft_lstnewcmd(removequote(cmd[u]), typing(cmd[u])));
 	if (checkcmd(newinput, hash) || check_rid(cmdspl) || \
 	operatorscount(input, hash) == 1337)
 	{
