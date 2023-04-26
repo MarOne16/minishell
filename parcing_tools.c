@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 12:13:19 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/26 10:09:48 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/26 12:24:13 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	operatorscount(char *str, int *hash)
 	int	c;
 
 	c = 0;
-	count = 0;
 	i = -1;
 	feedhashtable(&hash, str);
 	while (str[++i])
@@ -106,7 +105,6 @@ int	check_rid(t_cmd *cmdspl)
 	t_cmd	*reset2;
 
 	reset2 = cmdspl;
-
 	while (reset2)
 	{
 		if (reset2->type == 1 && \

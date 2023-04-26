@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 16:04:01 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/26 10:07:48 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/26 13:54:33 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ int	checkcmd(char *cmd, int *hash)
 
 int	typing(char *spl)
 {
-	if (((spl[0] == '>' && spl[1] != '<') || \
-	(spl[0] == '<' && spl[1] != '>') || \
-	(spl[0] == '>' && spl[1] == '>') || \
-		((spl[0] == '<' && spl[1] == '<'))) && (ft_strlen(spl) <= 2))
+	if (((spl[0] == '>' && spl[1] != '<') \
+		|| (spl[0] == '<' && spl[1] != '>') \
+		|| (spl[0] == '>' && spl[1] == '>') \
+		|| (spl[0] == '<' && spl[1] == '<')))
 		return (1);
 	else if (spl[0] == '|' && ft_strlen(spl) <= 2)
 		return (2);
@@ -107,7 +107,8 @@ void	feedlist(t_exe **all, char *input)
 
 	hash = NULL;
 	cmdspl = NULL;
-	newinput = add_spaces_around_operators(input, hash);
+	// newinput = add_spaces_around_operators(input, hash);
+	newinput = input;
 	feedhashtable(&hash, newinput);
 	cmd = ft_splithash(newinput, ' ', hash);
 	u = -1;
@@ -117,7 +118,6 @@ void	feedlist(t_exe **all, char *input)
 	if (checkcmd(newinput, hash) || check_rid(cmdspl) || \
 	operatorscount(input, hash) == 1337)
 	{
-		free(hash);
 		free(newinput);
 		printf("syntax error\n");
 		return ;
