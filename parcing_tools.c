@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 12:13:19 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/25 17:06:32 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/26 10:09:48 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,7 @@ char	*add_spaces_around_operators(char *s, int *hash)
 	feedhashtable(&hash, tmp);
 	result = add_spaces_around_redirection(tmp, hash);
 	free(tmp);
-	tmp = add_space_before_quote(result);
-	free(result);
-	return (tmp);
+	return (result);
 }
 
 int	check_rid(t_cmd *cmdspl)

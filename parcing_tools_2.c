@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 16:04:01 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/25 17:07:21 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/26 10:07:48 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,13 @@ int	typing(char *spl)
 void	feedhashtable(int **hash, char *input)
 {
 	size_t	i;
+	int		hash2[ARG_MAX];
 
 	i = -1;
-
-	*hash = ft_calloc(ft_strlen(input) + 1, sizeof(int));
+	while (++i < ARG_MAX)
+		hash2[i] = 0;
+	i = -1;
+	*hash = hash2;
 	while (input[++i])
 	{
 		if (input[i] == '\"' && input[i + 1])
