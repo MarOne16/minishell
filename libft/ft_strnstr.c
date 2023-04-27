@@ -6,13 +6,13 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 18:35:20 by mqaos             #+#    #+#             */
-/*   Updated: 2023/03/27 02:07:34 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/27 17:03:41 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strnstr( char *h,  char *n, size_t len)
+char	*ft_strnstr(char *h, char *n, size_t len)
 {
 	char	*h1;
 	size_t	i;

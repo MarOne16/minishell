@@ -6,13 +6,13 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 19:53:37 by mqaos             #+#    #+#             */
-/*   Updated: 2023/03/27 02:07:34 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/27 17:03:28 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strtrim(char  *s1, char  *set)
+char	*ft_strtrim(char *s1, char *set)
 {
 	size_t	i;
 	size_t	u;

@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:49:29 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/24 10:46:08 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/27 15:08:00 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_cmd	*ft_lstnewcmd(char *cmd, int type)
 {
 	t_cmd	*newcmd;
 
-	newcmd = malloc(sizeof(t_cmd));
+	newcmd = ft_malloc(sizeof(t_cmd));
 	if (!newcmd)
 		return (0);
 	newcmd->type = type;

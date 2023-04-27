@@ -4,10 +4,10 @@ GREEN = \033[1;32m
 DEFAULT = \033[0m
 NAME		=	minishell
 CC			=	cc
-FLAGS		=	-Wall -Wextra -Werror -I/goinfre/mqaos/.brew/opt/readline/include #-g -fsanitize=address
+FLAGS		=	-Wall -Wextra -Werror -I/goinfre/mqaos/.brew/opt/readline/include -g -fsanitize=address
 RM			=	rm -rf
 HEADER		=	minishell.h
-SOURCE		=	lsttools/lst_all_cmd.c lsttools/lst_cmd.c lsttools/lst_fd.c \
+SOURCE		=	lsttools/lst_all_cmd.c lsttools/lst_cmd.c lsttools/lst_fd.c lsttools/ft_strjoin_char.c lsttools/ft_strdub_mini.c \
 				readline.c minishell_tools.c replace_env_var.c replace_env_var_2.c creatfile.c convert_to_char_d.c parcing_tools.c \
 				parcing_tools_2.c minishell.c
 
@@ -17,7 +17,7 @@ LIBFT		= ./libft/libft.a
 				@${CC} ${FLAGS} -c $< -o $@
 
 $(NAME):		$(OBJS) $(LIBFT) 
-				@$(CC) $(OBJS) -o $(NAME) -L/goinfre/mqaos/.brew/opt/readline/lib -L./libft -lft -lreadline -lhistory #-g -fsanitize=address
+				@$(CC) $(OBJS) -o $(NAME) -L/goinfre/mqaos/.brew/opt/readline/lib -L./libft -lft -lreadline -lhistory -g -fsanitize=address
 				@echo "$(GREEN)$(NAME) Created √$(DEFAULT)" 
 
 

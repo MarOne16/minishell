@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 10:37:13 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/24 10:44:18 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/27 15:08:00 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_fd	*ft_lstnew_fd(char type, int fd)
 {
 	t_fd	*node;
 
-	node = (t_fd *)malloc(sizeof(*node));
+	node = (t_fd *)ft_malloc(sizeof(*node));
 	if (!node)
 		return (0);
 	node->type = type;

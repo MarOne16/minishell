@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 15:04:23 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/25 15:58:11 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/27 15:08:00 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*replace_vars(char	*str)
 	struct s_tool	t;
 
 	feedhashtable(&t.hash, str);
-	t.new_str = malloc(get_new_length(str));
+	t.new_str = ft_malloc(get_new_length(str));
 	t.new_str_ptr = t.new_str;
 	t.i = 0;
 	t.new_str_ptr = return_new_ptr(str, t.new_str_ptr, t, t.i);

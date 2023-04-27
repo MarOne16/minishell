@@ -1,36 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcat.c                                       :+:      :+:    :+:   */
+/*   ft_strdub_mini.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/19 12:51:39 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/27 17:02:21 by mqaos            ###   ########.fr       */
+/*   Created: 2023/04/27 15:34:30 by mqaos             #+#    #+#             */
+/*   Updated: 2023/04/27 15:35:21 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
-size_t	ft_strlcat(char	*dst, char	*src, size_t n)
+char	*ft_strdup_mini( char *s1)
 {
-	size_t			i;
-	size_t			s;
-	size_t			d;
+	size_t	i;
+	char	*s11;
 
+	s11 = (char *)ft_malloc(sizeof(char) * (ft_strlen(s1) + 1));
+	if (!s11)
+		return (NULL);
 	i = 0;
-	s = ft_strlen(src);
-	if (dst == NULL && n == 0)
-		return (s);
-	d = ft_strlen(dst);
-	if (d > n)
-		return (n + s);
-	while (d + 1 < n && src[i] != '\0')
+	while (s1[i])
 	{
-		dst[d] = src[i];
-		d++;
+		s11[i] = s1[i];
 		i++;
 	}
-	dst[d] = '\0';
-	return (ft_strlen(dst) + ft_strlen(src + i));
+	s11[i] = '\0';
+	return (s11);
 }

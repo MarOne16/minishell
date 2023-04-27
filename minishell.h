@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/25 16:52:06 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/27 15:35:14 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # define MAX_VAR_LENGTH 1024
 
 int ft_rl_done;
-
+t_list	*g_all;
 typedef struct s_fd
 {
 	char		type;
@@ -83,6 +83,9 @@ typedef struct s_tool
 }			t_tools;
 
 // list tools allcmd
+char	*ft_strjoin_char(char *s, char c);
+char	*ft_strdup_mini( char *s1);
+void	*ft_malloc(size_t size);
 t_exe	*ft_lstnewallcmd(void **cmd, void *fd);
 void	ft_lstadd_frontcmd(t_exe **lst, t_exe *new);
 void	ft_lstadd_backallcmd(t_exe **lst, t_exe *new);

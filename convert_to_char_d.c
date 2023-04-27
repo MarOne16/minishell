@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 01:40:48 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/25 17:01:46 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/27 15:38:22 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,14 @@
 char	*removequote(char *str)
 {
 	char	*newstr;
+	char	*tmp;
 	int		*hash;
 	int		i;
 
 	i = 0;
 	hash = NULL;
 	feedhashtable(&hash, str);
-	newstr = ft_strdup("");
+	newstr = ft_strdup_mini("");
 	while (str[i])
 	{
 		if ((str[i] == '\"' || str[i] == '\'') && hash[i] == 0)
@@ -32,9 +33,8 @@ char	*removequote(char *str)
 			i++;
 		}
 	}
+	tmp = newstr;
 	newstr = ft_strjoin_char(newstr, str[i]);
-	str = NULL;
-	free(str);
 	return (newstr);
 }
 
@@ -70,7 +70,7 @@ void	table_lakher(t_cmd *cmd, t_exe **lakher)
 
 	i = 0;
 	rest = cmd;
-	spl = malloc((sizechar(rest) + 1) * sizeof(char *));
+	spl = ft_malloc((sizechar(rest) + 1) * sizeof(char *));
 	if (rest && rest->type == 2)
 		rest = rest->next;
 	while (rest && rest->type != 2)

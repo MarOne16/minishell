@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 16:04:01 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/26 13:54:33 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/27 16:36:10 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char	*add_space_before_quote(char	*s)
 
 	i = 0;
 	feedhashtable(&hash, s);
-	result = ft_strdup("");
+	result = ft_strdup_mini("");
 	while (s[i])
 	{
 		if ((s[i] == '\"' || s[i] == '\'') && hash[i] == 0)
@@ -107,8 +107,7 @@ void	feedlist(t_exe **all, char *input)
 
 	hash = NULL;
 	cmdspl = NULL;
-	// newinput = add_spaces_around_operators(input, hash);
-	newinput = input;
+	newinput = add_spaces_around_operators(input, hash);
 	feedhashtable(&hash, newinput);
 	cmd = ft_splithash(newinput, ' ', hash);
 	u = -1;
@@ -118,7 +117,6 @@ void	feedlist(t_exe **all, char *input)
 	if (checkcmd(newinput, hash) || check_rid(cmdspl) || \
 	operatorscount(input, hash) == 1337)
 	{
-		free(newinput);
 		printf("syntax error\n");
 		return ;
 	}

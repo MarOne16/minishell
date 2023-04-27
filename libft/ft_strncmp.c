@@ -6,13 +6,13 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 17:19:21 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/09 02:29:42 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/27 17:04:06 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_strncmp(char *s1,  char *s2, size_t n)
+int	ft_strncmp(char *s1, char *s2, size_t n)
 {
 	size_t			i;
 	size_t			x;

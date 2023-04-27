@@ -6,53 +6,37 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 16:13:17 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/26 13:58:53 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/27 17:00:38 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-// garbage collector for the list t_exe t_fd
-
-void	garbage_collector(t_exe **all)
+// free t_list *g_all
+void	free_all(void)
 {
-	t_exe	*tmp;
-	t_exe	*tmp2;
-	int		i;
+	t_list	*tmp;
 
-	i = -1;
-	tmp = *all;
-	while (tmp)
+	while (g_all)
 	{
-		while (tmp->lakher[++i])
-		{
-			free(tmp->lakher[i]);
-			tmp->lakher[i] = NULL;
-		}
-		tmp2 = tmp->next;
-		free(tmp->lakher);
-		while (tmp->fd)
-		{
-			free(tmp->fd);
-			tmp->fd = tmp->fd->next;
-		}
+		tmp = g_all;
+		g_all = g_all->next;
+		free(tmp->content);
 		free(tmp);
-		tmp = tmp2;
 	}
-	*all = NULL;
+	g_all = NULL;
 }
 
-int	main()
+int	main(void)
 {
 	char	*input;
 	char	*newinput;
 	t_exe	*all;
+	int		i;
 
 	input = NULL;
 	all = NULL;
 	while (1)
 	{
-		garbage_collector(&all);
-		free(input);
 		signal(SIGINT, sig_handler);
 		signal(SIGQUIT, SIG_IGN);
 		rl_catch_signals = 0;
@@ -63,7 +47,22 @@ int	main()
 			break ;
 		newinput = replace_vars(input);
 		feedlist(&all, newinput);
+		while (all)
+		{
+			i = -1;
+			while (all->lakher[++i])
+				printf("lakher[%d] = %s\n", i, (char *)all->lakher[i]);
+			while (all->fd)
+			{
+				printf("fd = %d\n", all->fd->fd);
+				all->fd = all->fd->next;
+			}
+			all = all->next;
+		}
+		all = NULL;
+		free(input);
 	}
+	free_all();
 	exit(0);
 	return (0);
 }

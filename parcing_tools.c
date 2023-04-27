@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 12:13:19 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/26 12:24:13 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/27 16:37:58 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*add_spaces_around_pipe(char *s, int *hash)
 	int		i;
 
 	i = 0;
-	result = ft_strdup("");
+	result = ft_strdup_mini("");
 	feedhashtable(&hash, s);
 	while (s[i])
 	{
@@ -64,7 +64,7 @@ char	*add_spaces_around_redirection(char *s, int *hash)
 	struct s_asao	t;
 
 	t.i = 0;
-	t.result = ft_strdup("");
+	t.result = ft_strdup_mini("");
 	while (s[t.i])
 	{
 		t.u = t.i - 1;
@@ -96,7 +96,6 @@ char	*add_spaces_around_operators(char *s, int *hash)
 	tmp = add_spaces_around_pipe(s, hash);
 	feedhashtable(&hash, tmp);
 	result = add_spaces_around_redirection(tmp, hash);
-	free(tmp);
 	return (result);
 }
 

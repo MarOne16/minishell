@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 12:07:36 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/24 14:30:17 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/27 15:08:00 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	**ft_splithash(char *s, char c, int *hush)
 		return (0x0);
 	i = 0;
 	j = -1;
-	str = (char **)malloc((nb_c(s, c, hush) + 1) * sizeof(char *));
+	str = (char **)ft_malloc((nb_c(s, c, hush) + 1) * sizeof(char *));
 	if (!str)
 		return (NULL);
 	while (++j < nb_c(s, c, hush))

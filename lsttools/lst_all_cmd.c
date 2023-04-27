@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 10:39:55 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/24 10:44:03 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/27 17:03:16 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_exe	*ft_lstnewallcmd(void **cmd, void *fd)
 {
 	t_exe	*node;
 
-	node = (t_exe *)malloc(sizeof(*node));
+	node = (t_exe *)ft_malloc(sizeof(*node));
 	if (!node)
 		return (0);
 	node->lakher = cmd;

@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 03:04:10 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/25 14:44:23 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/27 16:43:12 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	herdoc(char *name)
 
 	sig_int();
 	pipe(fd);
-	(void) name;
 	while (1)
 	{
 		content = readline("> ");
@@ -34,11 +33,12 @@ int	herdoc(char *name)
 		{
 			printf("\nError writing to file.\n");
 			close(fd[1]);
-			return (1);
+			return (free(content), 1);
 		}
+		free(content);
 	}
 	close(fd[1]);
-	return (fd[0]);
+	return (free(content), fd[0]);
 }
 
 int	output_input_append(char *name, char type)
