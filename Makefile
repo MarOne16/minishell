@@ -21,6 +21,9 @@ SOURCE		=	lsttools/lst_all_cmd.c \
 				parcing/parcing_tools.c \
 				parcing/parcing_tools_2.c \
 				minishell.c
+				builtin.c\
+	 			ft_split.c list_tools.c newRealease.c ft_echo.c ft_chdir.c ft_exit.c\
+				ft_pwd.c ft_export.c  exp_option.c ft_unset.c ft_ex_cmd.c
 
 OBJS		=	$(SOURCE:.c=.o)
 LIBFT		= ./libft/libft.a

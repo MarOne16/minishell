@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/27 15:35:14 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/28 11:18:00 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,18 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <limits.h>
+# include <errno.h>
 # include <termios.h>
 # include <string.h>
 # include <signal.h>
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include "./libft/libft.h"
+# include "libft/libft.h"
 # define MAX_VAR_LENGTH 1024
 
 int ft_rl_done;
+
 t_list	*g_all;
 typedef struct s_fd
 {
@@ -82,10 +84,61 @@ typedef struct s_tool
 	char	var_name[MAX_VAR_LENGTH];
 }			t_tools;
 
+typedef struct s_my_list
+{
+	char			*name;
+	char			*value;
+	struct s_my_list	*next;
+}t_my_list;
+
+typedef struct s_global
+{
+	t_my_list *env;
+	t_my_list *exp;
+}	t_global;
+
+t_global *glob;
+
+//excute_tools
+void Creat_env(char **env);
+char ** sort_env(char **env);
+void Creat_exp(char **env);
+t_my_list	*ft_my_lstnew(char *name , char  *value);
+int		ft_my_lstsize(t_my_list *lst);
+t_my_list	*ft_my_lstlast(t_my_list *lst);
+void	ft_my_lstadd_back(t_my_list **lst, t_my_list *new);
+char	**ft_my_split(char *s, char c);
+void	session(t_exe *all);
+// int	ft_strncmp(char *s1,char *s2, size_t count);
+void check_builtin(t_exe *all);
+void ft_echo(char **cmd);
+void ft_chdir(char **cmd);
+void iter(int i);
+void ft_exit(char **cmd);
+char ** empty_env(char **av);
+void print_exp();
+void ft_exp(char **cmd);
+void ft_pwd(char **pwd);
+char *get_orgin(void);
+t_my_list *find_var_env(char *s , int size);
+t_my_list *find_var_exp(char *s , int size);
+t_my_list *var_exp(char *s , int size);
+char * ft_strncpy(char *src , char *dest ,int size);
+t_my_list *var_env(char *s , int size);
+void put_env_plus(char *cmd,char *val);
+void ft_unset(char **cmd);
+int check_unset_var(char *s);
+void free_var_exp(char *s , int size);
+void free_var_env(char *s , int size);
+int size_prc(t_exe *allcmd);
+int size_cmd(char **cmd);
+char	*ft_strjoin(char  *s1, char  *s2);
+void ex_cmd(char ** cmd);
 // list tools allcmd
 char	*ft_strjoin_char(char *s, char c);
 char	*ft_strdup_mini( char *s1);
 void	*ft_malloc(size_t size);
+// list tools
 t_exe	*ft_lstnewallcmd(void **cmd, void *fd);
 void	ft_lstadd_frontcmd(t_exe **lst, t_exe *new);
 void	ft_lstadd_backallcmd(t_exe **lst, t_exe *new);
