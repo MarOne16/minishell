@@ -6,11 +6,11 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 01:56:51 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/23 07:12:30 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/28 15:00:15 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 char *get_orgin(void)
 {
     t_my_list *list;

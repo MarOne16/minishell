@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 t_my_list	*ft_my_lstnew(char *name , char  *value)
 {

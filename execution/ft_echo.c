@@ -6,11 +6,11 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 17:47:41 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/28 14:08:02 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/28 15:00:15 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int check_n(char *s)
 {

@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 16:13:17 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/28 14:09:30 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/28 14:56:43 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	main(int argc, char *argv[], char **env)
 	(void)argc;
 	(void)argv;
 	glob = (t_global *)malloc(sizeof(t_global));
-	if( *env == NULL)
+	if(*env == NULL)
 		env = empty_env(argv);
 	Creat_env(env);
 	Creat_exp(env);

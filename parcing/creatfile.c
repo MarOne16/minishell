@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 03:04:10 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/28 09:38:32 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/28 14:22:18 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	herdoc(char *name)
 		if ((size_t)write(fd[1], content, ft_strlen(content)) \
 		!= ft_strlen(content))
 		{
-			printf("\nError writing to file.\n");
+			printf("Error writing to file.\n");
 			close(fd[1]);
 			return (free(content), 1);
 		}

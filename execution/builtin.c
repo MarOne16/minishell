@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 char ** empty_env(char **av)
 {
     char **env;
