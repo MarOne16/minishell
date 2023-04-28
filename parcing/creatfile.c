@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 03:04:10 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/28 14:22:18 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/28 18:04:47 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,23 @@ int	herdoc(char *name)
 	while (1)
 	{
 		content = readline("> ");
-		if (content == NULL || !ft_strcmp(content, name) || \
-		(ft_rl_done == 1 && rl_done == 1))
-		{
-			ft_rl_done = 0;
-			break ;
-		}
+		content = ft_strjoin_char(content, '\n');
 		if ((size_t)write(fd[1], content, ft_strlen(content)) \
 		!= ft_strlen(content))
 		{
 			printf("Error writing to file.\n");
 			close(fd[1]);
-			return (free(content), 1);
+			return (1);
 		}
-		free(content);
+		if (content == NULL || !ft_strcmp(content, ft_strjoin_char(name, \
+		'\n')) || (glob->rd == 1 && rl_done == 1))
+		{
+			glob->rd = 0;
+			break ;
+		}
 	}
 	close(fd[1]);
-	return (free(content), fd[0]);
+	return (fd[0]);
 }
 
 int	output_input_append(char *name, char type)

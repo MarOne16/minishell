@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 15:04:23 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/28 09:38:32 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/28 16:56:53 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,18 @@ char	*replace_vars(char	*str)
 	t.i = 0;
 	t.new_str_ptr = return_new_ptr(str, t.new_str_ptr, t, t.i);
 	return (*t.new_str_ptr = '\0', t.new_str);
+}
+
+char	*my_getenv(char *search)
+{
+	t_my_list	*rest;
+
+	rest = glob->env;
+	while (rest->next)
+	{
+		if (ft_strcmp(search, rest->name) == 0)
+			return (ft_substr(rest->value, 1, ft_strlen(rest->value)));
+		rest = rest->next;
+	}
+	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 16:13:17 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/28 14:56:43 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/28 16:14:02 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@ void	free_all(void)
 {
 	t_list	*tmp;
 
-	while (g_all)
+	while (glob->g_all)
 	{
-		tmp = g_all;
-		g_all = g_all->next;
+		tmp = glob->g_all;
+		glob->g_all = glob->g_all->next;
 		free(tmp->content);
 		free(tmp);
 	}
-	g_all = NULL;
+	glob->g_all = NULL;
 }
 
 int	main(int argc, char *argv[], char **env)
@@ -40,6 +40,8 @@ int	main(int argc, char *argv[], char **env)
 	glob = (t_global *)malloc(sizeof(t_global));
 	if(*env == NULL)
 		env = empty_env(argv);
+	glob->rd = 0;
+	glob->g_all = NULL;
 	Creat_env(env);
 	Creat_exp(env);
 	while (1)

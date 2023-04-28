@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/28 14:08:13 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/28 16:22:39 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,7 @@
 # include "libft/libft.h"
 # define MAX_VAR_LENGTH 1024
 
-int ft_rl_done;
 
-t_list	*g_all;
 typedef struct s_fd
 {
 	char		type;
@@ -93,8 +91,10 @@ typedef struct s_my_list
 
 typedef struct s_global
 {
-	t_my_list *env;
-	t_my_list *exp;
+	t_my_list	*env;
+	t_my_list	*exp;
+	int			rd;
+	t_list		*g_all;
 }	t_global;
 
 t_global *glob;
@@ -171,6 +171,7 @@ t_tools	get_variable_info(char *str, int i);
 char	*append_variable_value(t_tools t, char *new_str_ptr);
 char	*return_new_ptr(char *str, char *new_str_ptr, t_tools t, int i);
 char	*replace_vars(char	*str);
+char	*my_getenv(char *search);
 // readline
 void    sig_handler(int signum);
 char	*ft_readline(void);

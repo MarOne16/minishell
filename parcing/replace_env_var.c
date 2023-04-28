@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 03:59:05 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/28 09:38:32 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/28 16:24:02 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ int	new_len(char **str, size_t new_len)
 	{
 		ft_memcpy(t.var_name, t.vs, t.ve - t.vs);
 		t.var_name[t.ve - t.vs] = '\0';
-		if (getenv(t.var_name) != NULL)
-			new_len += ft_strlen(getenv(t.var_name));
+		if (my_getenv(t.var_name) != NULL)
+			new_len += ft_strlen(my_getenv(t.var_name));
 		else
 			new_len += 1;
 		*str = t.ve;
@@ -94,7 +94,7 @@ t_tools	get_variable_info(char *str, int i)
 		t.var_name_len = t.v_e - t.var_start;
 		strncpy(t.var_name, str + t.var_start, t.var_name_len);
 		t.var_name[t.var_name_len] = '\0';
-		t.var_value = getenv(t.var_name);
+		t.var_value = my_getenv(t.var_name);
 	}
 	return (t);
 }

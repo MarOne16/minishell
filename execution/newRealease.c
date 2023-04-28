@@ -94,7 +94,7 @@ int in_fd(t_fd *tabfd)
 	int i = 0;
 	while(tabfd)
 	{
-		if(tabfd->type == 'i')
+		if(tabfd->type == 'i' || tabfd->type == 'h')
 			i = tabfd->fd;
 		tabfd = tabfd->next;
 	}

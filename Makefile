@@ -20,7 +20,6 @@ SOURCE		=	lsttools/lst_all_cmd.c \
 				parcing/convert_to_char_d.c \
 				parcing/parcing_tools.c \
 				parcing/parcing_tools_2.c \
-				minishell.c \
 				execution/builtin.c \
 				execution/ft_split.c \
 				execution/list_tools.c \
@@ -33,6 +32,7 @@ SOURCE		=	lsttools/lst_all_cmd.c \
 				execution/exp_option.c \
 				execution/ft_unset.c \
 				execution/ft_ex_cmd.c \
+				minishell.c \
 
 OBJS		=	$(SOURCE:.c=.o)
 LIBFT		= ./libft/libft.a

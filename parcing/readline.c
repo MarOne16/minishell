@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:56:50 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/28 10:43:40 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/28 16:08:49 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	sig_handler(int signum)
 void sig_here(int sig)
 {
 	(void)sig;
-	ft_rl_done = 1;
+	glob->rd = 1;
 	rl_done = 1;
 }
 
