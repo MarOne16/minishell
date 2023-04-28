@@ -21,7 +21,7 @@ SOURCE		=	lsttools/lst_all_cmd.c \
 				parcing/parcing_tools.c \
 				parcing/parcing_tools_2.c \
 				minishell.c \
-				execution\builtin.c \
+				execution/builtin.c \
 				execution/ft_split.c \
 				execution/list_tools.c \
 				execution/newRealease.c \
