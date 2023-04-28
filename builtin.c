@@ -53,6 +53,7 @@ char	*ft_strjoin(char  *s1, char  *s2)
 
 void ft_env()
 {
+
     t_my_list *temp = (glob->env);
     if(temp)
     {
@@ -70,6 +71,8 @@ void check_builtin(t_exe *all)
     extern char **environ;
     s = all->lakher[0];
     n = (char **)all->lakher;
+    if(!s)
+        return;
     if(!(ft_strncmp(s,"echo",4)) && ft_strlen(s) == 4)
         ft_echo(n);
     else if(!(ft_strncmp(s,"cd",2)) && ft_strlen(s) == 2)
@@ -78,7 +81,7 @@ void check_builtin(t_exe *all)
         ft_pwd(n);
     else if(!(ft_strncmp(s,"export",6)) && ft_strlen(s) == 6)
         ft_exp(n);
-    else if(!(ft_strncmp(s,"unset",3)) && ft_strlen(s) == 5)
+    else if(!(ft_strncmp(s,"unset",5)) && ft_strlen(s) == 5)
         ft_unset(n);
     else if((!(ft_strncmp(s,"env",3)) && ft_strlen(s) == 3) || (!(ft_strncmp(s,"ENV",3)) && ft_strlen(s) == 3))
         ft_env();
@@ -91,4 +94,53 @@ void check_builtin(t_exe *all)
         ex_cmd(n);
     }
 }
-
+void check_builtin_multi(t_exe *all)
+{
+    char *s;
+    char **n;
+    extern char **environ;
+    s = all->lakher[0];
+    n = (char **)all->lakher;
+    if(!s)
+        return;
+    signal(SIGINT, SIG_IGN);
+    if(!(ft_strncmp(s,"echo",4)) && ft_strlen(s) == 4)
+    {
+        ft_echo(n);
+        exit(0);
+    }
+    else if(!(ft_strncmp(s,"cd",2)) && ft_strlen(s) == 2)
+    {
+        ft_chdir(n);
+        exit(0);
+    }
+    else if((!(ft_strncmp(s,"pwd",3)) && ft_strlen(s) == 3) || (!(ft_strncmp(s,"PWD",3)) && ft_strlen(s) == 3))
+    {
+        ft_pwd(n);
+        exit(0);
+    }
+    else if(!(ft_strncmp(s,"export",6)) && ft_strlen(s) == 6)
+    {
+        ft_exp(n);
+        exit(0);
+    }
+    else if(!(ft_strncmp(s,"unset",5)) && ft_strlen(s) == 5)
+    {
+        ft_unset(n);
+        exit(0);
+    }
+    else if((!(ft_strncmp(s,"env",3)) && ft_strlen(s) == 3) || (!(ft_strncmp(s,"ENV",3)) && ft_strlen(s) == 3))
+    {
+        ft_env();
+        exit(0);
+    }
+    else if(!(ft_strncmp(s,"exit",4)) && ft_strlen(s) == 4)
+    {
+        ft_exit(n);
+        exit(0);
+    }
+    else
+    {
+        mex_cmd(n);
+    }
+}
