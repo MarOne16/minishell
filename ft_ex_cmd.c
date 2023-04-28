@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 02:37:20 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/24 17:29:04 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/04/27 15:41:27 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,18 +69,30 @@ char	*pathcmd(char *str)
 void ex_cmd(char ** cmd)
 {
 	char *exe;
+	extern char ** environ;
 	pid_t pid;
 	exe = pathcmd(cmd[0]);
-	if(!exe)
-	{
-		printf(" '%s' command not found \n",cmd[0]);
-	}
-	else
-	{
-		pid = fork();
+	pid = fork();
 		if(pid == 0)
-			execve(exe,cmd,NULL);
+		{
+			if(execve(exe,cmd,environ) == -1)
+			{
+				ft_putstr_fd("Minishell: one_command not found\n",2);
+				exit(1);
+			}
+			
+		}
 		else
 			wait(0);
+}
+void mex_cmd(char ** cmd)
+{
+	char *exe;
+	extern char ** environ;
+	exe = pathcmd(cmd[0]);
+	if(execve(exe, cmd, environ) == -1)
+	{
+		ft_putstr_fd("Minishell: one_command not found\n",2);
+		exit(1);
 	}
 }

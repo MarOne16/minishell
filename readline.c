@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:56:50 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/24 15:37:52 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/04/27 11:01:00 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,7 +217,7 @@ void    feedlist(t_exe **all, char *input)
 		free(hash);
 		forcfree(cmdspl);
 		free(newinput);
-		printf(AC_RED"syntax error\n");
+		printf("syntax error\n");
 		return ;
 	}
 	table_lakher(cmdspl, all);
@@ -269,7 +269,7 @@ char    *ft_readline()
         free(line);
         line = NULL;
     }
-    line = readline(AC_GREEN"Minishell> ");
+    line = readline("Minishell> ");
     if (line)
         add_history(line);
     return (line);

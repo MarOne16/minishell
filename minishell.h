@@ -6,22 +6,12 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/24 15:41:37 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/04/26 18:45:19 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #if !defined(MINISHELL)
 # define MINISHELL
-
-# define AC_BLACK "\x1b[30m"
-# define AC_RED "\x1b[31m"
-# define AC_GREEN "\x1b[32m"
-# define AC_YELLOW "\x1b[33m"
-# define AC_BLUE "\x1b[34m"
-# define AC_MAGENTA "\x1b[35m"
-# define AC_CYAN "\x1b[36m"
-# define AC_WHITE "\x1b[37m"
-# define AC_NORMAL "\x1b[m"
 
 # include <errno.h>
 # include <unistd.h>
@@ -114,6 +104,8 @@ int size_prc(t_exe *allcmd);
 int size_cmd(char **cmd);
 char	*ft_strjoin(char  *s1, char  *s2);
 void ex_cmd(char ** cmd);
+void mex_cmd(char ** cmd);
+void check_builtin_multi(t_exe *all);
 
 
 

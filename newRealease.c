@@ -6,13 +6,11 @@ void Creat_env(char **env)
 	char **tmp;
 	t_my_list *listenv;
 	i = 0;
+	listenv = NULL;
 	while (env[i] != NULL)
 	{
 		i++;
 	}
-	listenv = NULL;
-	if (!listenv)
-		perror("malloc");
 	i = 0;
 	while (env[i])
 	{
@@ -103,6 +101,31 @@ int in_fd(t_fd *tabfd)
 	return(i);
 }
 
+int	ft_pipe(int fd[2])
+{
+	if (pipe(fd) == -1)
+	{
+		perror("Cant' Not creat pipe ");
+		exit(errno);
+	}
+	else
+		return (0);
+}
+
+int	ft_fork(void)
+{
+	int	pid;
+
+	pid = fork();
+	if (pid < 0)
+	{
+		perror("Cant ' Not creat fork");
+		exit(errno);
+	}
+	else
+		return (pid);
+}
+
 int out_fd(t_fd *tabfd)
 {
 	int i = 0;
@@ -114,34 +137,112 @@ int out_fd(t_fd *tabfd)
 	}
 	return(i);
 }
-void session(t_exe *all)
-{
-    int size;
-	int saved_stdin_fd;
-	int saved_stdout_fd;
-	int infd;
-	int outfd;
-
-    size = size_prc(all);
-
-    if (size == 1)
-	{
-		infd = in_fd(all->fd);
-		outfd = out_fd(all->fd);
-        if(infd)
-		{
-			saved_stdin_fd = dup(STDIN_FILENO);
-			dup2(infd,STDIN_FILENO);
-		}
-		if(outfd)
-		{
-			saved_stdout_fd = dup(STDOUT_FILENO);
-			dup2(outfd,STDOUT_FILENO);
-		}
-		check_builtin(all);
-		if(infd)
-			dup2(saved_stdin_fd,STDIN_FILENO);
-		if(outfd)
-			dup2(saved_stdout_fd,STDOUT_FILENO);
+void o_cmd(t_exe *all) {
+    int saved_stdin_fd = dup(STDIN_FILENO);
+    int saved_stdout_fd = dup(STDOUT_FILENO);
+    int infd = in_fd(all->fd);
+    int outfd = out_fd(all->fd);
+    if (infd) {
+        dup2(infd, STDIN_FILENO);
     }
+    if (outfd) {
+        dup2(outfd, STDOUT_FILENO);
+    }
+    check_builtin(all);
+	if(infd)
+	{
+    	dup2(saved_stdin_fd, STDIN_FILENO);
+    	close(saved_stdout_fd);
+	}
+	if(outfd)
+	{
+    	dup2(saved_stdout_fd, STDOUT_FILENO);
+    	close(saved_stdin_fd);
+	}
+}
+void m_cmd(t_exe *all) {
+    int saved_stdin_fd = dup(STDIN_FILENO);
+    int saved_stdout_fd = dup(STDOUT_FILENO);
+    int infd = in_fd(all->fd);
+    int outfd = out_fd(all->fd);
+    if (infd) {
+        dup2(infd, STDIN_FILENO);
+    }
+    if (outfd) {
+        dup2(outfd, STDOUT_FILENO);
+    }
+    check_builtin_multi(all);
+	if(infd)
+	{
+    	dup2(saved_stdin_fd, STDIN_FILENO);
+	}
+    	close(saved_stdout_fd);
+	if(outfd)
+	{
+    	dup2(saved_stdout_fd,  STDIN_FILENO);
+	}
+    	close(saved_stdin_fd);
+}
+
+void lot_cmd(t_exe *all , int size)
+{
+	int fd[2];
+    int pid;
+    int i = 0;
+	int input = dup(STDIN_FILENO);
+	int *saved_in_fd = &input;
+	
+        while (all) 
+		{
+			ft_pipe(fd);
+			pid = ft_fork();
+            if (pid == 0)
+			{
+					
+                if (i != 0)
+				{
+                    dup2(*saved_in_fd, STDIN_FILENO);
+					// close(fd[1]);
+                }
+                if(i < size - 1)
+				{
+					close(fd[0]);
+                    dup2(fd[1], STDOUT_FILENO);
+                }
+                m_cmd(all);
+				close(fd[1]);
+            }
+            else 
+			{
+				close(fd[1]);
+				close(*saved_in_fd);
+				*saved_in_fd = fd[0];
+                int status;
+                if (wait(&status) == -1) {
+                    perror("wait");
+                    exit(EXIT_FAILURE);
+                }
+                if (WIFEXITED(status)) {
+                    if (WEXITSTATUS(status) != 0) 
+                        fprintf(stderr, "Command field : [%s] \n", all->lakher[0]);
+                }
+                else 
+                    fprintf(stderr, "Command terminated abnormally: %s\n", all->lakher[0]);
+            }
+            all = all->next;
+            i++;
+        }
+}
+void session(t_exe *all) 
+{
+	int size;
+    size = size_prc(all);
+    if (size == 1) 
+	{
+        o_cmd(all);
+    }
+	if (size > 1)
+	{
+		lot_cmd(all,size);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 03:04:10 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/24 15:38:31 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/04/26 18:45:05 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ int herdoc(char *name)
 	char *content;
 
 	pipe(fd);
-	while ((content = readline(AC_WHITE"haerdoc>")))
+	while ((content = readline("haerdoc>")))
 	{
 		if (strcmp(content, name) == 0)
 			break ;
 		if ((size_t)write(fd[1], content, ft_strlen(content)) != ft_strlen(content))
 		{
-			printf(AC_RED"\nError writing to file.\n");
+			printf("\nError writing to file.\n");
 			close(fd[1]);
 			return (1);
 		}
@@ -119,7 +119,7 @@ void creat_files(t_cmd *cmd, t_exe **exe)
 			fd = creat_fd(get_type(tmp->cmd), tmp->next->cmd);
 			if (fd == -1)
 			{
-				printf(AC_RED"\nError opening file.\n");
+				printf("\nError opening file.\n");
 				return ;
 			}
 			ft_lstadd_back_fd(&fd_list, ft_lstnew_fd(get_type(tmp->cmd), fd));
