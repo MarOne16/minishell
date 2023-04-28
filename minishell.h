@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/28 13:57:37 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/28 14:08:13 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,21 +132,14 @@ void free_var_exp(char *s , int size);
 void free_var_env(char *s , int size);
 int size_prc(t_exe *allcmd);
 int size_cmd(char **cmd);
-char	*ft_strjoin(char  *s1, char  *s2);
+// char	*ft_strjoin(char  *s1, char  *s2);
 void ex_cmd(char ** cmd);
-<<<<<<< HEAD
+void mex_cmd(char ** cmd);
+void check_builtin_multi(t_exe *all);
 // list tools allcmd
 char	*ft_strjoin_char(char *s, char c);
 char	*ft_strdup_mini( char *s1);
 void	*ft_malloc(size_t size);
-=======
-void mex_cmd(char ** cmd);
-void check_builtin_multi(t_exe *all);
-
-
-
-
->>>>>>> mbousouf
 // list tools
 t_exe	*ft_lstnewallcmd(void **cmd, void *fd);
 void	ft_lstadd_frontcmd(t_exe **lst, t_exe *new);
