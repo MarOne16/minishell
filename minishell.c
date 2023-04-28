@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 16:13:17 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/27 17:00:38 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/28 13:57:37 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	free_all(void)
 	g_all = NULL;
 }
 
-int	main(void)
+int	main(int argc, char *argv[], char **env)
 {
 	char	*input;
 	char	*newinput;
@@ -35,6 +35,11 @@ int	main(void)
 
 	input = NULL;
 	all = NULL;
+	glob = (t_global *)malloc(sizeof(t_global));
+	if( *env == NULL)
+		env = empty_env(argv);
+	Creat_env(env);
+	Creat_exp(env);
 	while (1)
 	{
 		signal(SIGINT, sig_handler);
@@ -47,22 +52,40 @@ int	main(void)
 			break ;
 		newinput = replace_vars(input);
 		feedlist(&all, newinput);
-		while (all)
-		{
-			i = -1;
-			while (all->lakher[++i])
-				printf("lakher[%d] = %s\n", i, (char *)all->lakher[i]);
-			while (all->fd)
-			{
-				printf("fd = %d\n", all->fd->fd);
-				all->fd = all->fd->next;
-			}
-			all = all->next;
-		}
 		all = NULL;
 		free(input);
 	}
 	free_all();
 	exit(0);
 	return (0);
+}
+
+int main(int argc, char *argv[], char **env)
+{
+	(void)argv;
+	(void)argc;
+	char *input = NULL;
+	char *newinput = NULL;
+	t_exe       *all = NULL;
+	glob = (t_global *)malloc(sizeof(t_global));
+	if( *env == NULL)
+	{
+		env = empty_env(argv);
+	}
+	Creat_env(env);
+	Creat_exp(env);
+	while ((input = ft_readline()))
+	{	
+		signal(SIGINT, sig_handler);
+		signal(SIGQUIT, SIG_IGN);
+		if (!ft_strcmp(input, "exit"))
+			break;
+		newinput = replace_vars(input);
+		feedlist(&all, newinput);
+		session(all);
+		all = NULL;
+		// // forcfree(&all);
+	}
+	exit(0);
+	return 0;
 }
