@@ -202,7 +202,6 @@ void lot_cmd(t_exe *all , int size)
                 if (i != 0)
 				{
                     dup2(*saved_in_fd, STDIN_FILENO);
-					// close(fd[1]);
                 }
                 if(i < size - 1)
 				{
@@ -210,7 +209,7 @@ void lot_cmd(t_exe *all , int size)
                     dup2(fd[1], STDOUT_FILENO);
                 }
                 m_cmd(all);
-				close(fd[1]);
+				// close(fd[1]);
             }
             else 
 			{

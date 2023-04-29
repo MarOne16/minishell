@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ex_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 02:37:20 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/28 15:00:15 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/29 11:44:14 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,16 +66,57 @@ char	*pathcmd(char *str)
 	return (NULL);
 }
 
+void file_info(char *s)
+{
+	struct stat file_stats;
+
+    if (lstat(s, &file_stats) == 0) 
+	{
+        if (S_ISREG(file_stats.st_mode)) {
+            printf("Permission denied.\n");
+        } else if (S_ISDIR(file_stats.st_mode)) {
+            printf("is a directory.\n");
+        } else if (S_ISCHR(file_stats.st_mode)) {
+            printf("is a character device.\n");
+        } else if (S_ISBLK(file_stats.st_mode)) {
+            printf("is a block device.\n");
+        } else if (S_ISFIFO(file_stats.st_mode)) {
+            printf("is a FIFO/pipe.\n");
+        } else if (S_ISSOCK(file_stats.st_mode)) {
+            printf("is a socket.\n");
+        } else if (S_ISLNK(file_stats.st_mode)) {
+            printf("is a symbolic link.\n");
+        } else {
+            printf("type is unknown.\n");
+        }
+    } 
+	else 
+	{
+        perror("Minishell");
+    }
+}
+
+
 void ex_cmd(char ** cmd)
 {
 	char *exe;
 	extern char ** environ;
 	pid_t pid;
-	exe = pathcmd(cmd[0]);
+	
+
 	pid = fork();
 		if(pid == 0)
 		{
-			if(execve(exe,cmd,environ) == -1)
+			exe = pathcmd(cmd[0]);
+			if(ft_strchr(cmd[0],'/'))
+			{
+				if(execve(cmd[0], cmd, environ) == -1)
+				{
+					file_info(cmd[0]);
+					exit(1);
+				}
+			}
+			else if(execve(exe,cmd,environ) == -1)
 			{
 				ft_putstr_fd("Minishell: one_command not found\n",2);
 				exit(1);
@@ -89,10 +130,20 @@ void mex_cmd(char ** cmd)
 {
 	char *exe;
 	extern char ** environ;
+	if(ft_strchr(cmd[0],'/'))
+	{
+		if(execve(cmd[0], cmd, environ) == -1)
+		{
+			strerror(errno);
+			ft_putstr_fd("Minishell: multi_command not found\n",2);
+			exit(1);
+		}
+	}
 	exe = pathcmd(cmd[0]);
 	if(execve(exe, cmd, environ) == -1)
 	{
-		ft_putstr_fd("Minishell: one_command not found\n",2);
+		strerror(errno);
+		ft_putstr_fd("Minishell: multi_command not found\n",2);
 		exit(1);
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_chdir.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 18:03:29 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/28 15:00:15 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/29 11:43:50 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,18 +62,18 @@ void change_env(char *s,char *modified)
     change = find_var_env(modified,ft_strlen(modified));
     if(change)
         change->value = s;
-    else
-    {
-        ft_my_lstadd_back(&glob->env,ft_my_lstnew(modified,ft_strjoin("=",s)));
-    }
+    // else
+    // {
+    //     ft_my_lstadd_back(&glob->env,ft_my_lstnew(modified,ft_strjoin("=",s)));
+    // }
     change = NULL;
     change = find_var_exp(modified,ft_strlen(modified));
     if(change)
         change->value = s;
-    else
-    {
-        ft_my_lstadd_back(&glob->exp,ft_my_lstnew(modified,ft_strjoin("=",s)));
-    }
+    // else
+    // {
+    //     ft_my_lstadd_back(&glob->exp,ft_my_lstnew(modified,ft_strjoin("=",s)));
+    // }
 }
 void chdir_home (void)
 {
