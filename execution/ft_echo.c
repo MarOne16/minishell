@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 17:47:41 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/28 15:00:15 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/29 11:44:05 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,14 @@ void ft_echo(char **cmd)
         cmd = &cmd[1];
         if(check_n(*cmd))
         {
+            i = 1;
             while (cmd[i])
             {
                 if(!check_n(cmd[i]))
                     break;
                 i++;
             }
+            cmd = &cmd[i];
             print_cmd(cmd);
         }
         else
