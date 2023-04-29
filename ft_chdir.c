@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 18:03:29 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/24 11:04:59 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/04/29 11:09:21 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,18 +62,18 @@ void change_env(char *s,char *modified)
     change = find_var_env(modified,ft_strlen(modified));
     if(change)
         change->value = s;
-    else
-    {
-        ft_my_lstadd_back(&glob->env,ft_my_lstnew(modified,ft_strjoin("=",s)));
-    }
+    // else
+    // {
+    //     ft_my_lstadd_back(&glob->env,ft_my_lstnew(modified,ft_strjoin("=",s)));
+    // }
     change = NULL;
     change = find_var_exp(modified,ft_strlen(modified));
     if(change)
         change->value = s;
-    else
-    {
-        ft_my_lstadd_back(&glob->exp,ft_my_lstnew(modified,ft_strjoin("=",s)));
-    }
+    // else
+    // {
+    //     ft_my_lstadd_back(&glob->exp,ft_my_lstnew(modified,ft_strjoin("=",s)));
+    // }
 }
 void chdir_home (void)
 {
