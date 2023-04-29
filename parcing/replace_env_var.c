@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 03:59:05 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/29 11:18:22 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/29 12:53:59 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ t_tools	get_variable_info(char *str, int i)
 	else
 		while (str[t.v_e] && (str[t.v_e] == '_' || ft_isalnum(str[t.v_e])))
 			t.v_e++;
-	if (t.v_e > t.var_start)
+	if (t.v_e >= t.var_start)
 	{
 		t.var_name_len = t.v_e - t.var_start;
 		strncpy(t.var_name, str + t.var_start, t.var_name_len);
