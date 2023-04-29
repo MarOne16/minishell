@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 03:59:05 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/28 16:24:02 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/29 11:18:22 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,11 @@ t_tools	get_variable_info(char *str, int i)
 
 	t.var_start = i + 1;
 	t.v_e = i + 1;
-	while (str[t.v_e] && (str[t.v_e] == '_' || ft_isalnum(str[t.v_e])))
-	{
+	if (str[t.v_e] == '?')
 		t.v_e++;
-	}
+	else
+		while (str[t.v_e] && (str[t.v_e] == '_' || ft_isalnum(str[t.v_e])))
+			t.v_e++;
 	if (t.v_e > t.var_start)
 	{
 		t.var_name_len = t.v_e - t.var_start;

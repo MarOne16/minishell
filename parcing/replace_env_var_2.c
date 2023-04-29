@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 15:04:23 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/28 16:56:53 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/29 11:09:42 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ char	*my_getenv(char *search)
 {
 	t_my_list	*rest;
 
+	if (ft_strcmp(search, "?") == 0)
+		return (ft_itoa(glob->exit_status));
 	rest = glob->env;
 	while (rest->next)
 	{

@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/28 16:22:39 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/29 10:27:53 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ typedef struct s_global
 	t_my_list	*env;
 	t_my_list	*exp;
 	int			rd;
+	int			exit_status;
 	t_list		*g_all;
 }	t_global;
 

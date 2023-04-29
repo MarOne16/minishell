@@ -6,12 +6,24 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 16:13:17 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/28 16:14:02 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/29 10:42:10 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 // free t_list *g_all
+void	feed_glob(char **argv, char **env)
+{
+	glob = (t_global *)malloc(sizeof(t_global));
+	if (*env == NULL)
+		env = empty_env(argv);
+	glob->rd = 0;
+	glob->exit_status = 0;
+	glob->g_all = NULL;
+	Creat_env(env);
+	Creat_exp(env);
+}
+
 void	free_all(void)
 {
 	t_list	*tmp;
@@ -31,19 +43,15 @@ int	main(int argc, char *argv[], char **env)
 	char	*input;
 	char	*newinput;
 	t_exe	*all;
-	// int		i;
 
 	input = NULL;
 	all = NULL;
-	(void)argc;
-	(void)argv;
-	glob = (t_global *)malloc(sizeof(t_global));
-	if(*env == NULL)
-		env = empty_env(argv);
-	glob->rd = 0;
-	glob->g_all = NULL;
-	Creat_env(env);
-	Creat_exp(env);
+	if (argc > 1)
+	{
+		ft_putstr_fd("Error: too many arguments\n", 2);
+		exit(1);
+	}
+	feed_glob(argv, env);
 	while (1)
 	{
 		signal(SIGINT, sig_handler);
