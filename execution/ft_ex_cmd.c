@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ex_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 02:37:20 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/29 11:44:14 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/04/29 16:54:04 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void ex_cmd(char ** cmd)
 			}
 			else if(execve(exe,cmd,environ) == -1)
 			{
-				ft_putstr_fd("Minishell: one_command not found\n",2);
+				ft_putstr_fd("Minishell: one_command not found 1\n",2);
 				exit(1);
 			}
 			
@@ -130,8 +130,9 @@ void mex_cmd(char ** cmd)
 {
 	char *exe;
 	extern char ** environ;
+
 	if(ft_strchr(cmd[0],'/'))
-	{
+	{	
 		if(execve(cmd[0], cmd, environ) == -1)
 		{
 			strerror(errno);

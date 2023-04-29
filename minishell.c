@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 16:13:17 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/29 11:51:33 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/29 16:51:46 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,30 @@ void	free_all(void)
 	glob->g_all = NULL;
 }
 
+void	next_cmd(t_exe **all)
+{
+	t_exe	*tmp;
+	t_fd	*tmp2;
+	char 	**cmd;
+
+	tmp = *all;
+	cmd = ft_malloc(sizeof(char *) + 1);
+	while (tmp)
+	{
+		tmp2 = tmp->fd;
+		while (tmp2)
+		{
+			if(tmp2->fd == -1)
+			{
+				cmd[0] = ft_strdup_mini("");
+				tmp->lakher = (void**)cmd;
+			}
+			tmp2 = tmp2->next;
+		}
+		tmp = tmp->next;
+	}
+}
+
 int	main(int argc, char *argv[], char **env)
 {
 	char	*input;
@@ -46,6 +70,7 @@ int	main(int argc, char *argv[], char **env)
 
 	input = NULL;
 	all = NULL;
+	(void)argc;
 	if (argc > 1)
 	{
 		ft_putstr_fd("Error: too many arguments\n", 2);
@@ -64,6 +89,7 @@ int	main(int argc, char *argv[], char **env)
 			break ;
 		newinput = replace_vars(input);
 		feedlist(&all, newinput);
+		next_cmd(&all);
 		session(all);
 		all = NULL;
 		free(input);

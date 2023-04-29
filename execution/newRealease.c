@@ -235,6 +235,7 @@ void lot_cmd(t_exe *all , int size)
 void session(t_exe *all) 
 {
 	int size;
+
     size = size_prc(all);
     if (size == 1) 
 	{
