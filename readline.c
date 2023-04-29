@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:56:50 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/27 11:01:00 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/04/28 15:47:24 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -312,6 +312,6 @@ int main(int argc, char *argv[], char **env)
 		all = NULL;
 		// // forcfree(&all);
 	}
-	exit(0);
+	exit(120);
 	return 0;
 }

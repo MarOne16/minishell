@@ -32,6 +32,7 @@ fclean:			clean
 				@echo "$(RED)Files.o & Execution deleted X$(DEFAULT)"
 LIBFT_A : LIBFT
 	make -C libft
+	make bonus -C libft
 
 re:				fclean all
 

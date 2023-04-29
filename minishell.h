@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/26 18:45:19 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/04/28 15:56:11 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <string.h>
 # include <signal.h>
 # include <stdlib.h>
+#include <sys/stat.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft/libft.h"
