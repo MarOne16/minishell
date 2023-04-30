@@ -3,45 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 18:59:09 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/28 15:00:15 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/29 19:04:26 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-// char	*ft_substr( char *s, unsigned int start, size_t len)
-// {
-// 	int		i;
-// 	char	*p;
-
-// 	i = 0;
-// 	if (s == '\0' && len >= 0)
-// 		return (0);
-// 	if (start >= (unsigned int)ft_strlen(s))
-// 	{
-// 		return (NULL);
-// 	}
-// 	if (len > ft_strlen(s) - start)
-// 		len = ft_strlen(s) - start;
-// 	p = (char *)malloc(len + 1);
-// 	if (!p)
-// 	{
-// 		return (NULL);
-// 	}
-// 	while (len)
-// 	{
-// 		p[i] = s[start + i];
-// 		i++;
-// 		len--;
-// 	}
-// 	p[i] = '\0';
-// 	return (p);
-// }
-
-
 
 static	void	free_result(char **p, int nom)
 {

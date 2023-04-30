@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 02:57:56 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/28 15:00:15 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/29 15:16:29 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ int check_var(char *s)
             i++;
         else
         {
-            printf("%s not valid\n",s);
+            printf("%s not valid 1\n",s);
+            glob->exit_status = 1;
             return(0);
         }
         while(((s[i] >= 'a' && s[i] <= 'z') || (s[i] >= 'A' && s[i] <= 'Z') 
@@ -43,7 +44,8 @@ int check_var(char *s)
         {
             if(s[i] == '+' && s[i + 1] != '\0')
             {
-                printf("%s not valid\n",s);
+                printf("%s not valid 2\n",s);
+                glob->exit_status = 1;
                     return(0);
             }
                 
@@ -51,7 +53,8 @@ int check_var(char *s)
         }
         if(s[i] != '\0')
         {
-            printf(" '%s' not valid\n",s);
+            printf(" '%s' not valid 3\n",s);
+            glob->exit_status = 1;
             return(0);
         }
     }
@@ -187,10 +190,16 @@ void ad_exp(char ** cmd)
                 }
             }
             else
+            {
                 printf("'%s' not Valid 2\n",*cmd);
+                glob->exit_status = 1;
+            }
         }
         else
+        {
             printf("'%s' not Valid 2\n",*cmd);
+            glob->exit_status = 1;
+        }
 }
  
 void ft_exp(char **cmd)

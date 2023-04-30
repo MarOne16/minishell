@@ -1,4 +1,5 @@
 #include "../minishell.h"
+#include <fcntl.h>
 
 void Creat_env(char **env)
 {
@@ -14,18 +15,17 @@ void Creat_env(char **env)
 	i = 0;
 	while (env[i])
 	{
-		tmp = ft_my_split(env[i],'=');
-		if(tmp[0] && tmp[1])
+		tmp = ft_my_split(env[i], '=');
+		if (tmp[0] && tmp[1])
 		{
-			ft_my_lstadd_back(&listenv,ft_my_lstnew(tmp[0],ft_strjoin("=",tmp[1])));
+			ft_my_lstadd_back(&listenv, ft_my_lstnew(tmp[0], ft_strjoin("=", tmp[1])));
 		}
 		i++;
 	}
 	glob->env = listenv;
 }
 
-
-char ** sort_env(char **env)
+char **sort_env(char **env)
 {
 	char **list;
 	char *tmp;
@@ -33,16 +33,16 @@ char ** sort_env(char **env)
 	int j = 0;
 	int k = 0;
 	list = env;
-	while(list[i])
+	while (list[i])
 	{
 		j = i + 1;
-		while(list[j])
+		while (list[j])
 		{
-			if(list[j][k] == list[i][k])
+			if (list[j][k] == list[i][k])
 			{
-					k++;
+				k++;
 			}
-			else if(list[j][k] < list[i][k])
+			else if (list[j][k] < list[i][k])
 			{
 				tmp = list[i];
 				list[i] = list[j];
@@ -56,11 +56,11 @@ char ** sort_env(char **env)
 		}
 		i++;
 	}
-	return(list);
+	return (list);
 }
 void Creat_exp(char **env)
 {
-	char ** s_env = NULL;
+	char **s_env = NULL;
 	char **tmp;
 	t_my_list *list = NULL;
 	int i = 0;
@@ -70,38 +70,37 @@ void Creat_exp(char **env)
 	i = 0;
 	while (s_env[i])
 	{
-		tmp = ft_my_split(s_env[i],'=');
-		if(tmp && (*tmp) && tmp[0] && tmp[1])
-			ft_my_lstadd_back(&list, ft_my_lstnew(tmp[0],ft_strjoin("=",tmp[1])));
+		tmp = ft_my_split(s_env[i], '=');
+		if (tmp && (*tmp) && tmp[0] && tmp[1])
+			ft_my_lstadd_back(&list, ft_my_lstnew(tmp[0], ft_strjoin("=", tmp[1])));
 		i++;
 	}
 	(glob->exp) = list;
-
 }
 int size_fd(t_fd *fd)
 {
 	int i = 0;
-	while(fd)
+	while (fd)
 	{
 		i++;
 		fd = fd->next;
 	}
-	return(i);
+	return (i);
 }
 
 int in_fd(t_fd *tabfd)
 {
 	int i = 0;
-	while(tabfd)
+	while (tabfd)
 	{
-		if(tabfd->type == 'i' || tabfd->type == 'h')
+		if (tabfd->type == 'i' || tabfd->type == 'h')
 			i = tabfd->fd;
 		tabfd = tabfd->next;
 	}
-	return(i);
+	return (i);
 }
 
-int	ft_pipe(int fd[2])
+int ft_pipe(int fd[2])
 {
 	if (pipe(fd) == -1)
 	{
@@ -112,9 +111,9 @@ int	ft_pipe(int fd[2])
 		return (0);
 }
 
-int	ft_fork(void)
+int ft_fork(void)
 {
-	int	pid;
+	int pid;
 
 	pid = fork();
 	if (pid < 0)
@@ -129,119 +128,129 @@ int	ft_fork(void)
 int out_fd(t_fd *tabfd)
 {
 	int i = 0;
-	while(tabfd)
+	while (tabfd)
 	{
-		if(tabfd->type == 'a' || tabfd->type == 'o')
+		if (tabfd->type == 'a' || tabfd->type == 'o')
 			i = tabfd->fd;
 		tabfd = tabfd->next;
 	}
-	return(i);
+	return (i);
 }
-void o_cmd(t_exe *all) {
-    int saved_stdin_fd = dup(STDIN_FILENO);
-    int saved_stdout_fd = dup(STDOUT_FILENO);
-    int infd = in_fd(all->fd);
-    int outfd = out_fd(all->fd);
-    if (infd) {
-        dup2(infd, STDIN_FILENO);
-    }
-    if (outfd) {
-        dup2(outfd, STDOUT_FILENO);
-    }
-    check_builtin(all);
-	if(infd)
+void o_cmd(t_exe *all)
+{
+	int saved_stdin_fd = dup(STDIN_FILENO);
+	int saved_stdout_fd = dup(STDOUT_FILENO);
+	int infd = in_fd(all->fd);
+	int outfd = out_fd(all->fd);
+	if (infd)
 	{
-    	dup2(saved_stdin_fd, STDIN_FILENO);
-    	close(saved_stdout_fd);
+		dup2(infd, STDIN_FILENO);
 	}
-	if(outfd)
+	if (outfd)
 	{
-    	dup2(saved_stdout_fd, STDOUT_FILENO);
-    	close(saved_stdin_fd);
+		dup2(outfd, STDOUT_FILENO);
+	}
+	check_builtin(all);
+	if (infd)
+	{
+		dup2(saved_stdin_fd, STDIN_FILENO);
+		close(saved_stdout_fd);
+	}
+	if (outfd)
+	{
+		dup2(saved_stdout_fd, STDOUT_FILENO);
+		close(saved_stdin_fd);
 	}
 }
-void m_cmd(t_exe *all) {
-    int saved_stdin_fd = dup(STDIN_FILENO);
-    int saved_stdout_fd = dup(STDOUT_FILENO);
-    int infd = in_fd(all->fd);
-    int outfd = out_fd(all->fd);
-    if (infd) {
-        dup2(infd, STDIN_FILENO);
-    }
-    if (outfd) {
-        dup2(outfd, STDOUT_FILENO);
-    }
-    check_builtin_multi(all);
-	if(infd)
+void m_cmd(t_exe *all)
+{
+	int saved_stdin_fd = dup(STDIN_FILENO);
+	int saved_stdout_fd = dup(STDOUT_FILENO);
+	int infd = in_fd(all->fd);
+	int outfd = out_fd(all->fd);
+	if (infd)
 	{
-    	dup2(saved_stdin_fd, STDIN_FILENO);
+		dup2(infd, STDIN_FILENO);
 	}
-    	close(saved_stdout_fd);
-	if(outfd)
+	if (outfd)
 	{
-    	dup2(saved_stdout_fd,  STDIN_FILENO);
+		dup2(outfd, STDOUT_FILENO);
 	}
-    	close(saved_stdin_fd);
+	check_builtin_multi(all);
+	if (infd)
+	{
+		close(infd);
+		dup2(saved_stdin_fd, STDIN_FILENO);
+		close(saved_stdout_fd);
+	}
+	if (outfd)
+	{
+		close(outfd);
+		dup2(saved_stdout_fd, STDIN_FILENO);
+		close(saved_stdin_fd);
+	}
 }
 
-void lot_cmd(t_exe *all , int size)
+void lot_cmd(t_exe *all, int size)
 {
 	int fd[2];
-    int pid;
-    int i = 0;
+	int pid;
+	int i = 0;
 	int input = dup(STDIN_FILENO);
 	int *saved_in_fd = &input;
-	
-        while (all) 
+
+	while (all)
+	{
+		ft_pipe(fd);
+		pid = ft_fork();
+		if (pid == 0)
 		{
-			ft_pipe(fd);
-			pid = ft_fork();
-            if (pid == 0)
-			{
-					
-                if (i != 0)
-				{
-                    dup2(*saved_in_fd, STDIN_FILENO);
-                }
-                if(i < size - 1)
-				{
-					close(fd[0]);
-                    dup2(fd[1], STDOUT_FILENO);
-                }
-                m_cmd(all);
-				// close(fd[1]);
-            }
-            else 
+
+			if (i != 0)
 			{
 				close(fd[1]);
+				dup2(*saved_in_fd, STDIN_FILENO);
+			}
+			if (i < size - 1)
+			{
 				close(*saved_in_fd);
-				*saved_in_fd = fd[0];
-                int status;
-                if (wait(&status) == -1) {
-                    perror("wait");
-                    exit(EXIT_FAILURE);
-                }
-                if (WIFEXITED(status)) {
-                    if (WEXITSTATUS(status) != 0) 
-                        fprintf(stderr, "Command field : [%s] \n", all->lakher[0]);
-                }
-                else 
-                    fprintf(stderr, "Command terminated abnormally: %s\n", all->lakher[0]);
-            }
-            all = all->next;
-            i++;
-        }
+				dup2(fd[1], STDOUT_FILENO);
+			}
+			m_cmd(all);
+		}
+		else
+		{
+			close(fd[1]);
+			close(*saved_in_fd);
+			*saved_in_fd = fd[0];
+			int status;
+			if (wait(&status) == -1)
+			{
+				perror("wait");
+				exit(EXIT_FAILURE);
+			}
+			if (WIFEXITED(status))
+			{
+				if (WEXITSTATUS(status) != 0)
+					fprintf(stderr, "Command field : [%s] \n", all->lakher[0]);
+			}
+			else
+				fprintf(stderr, "Command terminated abnormally: %s\n", all->lakher[0]);
+		}
+		all = all->next;
+		i++;
+	}
 }
-void session(t_exe *all) 
+void session(t_exe *all)
 {
 	int size;
-    size = size_prc(all);
-    if (size == 1) 
+	size = size_prc(all);
+	if (size == 1)
 	{
-        o_cmd(all);
-    }
+		o_cmd(all);
+	}
 	if (size > 1)
 	{
-		lot_cmd(all,size);
+		lot_cmd(all, size);
 	}
 }

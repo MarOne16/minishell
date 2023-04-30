@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 01:56:51 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/28 15:00:15 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/29 15:34:46 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char *get_orgin(void)
     list = (glob->env);
     while(list)
     {
-        if(!ft_strncmp(list->name,"PWD=",4) && ft_strlen(list->name) == 4)
+        if(!ft_strncmp(list->name,"PWD",4) && ft_strlen(list->name) == 4)
         {
             return(list->value);
         }

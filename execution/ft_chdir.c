@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 18:03:29 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/29 11:43:50 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/04/29 13:31:46 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,18 +62,14 @@ void change_env(char *s,char *modified)
     change = find_var_env(modified,ft_strlen(modified));
     if(change)
         change->value = s;
-    // else
-    // {
-    //     ft_my_lstadd_back(&glob->env,ft_my_lstnew(modified,ft_strjoin("=",s)));
-    // }
+    else
+        glob->exit_status=1;
     change = NULL;
     change = find_var_exp(modified,ft_strlen(modified));
     if(change)
         change->value = s;
-    // else
-    // {
-    //     ft_my_lstadd_back(&glob->exp,ft_my_lstnew(modified,ft_strjoin("=",s)));
-    // }
+    else
+        glob->exit_status = 1;
 }
 void chdir_home (void)
 {
@@ -92,6 +88,7 @@ void chdir_home (void)
         if(chdir(home) == -1)
         {
                 printf("Can't Find home path : %s\n",strerror(errno));
+                glob->exit_status = errno;
                 return;
         }
     change_env(home,"PWD");
@@ -129,11 +126,13 @@ void ft_chdir(char **cmd)
             else
             {
                 printf("%s\n"," OLDPWD not set");
+                glob->exit_status = 1;
                     return;
             }
             if(chdir(home) == -1)
             {
                 printf("%s cd - \n",strerror(errno));
+                glob->exit_status = 1;
                 return;
             }
             printf("%s\n",home);
@@ -145,6 +144,7 @@ void ft_chdir(char **cmd)
         else if (old_path == NULL && !ft_strncmp(cmd[1],".",1) && ft_strlen(cmd[1]) == 1)
         {
            printf("%s\n",cmd[1]);
+           glob->exit_status = 1;
            return;
         }
         else
@@ -152,7 +152,8 @@ void ft_chdir(char **cmd)
             home = cmd[1];
             if(chdir(home) == -1)
             {
-                printf("%s\n cd :%s",strerror(errno),cmd[1]);
+                perror("Minishell");
+                glob->exit_status = errno;
                 return;
             }
             home = getcwd(NULL,0);
