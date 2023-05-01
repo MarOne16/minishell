@@ -253,4 +253,5 @@ void session(t_exe *all)
 	{
 		lot_cmd(all, size);
 	}
+	glob->exit_status = 0;
 }

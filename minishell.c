@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 16:13:17 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/01 13:14:48 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/01 14:53:27 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,10 @@ int	main(int argc, char *argv[], char **env)
 	feed_glob(argv, env);
 	while (1)
 	{
+		input = ft_readline();
 		signal(SIGINT, sig_handler);
 		signal(SIGQUIT, SIG_IGN);
 		rl_catch_signals = 0;
-		input = ft_readline();
 		if (!input)
 			break ;
 		if (!ft_strcmp(input, "exit"))

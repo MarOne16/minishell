@@ -12,14 +12,14 @@ SOURCE		=	lsttools/lst_all_cmd.c \
 				lsttools/lst_fd.c \
 				lsttools/ft_strjoin_char.c \
 				lsttools/ft_strdub_mini.c \
-				parcing/readline.c \
-				parcing/minishell_tools.c \
-				parcing/replace_env_var.c \
-				parcing/replace_env_var_2.c \
-				parcing/creatfile.c \
-				parcing/convert_to_char_d.c \
-				parcing/parcing_tools.c \
-				parcing/parcing_tools_2.c \
+				parsing/readline.c \
+				parsing/minishell_tools.c \
+				parsing/replace_env_var.c \
+				parsing/replace_env_var_2.c \
+				parsing/creatfile.c \
+				parsing/convert_to_char_d.c \
+				parsing/parsing_tools.c \
+				parsing/parsing_tools_2.c \
 				execution/builtin.c \
 				execution/ft_split.c \
 				execution/list_tools.c \
