@@ -213,7 +213,6 @@ void lot_cmd(t_exe *all, int size)
 			}
 			if (i < size - 1)
 			{
-				close(*saved_in_fd);
 				dup2(fd[1], STDOUT_FILENO);
 			}
 			m_cmd(all);
@@ -223,6 +222,7 @@ void lot_cmd(t_exe *all, int size)
 			close(fd[1]);
 			close(*saved_in_fd);
 			*saved_in_fd = fd[0];
+			// close(fd[0]);
 			int status;
 			if (wait(&status) == -1)
 			{

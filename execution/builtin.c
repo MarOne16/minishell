@@ -102,8 +102,7 @@ void check_builtin_multi(t_exe *all)
     s = all->lakher[0];
     n = (char **)all->lakher;
     if(!s)
-        return;
-    signal(SIGINT, SIG_IGN);
+        exit(1);
     if(!(ft_strncmp(s,"echo",4)) && ft_strlen(s) == 4)
     {
         ft_echo(n);
