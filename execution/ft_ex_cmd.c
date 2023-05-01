@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 02:37:20 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/29 16:54:04 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/01 16:41:49 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void ex_cmd(char ** cmd)
 			else if(execve(exe,cmd,environ) == -1)
 			{
 				ft_putstr_fd("Minishell: one_command not found 1\n",2);
-				exit(1);
+				exit(127);
 			}
 			
 		}
@@ -137,7 +137,7 @@ void mex_cmd(char ** cmd)
 		{
 			strerror(errno);
 			ft_putstr_fd("Minishell: multi_command not found\n",2);
-			exit(1);
+			exit(127);
 		}
 	}
 	exe = pathcmd(cmd[0]);
@@ -145,6 +145,6 @@ void mex_cmd(char ** cmd)
 	{
 		strerror(errno);
 		ft_putstr_fd("Minishell: multi_command not found\n",2);
-		exit(1);
+		exit(127);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 16:13:17 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/01 14:53:27 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/01 16:59:44 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,18 @@ void	free_all(void)
 	glob->g_all = NULL;
 }
 
+void	close_all(t_fd *fd)
+{
+	t_fd	*tmp;
+
+	while (fd)
+	{
+		tmp = fd;
+		fd = fd->next;
+		close(tmp->fd);
+	}
+}
+
 void	next_cmd(t_exe **all)
 {
 	t_exe	*tmp;
@@ -55,6 +67,7 @@ void	next_cmd(t_exe **all)
 			{
 				cmd[0] = ft_strdup_mini("");
 				tmp->lakher = (void**)cmd;
+				close_all(tmp->fd);
 			}
 			tmp2 = tmp2->next;
 		}
@@ -79,15 +92,16 @@ int	main(int argc, char *argv[], char **env)
 	feed_glob(argv, env);
 	while (1)
 	{
-		input = ft_readline();
 		signal(SIGINT, sig_handler);
 		signal(SIGQUIT, SIG_IGN);
+		input = ft_readline();
 		rl_catch_signals = 0;
 		if (!input)
 			break ;
 		if (!ft_strcmp(input, "exit"))
 			break ;
 		newinput = replace_vars(input);
+		glob->exit_status = 0;
 		feedlist(&all, newinput);
 		next_cmd(&all);
 		session(all);
