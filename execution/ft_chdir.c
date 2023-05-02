@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_chdir.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 18:03:29 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/29 13:31:46 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/02 15:41:47 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char * get_home(void)
 {
     t_my_list* temp_env;
-    temp_env = (glob->env);
+    temp_env = (g_lob->env);
         if(!temp_env)
             return(0);
     while(temp_env && temp_env->next)
@@ -30,7 +30,7 @@ char * get_home(void)
 }
 t_my_list *find_var_env(char *s , int size)
 {
-    t_my_list* temp_env = (glob->env);
+    t_my_list* temp_env = (g_lob->env);
     while(temp_env)
     {
         if(!ft_strncmp(s,temp_env->name,size) && (int)ft_strlen(temp_env->name) == size)
@@ -44,7 +44,7 @@ t_my_list *find_var_env(char *s , int size)
 
 t_my_list *find_var_exp(char *s , int size)
 {
-    t_my_list* temp_env = (glob->exp); 
+    t_my_list* temp_env = (g_lob->exp); 
     while(temp_env)
     {
         if(!ft_strncmp(s,temp_env->name,size) && (int)ft_strlen(temp_env->name) == size)
@@ -63,13 +63,13 @@ void change_env(char *s,char *modified)
     if(change)
         change->value = s;
     else
-        glob->exit_status=1;
+        g_lob->exit_status=1;
     change = NULL;
     change = find_var_exp(modified,ft_strlen(modified));
     if(change)
         change->value = s;
     else
-        glob->exit_status = 1;
+        g_lob->exit_status = 1;
 }
 void chdir_home (void)
 {
@@ -88,7 +88,7 @@ void chdir_home (void)
         if(chdir(home) == -1)
         {
                 printf("Can't Find home path : %s\n",strerror(errno));
-                glob->exit_status = errno;
+                g_lob->exit_status = errno;
                 return;
         }
     change_env(home,"PWD");
@@ -126,13 +126,13 @@ void ft_chdir(char **cmd)
             else
             {
                 printf("%s\n"," OLDPWD not set");
-                glob->exit_status = 1;
+                g_lob->exit_status = 1;
                     return;
             }
             if(chdir(home) == -1)
             {
                 printf("%s cd - \n",strerror(errno));
-                glob->exit_status = 1;
+                g_lob->exit_status = 1;
                 return;
             }
             printf("%s\n",home);
@@ -144,7 +144,7 @@ void ft_chdir(char **cmd)
         else if (old_path == NULL && !ft_strncmp(cmd[1],".",1) && ft_strlen(cmd[1]) == 1)
         {
            printf("%s\n",cmd[1]);
-           glob->exit_status = 1;
+           g_lob->exit_status = 1;
            return;
         }
         else
@@ -153,7 +153,7 @@ void ft_chdir(char **cmd)
             if(chdir(home) == -1)
             {
                 perror("Minishell");
-                glob->exit_status = errno;
+                g_lob->exit_status = errno;
                 return;
             }
             home = getcwd(NULL,0);

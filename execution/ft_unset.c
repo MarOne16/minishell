@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 01:33:25 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/29 19:04:07 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/02 15:41:47 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int check_unset_var(char *s)
 		else
 		{
 			printf(" '%s' not valid\n", s);
-			glob->exit_status = 2;
+			g_lob->exit_status = 2;
 			return (0);
 		}
 		while (((s[i] >= 'a' && s[i] <= 'z') || (s[i] >= 'A' && s[i] <= 'Z') || (s[i] >= '0' && s[i] <= '9') || s[i] == '_'))
@@ -30,7 +30,7 @@ int check_unset_var(char *s)
 		if (s[i] != '\0')
 		{
 			printf(" '%s' not valid\n", s);
-			glob->exit_status = 2;
+			g_lob->exit_status = 2;
 			return (0);
 		}
 	}
@@ -39,7 +39,7 @@ int check_unset_var(char *s)
 
 void free_var_exp(char *s, int size)
 {
-	t_my_list *temp_env = (glob->exp);
+	t_my_list *temp_env = (g_lob->exp);
 	t_my_list *tmp;
 	while (temp_env && temp_env->next)
 	{
@@ -56,7 +56,7 @@ void free_var_exp(char *s, int size)
 }
 void free_var_env(char *s, int size)
 {
-	t_my_list *temp_env = (glob->env);
+	t_my_list *temp_env = (g_lob->env);
 	t_my_list *tmp;
 	while (temp_env && temp_env->next)
 	{

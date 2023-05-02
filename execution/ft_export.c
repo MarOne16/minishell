@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 02:57:56 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/29 15:16:29 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/02 15:41:47 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 void print_exp()
 {
     t_my_list *list;
-    if(glob->exp)
+    if(g_lob->exp)
     {
-        list = (glob->exp);
+        list = (g_lob->exp);
         while(list)
         {
             printf("declare -x %s%s\n",list->name,list->value);
@@ -36,7 +36,7 @@ int check_var(char *s)
         else
         {
             printf("%s not valid 1\n",s);
-            glob->exit_status = 1;
+            g_lob->exit_status = 1;
             return(0);
         }
         while(((s[i] >= 'a' && s[i] <= 'z') || (s[i] >= 'A' && s[i] <= 'Z') 
@@ -45,7 +45,7 @@ int check_var(char *s)
             if(s[i] == '+' && s[i + 1] != '\0')
             {
                 printf("%s not valid 2\n",s);
-                glob->exit_status = 1;
+                g_lob->exit_status = 1;
                     return(0);
             }
                 
@@ -54,7 +54,7 @@ int check_var(char *s)
         if(s[i] != '\0')
         {
             printf(" '%s' not valid 3\n",s);
-            glob->exit_status = 1;
+            g_lob->exit_status = 1;
             return(0);
         }
     }
@@ -105,7 +105,7 @@ void put_plus(char *cmd,char *val)
     else if (s == NULL)
     {
             cmd = ft_substr(cmd,0,ft_strlen(cmd) - 1);
-                ft_my_lstadd_back(&glob->exp,ft_my_lstnew(cmd,val));
+                ft_my_lstadd_back(&g_lob->exp,ft_my_lstnew(cmd,val));
     }
     put_env_plus(cmd,val);
 }
@@ -121,7 +121,7 @@ void put_env_plus(char *cmd,char *val)
     }
     else
     {
-            ft_my_lstadd_back(&glob->env,ft_my_lstnew(cmd,val));
+            ft_my_lstadd_back(&g_lob->env,ft_my_lstnew(cmd,val));
     }
 }
  void put_env(char *cmd,char *val)
@@ -136,7 +136,7 @@ void put_env_plus(char *cmd,char *val)
     else
     {
         if(val)
-            ft_my_lstadd_back(&glob->env,ft_my_lstnew(cmd,val));
+            ft_my_lstadd_back(&g_lob->env,ft_my_lstnew(cmd,val));
     }
     
  }
@@ -163,10 +163,10 @@ void put_env_plus(char *cmd,char *val)
             if(val == NULL)
             {
                 
-                ft_my_lstadd_back(&glob->exp,ft_my_lstnew(cmd,""));
+                ft_my_lstadd_back(&g_lob->exp,ft_my_lstnew(cmd,""));
             }
             else
-                    ft_my_lstadd_back(&glob->exp,ft_my_lstnew(cmd,val)); 
+                    ft_my_lstadd_back(&g_lob->exp,ft_my_lstnew(cmd,val)); 
         }
         put_env(cmd,val);
     }
@@ -192,13 +192,13 @@ void ad_exp(char ** cmd)
             else
             {
                 printf("'%s' not Valid 2\n",*cmd);
-                glob->exit_status = 1;
+                g_lob->exit_status = 1;
             }
         }
         else
         {
             printf("'%s' not Valid 2\n",*cmd);
-            glob->exit_status = 1;
+            g_lob->exit_status = 1;
         }
 }
  

@@ -54,7 +54,7 @@ char	*ft_strjoin(char  *s1, char  *s2)
 void ft_env()
 {
 
-    t_my_list *temp = (glob->env);
+    t_my_list *temp = (g_lob->env);
     if(temp)
     {
         while(temp)

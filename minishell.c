@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 16:13:17 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/01 16:59:44 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/02 15:44:36 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 // free t_list *g_all
 void	feed_glob(char **argv, char **env)
 {
-	glob = (t_global *)malloc(sizeof(t_global));
+	g_lob = (t_global *)malloc(sizeof(t_global));
 	if (*env == NULL)
 		env = empty_env(argv);
-	glob->rd = 0;
-	glob->exit_status = 0;
-	glob->g_all = NULL;
+	g_lob->rd = 0;
+	g_lob->exit_status = 0;
+	g_lob->g_all = NULL;
 	Creat_env(env);
 	Creat_exp(env);
 }
@@ -28,14 +28,14 @@ void	free_all(void)
 {
 	t_list	*tmp;
 
-	while (glob->g_all)
+	while (g_lob->g_all)
 	{
-		tmp = glob->g_all;
-		glob->g_all = glob->g_all->next;
+		tmp = g_lob->g_all;
+		g_lob->g_all = g_lob->g_all->next;
 		free(tmp->content);
 		free(tmp);
 	}
-	glob->g_all = NULL;
+	g_lob->g_all = NULL;
 }
 
 void	close_all(t_fd *fd)
@@ -101,7 +101,7 @@ int	main(int argc, char *argv[], char **env)
 		if (!ft_strcmp(input, "exit"))
 			break ;
 		newinput = replace_vars(input);
-		glob->exit_status = 0;
+		g_lob->exit_status = 0;
 		feedlist(&all, newinput);
 		next_cmd(&all);
 		session(all);
@@ -120,7 +120,7 @@ int	main(int argc, char *argv[], char **env)
 // 	char *input = NULL;
 // 	char *newinput = NULL;
 // 	t_exe       *all = NULL;
-// 	glob = (t_global *)malloc(sizeof(t_global));
+// 	g_lob = (t_global *)malloc(sizeof(t_g_lobal));
 // 	if( *env == NULL)
 // 	{
 // 		env = empty_env(argv);

@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 02:37:20 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/01 16:41:49 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/02 15:41:47 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*pathcmd(char *str)
 	char	*t;
 	(void) str;
 	i = 0;
-	if (glob->env)
+	if (g_lob->env)
 	{
 		path = ft_my_split(find_var_exp("PATH",ft_strlen("PATH"))->value+1, ':');
 		while (path[i])

@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 03:04:10 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/01 13:15:34 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/02 15:41:47 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ int	herdoc(char *name)
 			return (1);
 		}
 		if (content == NULL || !ft_strcmp(content, ft_strjoin_char(name, \
-		'\n')) || (glob->rd == 1 && rl_done == 1))
+		'\n')) || (g_lob->rd == 1 && rl_done == 1))
 		{
-			glob->rd = 0;
+			g_lob->rd = 0;
 			break ;
 		}
 	}

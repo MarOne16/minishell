@@ -22,7 +22,7 @@ void Creat_env(char **env)
 		}
 		i++;
 	}
-	glob->env = listenv;
+	g_lob->env = listenv;
 }
 
 char **sort_env(char **env)
@@ -75,7 +75,7 @@ void Creat_exp(char **env)
 			ft_my_lstadd_back(&list, ft_my_lstnew(tmp[0], ft_strjoin("=", tmp[1])));
 		i++;
 	}
-	(glob->exp) = list;
+	(g_lob->exp) = list;
 }
 int size_fd(t_fd *fd)
 {
