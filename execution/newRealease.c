@@ -171,23 +171,25 @@ void m_cmd(t_exe *all)
 	if (infd)
 	{
 		dup2(infd, STDIN_FILENO);
+		printf("%d\n",infd);
 	}
 	if (outfd)
 	{
 		dup2(outfd, STDOUT_FILENO);
+		printf("%d\n",outfd);
 	}
 	check_builtin_multi(all);
 	if (infd)
 	{
 		close(infd);
-		dup2(saved_stdin_fd, STDIN_FILENO);
 		close(saved_stdout_fd);
+		dup2(saved_stdin_fd, STDIN_FILENO);
 	}
 	if (outfd)
 	{
 		close(outfd);
-		dup2(saved_stdout_fd, STDIN_FILENO);
 		close(saved_stdin_fd);
+		dup2(saved_stdout_fd, STDIN_FILENO);
 	}
 }
 
@@ -200,7 +202,6 @@ void lot_cmd(t_exe *all, int size)
     int *saved_in_fd = &input;
     int status = 0;
     pid_t child_pids[size]; // array to store child process IDs
-	int k = 0;
     while (all)
     {
         ft_pipe(fd);
@@ -209,33 +210,29 @@ void lot_cmd(t_exe *all, int size)
         {
             if (i != 0)
             {
-				// fprintf(stderr,"in_first_child_processe pid[%d]\n",pid);
                 dup2(*saved_in_fd, STDIN_FILENO);
             }
             if (i < size - 1)
             {
-				// fprintf(stderr,"in_last_child_processe pid[%d]\n",pid);
+				close(*saved_in_fd);
                 dup2(fd[1], STDOUT_FILENO);
+				close(fd[0]);
             }
             m_cmd(all);
         }
         else
         {
-			// fprintf(stderr,"in_parent_processe pid[%d]\n",pid);
-            close(fd[1]);
+			close(fd[1]);
             *saved_in_fd = fd[0];
-            // close(*saved_in_fd);
-            child_pids[i] = pid; // store child process ID
-			++k;
+            child_pids[i] = pid;
+			close(*saved_in_fd);
         }
         all = all->next;
         i++;
     }
-    // wait for all child processes to exit
-    for (int j = 0; j < k; j++)
+    for (int j = 0; j < size; j++)
 	{
-		// fprintf(stderr,"in_wait_processe pid[%d]\n",child_pids[j]);
-        if (waitpid(child_pids[j], &status, 0) == -1) // use waitpid to wait for a specific child process
+        if (waitpid(child_pids[j], &status, 0) == -1)
         {
             perror("waitpid");
             exit(EXIT_FAILURE);
@@ -243,8 +240,7 @@ void lot_cmd(t_exe *all, int size)
         if (WIFEXITED(status))
         {
             if (WEXITSTATUS(status) != 0)
-				if (all && all->lakher)
-                	fprintf(stderr, "Command field : [%s] \n", all->lakher[0]);
+				glob->exit_status = WEXITSTATUS(status);
         }
         else {
 			if (all && all->lakher)
