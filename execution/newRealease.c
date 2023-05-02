@@ -193,53 +193,64 @@ void m_cmd(t_exe *all)
 
 void lot_cmd(t_exe *all, int size)
 {
-	int fd[2];
-	int pid;
-	int i = 0;
-	int input = dup(STDIN_FILENO);
-	int *saved_in_fd = &input;
-
-	while (all)
+    int fd[2];
+    int pid;
+    int i = 0;
+    int input = dup(STDIN_FILENO);
+    int *saved_in_fd = &input;
+    int status = 0;
+    pid_t child_pids[size]; // array to store child process IDs
+	int k = 0;
+    while (all)
+    {
+        ft_pipe(fd);
+        pid = ft_fork();
+        if (pid == 0)
+        {
+            if (i != 0)
+            {
+				// fprintf(stderr,"in_first_child_processe pid[%d]\n",pid);
+                dup2(*saved_in_fd, STDIN_FILENO);
+            }
+            if (i < size - 1)
+            {
+				// fprintf(stderr,"in_last_child_processe pid[%d]\n",pid);
+                dup2(fd[1], STDOUT_FILENO);
+            }
+            m_cmd(all);
+        }
+        else
+        {
+			// fprintf(stderr,"in_parent_processe pid[%d]\n",pid);
+            close(fd[1]);
+            *saved_in_fd = fd[0];
+            // close(*saved_in_fd);
+            child_pids[i] = pid; // store child process ID
+			++k;
+        }
+        all = all->next;
+        i++;
+    }
+    // wait for all child processes to exit
+    for (int j = 0; j < k; j++)
 	{
-		ft_pipe(fd);
-		pid = ft_fork();
-		if (pid == 0)
-		{
-
-			if (i != 0)
-			{
-				close(fd[1]);
-				dup2(*saved_in_fd, STDIN_FILENO);
-			}
-			if (i < size - 1)
-			{
-				dup2(fd[1], STDOUT_FILENO);
-			}
-			m_cmd(all);
+		// fprintf(stderr,"in_wait_processe pid[%d]\n",child_pids[j]);
+        if (waitpid(child_pids[j], &status, 0) == -1) // use waitpid to wait for a specific child process
+        {
+            perror("waitpid");
+            exit(EXIT_FAILURE);
+        }
+        if (WIFEXITED(status))
+        {
+            if (WEXITSTATUS(status) != 0)
+				if (all && all->lakher)
+                	fprintf(stderr, "Command field : [%s] \n", all->lakher[0]);
+        }
+        else {
+			if (all && all->lakher)
+            	fprintf(stderr, "Command terminated abnormally: %s\n", all->lakher[0]);
 		}
-		else
-		{
-			close(fd[1]);
-			close(*saved_in_fd);
-			*saved_in_fd = fd[0];
-			// close(fd[0]);
-			int status;
-			if (wait(&status) == -1)
-			{
-				perror("wait");
-				exit(EXIT_FAILURE);
-			}
-			if (WIFEXITED(status))
-			{
-				if (WEXITSTATUS(status) != 0)
-					fprintf(stderr, "Command field : [%s] \n", all->lakher[0]);
-			}
-			else
-				fprintf(stderr, "Command terminated abnormally: %s\n", all->lakher[0]);
-		}
-		all = all->next;
-		i++;
-	}
+    }
 }
 void session(t_exe *all)
 {

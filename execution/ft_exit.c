@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 22:31:11 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/29 19:05:14 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/02 14:11:12 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,19 @@ void	check_num(char *s)
 	}
 }
 
-void multi_cmd(char *cmd)
+void	multi_cmd(char *cmd)
 {
 
 	check_num(cmd);
 	printf("exit\ntoo many arguments\n");
 }
 
-void ft_exit(char **cmd)
+void	ft_exit(char **cmd)
 {
-	int size;
-	int i;
-	int estatus;
-	char *s;
+	int		size;
+	int		i;
+	int		estatus;
+	char	*s;
 
 	size = size_cmd(cmd);
 	i = 0;
