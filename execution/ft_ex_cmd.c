@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 02:37:20 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/29 11:44:14 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/01 16:55:12 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ void mex_cmd(char ** cmd)
 		{
 			strerror(errno);
 			ft_putstr_fd("Minishell: multi_command not found\n",2);
-			exit(1);
+			exit(errno);
 		}
 	}
 	exe = pathcmd(cmd[0]);
@@ -144,6 +144,7 @@ void mex_cmd(char ** cmd)
 	{
 		strerror(errno);
 		ft_putstr_fd("Minishell: multi_command not found\n",2);
-		exit(1);
+		glob->exit_status = errno;
+		exit(errno);
 	}
 }
