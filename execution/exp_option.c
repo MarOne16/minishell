@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 01:16:42 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/02 16:45:01 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/03 16:18:58 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 t_my_list	*var_exp(char *s, int size)
 {
 	t_my_list	*temp_env;
+
 	temp_env = (glob->exp);
 	while (temp_env)
 	{
