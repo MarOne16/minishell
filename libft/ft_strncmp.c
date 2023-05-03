@@ -19,9 +19,7 @@ int	ft_strncmp(char *s1, char *s2, size_t n)
 
 	i = 0;
 	x = -1;
-	if (x < ft_strlen(s2))
-		return (1);
-	while ((s1[i] || s2[i]) && s1[i] != '=' && i <= n)
+	while ((s1[i] || s2[i]) && i <= n)
 	{
 		if (s2[i] != s1[i])
 			return (1);
