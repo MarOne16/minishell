@@ -17,6 +17,7 @@ void	feed_glob(char **argv, char **env)
 	g_lob = (t_global *)malloc(sizeof(t_global));
 	if (*env == NULL)
 		env = empty_env(argv);
+	g_lob->environ = env;
 	g_lob->rd = 0;
 	g_lob->exit_status = 0;
 	g_lob->g_all = NULL;

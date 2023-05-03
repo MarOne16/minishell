@@ -118,6 +118,7 @@ void	feedlist(t_exe **all, char *input)
 	operatorscount(input, hash) == 1337)
 	{
 		printf("syntax error\n");
+		g_lob->exit_status = 258;
 		return ;
 	}
 	table_lakher(cmdspl, all);

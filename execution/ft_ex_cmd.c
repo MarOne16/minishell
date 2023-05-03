@@ -6,7 +6,8 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 02:37:20 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/02 16:15:18 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/02 15:57:42 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/02 18:34:13 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,34 +67,46 @@ char	*pathcmd(char *str)
 	return (NULL);
 }
 
-void file_info(char *s)
+int file_info(int fd ,char *s)
 {
 	struct stat file_stats;
+	int ex = 0;
 
     if (lstat(s, &file_stats) == 0) 
 	{
-        if (S_ISREG(file_stats.st_mode)) {
-            printf("Permission denied.\n");
+        if (S_ISREG(file_stats.st_mode)) 
+		{
+            ft_putstr_fd("Permission denied.\n",fd);
+			ex = 126;
         } else if (S_ISDIR(file_stats.st_mode)) {
-            printf("is a directory.\n");
+            ft_putstr_fd("is a directory.\n",fd);
+			ex = 126;
         } else if (S_ISCHR(file_stats.st_mode)) {
-            printf("is a character device.\n");
+            ft_putstr_fd("is a character device.\n",fd);
+			ex = 127;
         } else if (S_ISBLK(file_stats.st_mode)) {
-            printf("is a block device.\n");
+            ft_putstr_fd("is a block device.\n",fd);
+			ex = 127;
         } else if (S_ISFIFO(file_stats.st_mode)) {
-            printf("is a FIFO/pipe.\n");
+            ft_putstr_fd("is a FIFO/pipe.\n",fd);
+			ex = 125;
         } else if (S_ISSOCK(file_stats.st_mode)) {
-            printf("is a socket.\n");
+            ft_putstr_fd("is a socket.\n",fd);
+			ex = 125;
         } else if (S_ISLNK(file_stats.st_mode)) {
-            printf("is a symbolic link.\n");
+            ft_putstr_fd("is a symbolic link.\n",fd);
+			ex = 126;
         } else {
-            printf("type is unknown.\n");
+            ft_putstr_fd("type is unknown.\n",fd);
+			ex = 127;
         }
     } 
 	else 
 	{
         perror("Minishell");
+		ex = 127;
     }
+	return(ex);
 }
 
 
@@ -102,50 +115,65 @@ void ex_cmd(char ** cmd)
 	char *exe;
 	extern char ** environ;
 	pid_t pid;
+	int status;
+	int ex;
 	
 
 	pid = fork();
 		if(pid == 0)
 		{
-			exe = pathcmd(cmd[0]);
 			if(ft_strchr(cmd[0],'/'))
 			{
-				if(execve(cmd[0], cmd, environ) == -1)
+					if(execve(cmd[0], cmd, environ) == -1)
+					{
+						ex = file_info(2,cmd[0]);
+						exit(ex);
+					}
+			}
+			exe = pathcmd(cmd[0]);
+			{
+				if(execve(exe,cmd,environ) == -1)
 				{
-					file_info(cmd[0]);
-					exit(1);
+						perror("Minishell");
+						exit(127);
 				}
 			}
-			else if(execve(exe,cmd,environ) == -1)
-			{
-				ft_putstr_fd("Minishell: one_command not found 1\n",2);
-				exit(127);
-			}
-			
 		}
 		else
-			wait(0);
+		{
+			if (waitpid(pid, &status, 0) == -1) // use waitpid to wait for a specific child process
+			{
+				perror("waitpid");
+				exit(EXIT_FAILURE);
+			}
+			if (WIFEXITED(status))
+			{
+				if (WEXITSTATUS(status) != 0)
+						g_lob->exit_status = WEXITSTATUS(status);
+			}
+			else {
+					fprintf(stderr, "Command terminated abnormally\n");
+			}
+		}
 }
 void mex_cmd(char ** cmd)
 {
 	char *exe;
+	int ex;
 	extern char ** environ;
 
 	if(ft_strchr(cmd[0],'/'))
 	{	
 		if(execve(cmd[0], cmd, environ) == -1)
 		{
-			strerror(errno);
-			ft_putstr_fd("Minishell: multi_command not found\n",2);
-			exit(errno);
+			ex = file_info(2,cmd[0]);
+			exit(ex);
 		}
 	}
 	exe = pathcmd(cmd[0]);
 	if(execve(exe, cmd, environ) == -1)
 	{
-		strerror(errno);
 		ft_putstr_fd("Minishell: multi_command not found\n",2);
-		g_lob->exit_status = errno;
-		exit(errno);
+		exit(127);
 	}
 }

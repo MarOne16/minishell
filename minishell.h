@@ -94,6 +94,7 @@ typedef struct s_global
 {
 	t_my_list	*env;
 	t_my_list	*exp;
+	char		**environ;
 	int			rd;
 	int			exit_status;
 	t_list		*g_all;
@@ -138,6 +139,9 @@ int size_cmd(char **cmd);
 void ex_cmd(char ** cmd);
 void mex_cmd(char ** cmd);
 void check_builtin_multi(t_exe *all);
+void	multi_echo(char **cmd);
+
+
 // list tools allcmd
 char	*ft_strjoin_char(char *s, char c);
 char	*ft_strdup_mini( char *s1);

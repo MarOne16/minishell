@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 01:16:42 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/02 15:41:47 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/03 16:18:58 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_my_list	*var_exp(char *s, int size)
 	temp_env = (g_lob->exp);
 	while (temp_env)
 	{
-		if (!ft_strncmp(s, temp_env->name, size))
+		if (!strncmp(s, temp_env->name, size))
 		{
 			return (temp_env);
 		}

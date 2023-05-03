@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 22:31:11 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/02 14:11:12 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/03 16:18:25 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	ft_exit(char **cmd)
 	int		size;
 	int		i;
 	int		estatus;
-	char	*s;
 
 	size = size_cmd(cmd);
 	i = 0;
@@ -56,9 +55,8 @@ void	ft_exit(char **cmd)
 	}
 	else if (size == 2)
 	{
-		s = cmd[1];
-		check_num(s);
-		estatus = ft_atoi(s);
+		check_num(cmd[1]);
+		estatus = ft_atoi(cmd[1]);
 		if (estatus < -2147483648 || estatus > 2147483647)
 		{
 			printf("exit\nnumeric argument required\n");
