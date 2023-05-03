@@ -6,18 +6,21 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 01:33:25 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/29 19:04:07 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/03 16:16:33 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int check_unset_var(char *s)
+int	check_unset_var(char *s)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (s[i])
 	{
-		if ((s[i] >= 'a' && s[i] <= 'z') || (s[i] >= 'A' && s[i] <= 'Z') || s[i] == '_')
+
+		if (ft_isalpha(s[i]) || s[i] == '_')
 			i++;
 		else
 		{
@@ -25,7 +28,7 @@ int check_unset_var(char *s)
 			glob->exit_status = 2;
 			return (0);
 		}
-		while (((s[i] >= 'a' && s[i] <= 'z') || (s[i] >= 'A' && s[i] <= 'Z') || (s[i] >= '0' && s[i] <= '9') || s[i] == '_'))
+		while (ft_isalnum(s[i]) || s[i] == '_')
 			i++;
 		if (s[i] != '\0')
 		{
@@ -37,13 +40,16 @@ int check_unset_var(char *s)
 	return (1);
 }
 
-void free_var_exp(char *s, int size)
+void	free_var_exp(char *s, int size)
 {
-	t_my_list *temp_env = (glob->exp);
-	t_my_list *tmp;
+	t_my_list	*temp_env;
+	t_my_list	*tmp;
+
+	temp_env = (glob->exp);
 	while (temp_env && temp_env->next)
 	{
-		if (!ft_strncmp(s, temp_env->next->name, size) && (int)ft_strlen(temp_env->next->name) == size)
+		if (!ft_strncmp(s, temp_env->next->name, size) \
+		&& (int)ft_strlen(temp_env->next->name) == size)
 		{
 			tmp = temp_env->next;
 			temp_env->next = tmp->next;
@@ -52,15 +58,19 @@ void free_var_exp(char *s, int size)
 		}
 		temp_env = temp_env->next;
 	}
-	return;
+	return ;
 }
-void free_var_env(char *s, int size)
+
+void	free_var_env(char *s, int size)
 {
-	t_my_list *temp_env = (glob->env);
-	t_my_list *tmp;
+	t_my_list	*temp_env;
+	t_my_list	*tmp;
+
+	temp_env = (glob->env);
 	while (temp_env && temp_env->next)
 	{
-		if (!ft_strncmp(s, temp_env->next->name, size) && (int)ft_strlen(temp_env->next->name) == size)
+		if (!ft_strncmp(s, temp_env->next->name, size) \
+		&& (int)ft_strlen(temp_env->next->name) == size)
 		{
 			tmp = temp_env->next;
 			temp_env->next = tmp->next;
@@ -68,16 +78,18 @@ void free_var_env(char *s, int size)
 		}
 		temp_env = temp_env->next;
 	}
-	return;
+	return ;
 }
 
-void ft_unset(char **cmd)
+void	ft_unset(char **cmd)
 {
-	int size = size_cmd(cmd);
-	int i;
+	int		size;
+	int		i;
+
+	size = size_cmd(cmd);
 	if (size == 1)
 	{
-		return;
+		return ;
 	}
 	else if (size == 2)
 	{

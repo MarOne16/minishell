@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 02:57:56 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/29 15:16:29 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/03 12:40:05 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,9 @@ void put_plus(char *cmd,char *val)
         if(s->value)
         {
             if(!ft_strncmp(s->value,"=",1))
+            {
                 val = ft_substr(val,1,ft_strlen(val) - 1);
+            }
             s->value = ft_strjoin(s->value,val);
         }
     }
@@ -192,13 +194,13 @@ void ad_exp(char ** cmd)
             else
             {
                 printf("'%s' not Valid 2\n",*cmd);
-                glob->exit_status = 1;
+                glob->exit_status = 2;
             }
         }
         else
         {
             printf("'%s' not Valid 2\n",*cmd);
-            glob->exit_status = 1;
+            glob->exit_status = 2;
         }
 }
  
@@ -217,7 +219,7 @@ void ft_exp(char **cmd)
         cmd = &cmd[1];
         while(cmd[i])
         {
-            ad_exp(cmd);
+            ad_exp(&cmd[i]);
             i++;
         }
     }
