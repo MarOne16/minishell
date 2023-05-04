@@ -195,65 +195,61 @@ void m_cmd(t_exe *all)
 
 void lot_cmd(t_exe *all, int size)
 {
-	int fd[2];
-	int pid;
-	int i = 0;
-	int input = dup(STDIN_FILENO);
-	int *saved_in_fd = &input;
-	int status = 0;
-	puts("here");
-	pid_t child_pids[size]; // array to store child process IDs
-	while (all)
-	{
-		ft_pipe(fd);
-		pid = ft_fork();
-		if (pid == 0)
-		{
-			if (i != 0)
+    int fd[2];
+    int pid;
+    int i = 0;
+    int input = dup(STDIN_FILENO);
+    int *saved_in_fd = &input;
+    int status = 0;
+    pid_t child_pids[size]; // array to store child process IDs
+    while (all)
+    {
+		if (all->next)
+        	ft_pipe(fd);
+        pid = ft_fork();
+        if (pid == 0)
+        {
+            if (i != 0)
+            {
+                dup2(*saved_in_fd, STDIN_FILENO);
+            }
+            if (i < size - 1)
+            {
+                dup2(fd[1], STDOUT_FILENO);
+            }
+            m_cmd(all);
+        }
+        else
+        {
+			if(i == size -1)
 			{
-				close(fd[0]);
-				close(fd[1]);
-				dup2(*saved_in_fd, STDIN_FILENO);
 				close(*saved_in_fd);
-			}
-			else if (i < size - 1)
-			{
-				close(fd[0]);
-				close(*saved_in_fd);
-				dup2(fd[1], STDOUT_FILENO);
 				close(fd[0]);
 			}
-			m_cmd(all);
-		}
-		else
-		{
 			close(fd[1]);
-			// close(fd[0]);
 			*saved_in_fd = fd[0];
-			child_pids[i] = pid;
-		}
-		all = all->next;
-		i++;
-	}
-
-	for (int j = 0; j < size; j++)
+            child_pids[i] = pid;
+        }
+        all = all->next;
+        i++;
+    }
+    for (int j = 0; j < size; j++)
 	{
-		if (waitpid(child_pids[j], &status, 0) == -1)
-		{
-			perror("waitpid");
-			exit(EXIT_FAILURE);
-		}
-		if (WIFEXITED(status))
-		{
-			if (WEXITSTATUS(status) != 0)
+        if (waitpid(child_pids[j], &status, 0) == -1)
+        {
+            perror("waitpid");
+            exit(EXIT_FAILURE);
+        }
+        if (WIFEXITED(status))
+        {
+            if (WEXITSTATUS(status) != 0)
 				glob->exit_status = WEXITSTATUS(status);
-		}
-		else
-		{
+        }
+        else {
 			if (all && all->lakher)
-				fprintf(stderr, "Command terminated abnormally: %s\n", all->lakher[0]);
+            	fprintf(stderr, "Command terminated abnormally: %s\n", all->lakher[0]);
 		}
-	}
+    }
 }
 void session(t_exe *all)
 {
