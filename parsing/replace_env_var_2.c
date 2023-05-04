@@ -21,6 +21,9 @@ char	*return_new_ptr(char *str, char *new_str_ptr, t_tools t, int i)
 			t = get_variable_info(str, i);
 			if (t.var_value != NULL)
 				new_str_ptr = append_variable_value(t, new_str_ptr);
+			else if (str[i] == '$' && (str[i + 1] == ' ' || str[i + 1] == '\0' \
+			|| str[i + 1] == '\'' || str[i + 1] == '\"'))
+				*new_str_ptr++ = '$';
 			else
 				*new_str_ptr++ = '\t';
 			i = t.v_e;

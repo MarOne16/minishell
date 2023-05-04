@@ -73,13 +73,13 @@ void	change_env(char *s, char *modified)
 	if (change)
 		change->value = s;
 	else
-		g_lob->exit_status = 1;
+		g_lob->exit_status = 0;
 	change = NULL;
 	change = find_var_exp(modified, ft_strlen(modified));
 	if (change)
 		change->value = s;
 	else
-		g_lob->exit_status = 1;
+		g_lob->exit_status = 0;
 }
 
 void	chdir_home(void)
@@ -98,7 +98,7 @@ void	chdir_home(void)
 	if (chdir(home) == -1)
 	{
 		printf("Can't Find home path : %s\n", strerror(errno));
-		g_lob->exit_status = errno;
+		g_lob->exit_status = 0;
 		return ;
 	}
 	change_env(home, "PWD");
@@ -118,13 +118,13 @@ void	zig_zag(char *old_path)
 	else
 	{
 		printf("%s\n", " OLDPWD not set");
-		g_lob->exit_status = 1;
+		g_lob->exit_status = 0;
 		return ;
 	}
 	if (chdir(home) == -1)
 	{
 		printf("%s cd - \n", strerror(errno));
-		g_lob->exit_status = 1;
+		g_lob->exit_status = 0;
 		return ;
 	}
 	printf("%s\n", home);
@@ -139,7 +139,7 @@ void	get_dir(char *home , char *old_path)
 	if (chdir(home) == -1)
 	{
 		perror("Minishell");
-		g_lob->exit_status = errno;
+		g_lob->exit_status = 1;
 		return ;
 	}
 	home = getcwd(NULL, 0);

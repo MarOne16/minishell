@@ -201,7 +201,6 @@ void lot_cmd(t_exe *all, int size)
 	int input = dup(STDIN_FILENO);
 	int *saved_in_fd = &input;
 	int status = 0;
-	puts("here");
 	pid_t child_pids[size]; // array to store child process IDs
 	while (all)
 	{
@@ -251,7 +250,7 @@ void lot_cmd(t_exe *all, int size)
 		else
 		{
 			if (all && all->lakher)
-				fprintf(stderr, "Command terminated abnormally: %s\n", all->lakher[0]);
+				ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
 		}
 	}
 }
