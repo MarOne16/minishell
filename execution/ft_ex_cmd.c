@@ -103,7 +103,7 @@ int file_info(int fd ,char *s)
     } 
 	else 
 	{
-        perror("Minishell");
+		ft_putstr_fd("No such file or directory.\n",fd);
 		ex = 127;
     }
 	return(ex);
@@ -118,6 +118,7 @@ void ex_cmd(char ** cmd)
 	int status;
 	int ex;
 	
+
 
 	pid = fork();
 		if(pid == 0)
@@ -134,7 +135,7 @@ void ex_cmd(char ** cmd)
 			{
 				if(execve(exe,cmd,environ) == -1)
 				{
-						perror("Minishell");
+						ft_putstr_fd("command not found.\n",2);
 						exit(127);
 				}
 			}

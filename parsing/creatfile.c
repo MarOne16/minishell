@@ -56,8 +56,6 @@ int	output_input_append(char *name, char type)
 	else if (type == 'i')
 	{
 		fd = open(name, O_RDONLY);
-		if (fd == -1 && errno == ENOENT)
-			fd = open(name, O_CREAT | O_RDONLY, 0644);
 	}
 	else if (type == 'a')
 	{
@@ -90,7 +88,10 @@ void	creat_file_2(t_cmd *tmp, t_fd **fd_list)
 
 	fd = creat_fd(get_type(tmp->cmd), tmp->next->cmd);
 	if (fd == -1)
-		printf("Error opening file.\n");
+	{
+		file_info(2, tmp->next->cmd);
+		g_lob->exit_status = 1;
+	}
 	ft_lstadd_back_fd(fd_list, ft_lstnew_fd(get_type(tmp->cmd), fd));
 }
 

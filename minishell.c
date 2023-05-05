@@ -85,11 +85,11 @@ int	main(int argc, char *argv[], char **env)
 	input = NULL;
 	all = NULL;
 	(void)argc;
-	// if (argc > 1)
-	// {
-	// 	ft_putstr_fd("Error: too many arguments\n", 2);
-	// 	exit(1);
-	// }
+	if (argc > 1)
+	{
+		ft_putstr_fd("Error: too many arguments\n", 2);
+		exit(1);
+	}
 	feed_glob(argv, env);
 	while (1)
 	{

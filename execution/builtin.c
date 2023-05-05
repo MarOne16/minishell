@@ -74,9 +74,11 @@ void	check_builtin(t_exe *all)
 	char	*s;
 	char	**n;
 
+    if (all->lakher == NULL || all->lakher[0] == NULL)
+		return ;
 	s = all->lakher[0];
 	n = (char **)all->lakher;
-	if (!s)
+	if(s[0] == '\0')
 		return ;
 	if (!(ft_strncmp(s, "echo", 4)) && ft_strlen(s) == 4)
 		ft_echo(n);
@@ -103,10 +105,12 @@ void	check_builtin_multi(t_exe *all)
 	char	*s;
 	char	**n;
 
+	if (all->lakher == NULL || all->lakher[0] == '\0')
+		exit(1);
 	s = all->lakher[0];
 	n = (char **)all->lakher;
-	if (!s)
-		exit(1);
+	if(s[0]== '\0')
+		return ;
 	if (!(ft_strncmp(s, "echo", 4)) && ft_strlen(s) == 4)
 	{
 		ft_echo(n);

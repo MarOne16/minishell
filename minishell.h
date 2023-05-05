@@ -140,6 +140,7 @@ void ex_cmd(char ** cmd);
 void mex_cmd(char ** cmd);
 void check_builtin_multi(t_exe *all);
 void	multi_echo(char **cmd);
+int file_info(int fd ,char *s);
 
 
 // list tools allcmd
