@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 02:37:20 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/02 18:34:13 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/05 14:24:00 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,14 +133,14 @@ void ex_cmd(char ** cmd)
 			{
 				if(execve(exe,cmd,environ) == -1)
 				{
-						perror("Minishell");
+						ft_putstr_fd("Minishell: command not found\n",2);
 						exit(127);
 				}
 			}
 		}
 		else
 		{
-			if (waitpid(pid, &status, 0) == -1) // use waitpid to wait for a specific child process
+			if (waitpid(pid, &status, 0) == -1)
 			{
 				perror("waitpid");
 				exit(EXIT_FAILURE);
@@ -171,7 +171,7 @@ void mex_cmd(char ** cmd)
 	exe = pathcmd(cmd[0]);
 	if(execve(exe, cmd, environ) == -1)
 	{
-		ft_putstr_fd("Minishell: multi_command not found\n",2);
+		ft_putstr_fd("Minishell: command not found\n",2);
 		exit(127);
 	}
 }

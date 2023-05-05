@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 01:33:25 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/03 16:16:33 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/05 14:13:57 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,20 @@ int	check_unset_var(char *s)
 	while (s[i])
 	{
 
-		if (ft_isalpha(s[i]) || s[i] == '_')
+		if (!ft_isalpha(s[i]) || s[i] == '_')
 			i++;
 		else
 		{
-			printf(" '%s' not valid\n", s);
-			glob->exit_status = 2;
+			ft_putstr_fd(" '%s' not valid\n",2);
+			glob->exit_status = 1;
 			return (0);
 		}
-		while (ft_isalnum(s[i]) || s[i] == '_')
+		while (!ft_isalnum(s[i]) || s[i] == '_')
 			i++;
 		if (s[i] != '\0')
 		{
-			printf(" '%s' not valid\n", s);
-			glob->exit_status = 2;
+			ft_putstr_fd(" '%s' not valid\n",2);
+			glob->exit_status = 1;
 			return (0);
 		}
 	}
