@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 01:33:25 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/05 14:13:57 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/07 13:04:05 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,16 @@ int	check_unset_var(char *s)
 			i++;
 		else
 		{
-			ft_putstr_fd(" '%s' not valid\n",2);
-			glob->exit_status = 1;
+			printf(" '%s' not valid\n", s);
+			g_lob->exit_status = 2;
 			return (0);
 		}
 		while (!ft_isalnum(s[i]) || s[i] == '_')
 			i++;
 		if (s[i] != '\0')
 		{
-			ft_putstr_fd(" '%s' not valid\n",2);
-			glob->exit_status = 1;
+			printf(" '%s' not valid\n", s);
+			g_lob->exit_status = 2;
 			return (0);
 		}
 	}
@@ -45,7 +45,7 @@ void	free_var_exp(char *s, int size)
 	t_my_list	*temp_env;
 	t_my_list	*tmp;
 
-	temp_env = (glob->exp);
+	temp_env = (g_lob->exp);
 	while (temp_env && temp_env->next)
 	{
 		if (!ft_strncmp(s, temp_env->next->name, size) \
@@ -53,8 +53,8 @@ void	free_var_exp(char *s, int size)
 		{
 			tmp = temp_env->next;
 			temp_env->next = tmp->next;
-			free(tmp);
-			free_var_env(s, size);
+			// free(tmp);
+			// free_var_env(s, size);
 		}
 		temp_env = temp_env->next;
 	}
@@ -66,7 +66,7 @@ void	free_var_env(char *s, int size)
 	t_my_list	*temp_env;
 	t_my_list	*tmp;
 
-	temp_env = (glob->env);
+	temp_env = (g_lob->env);
 	while (temp_env && temp_env->next)
 	{
 		if (!ft_strncmp(s, temp_env->next->name, size) \
@@ -74,7 +74,7 @@ void	free_var_env(char *s, int size)
 		{
 			tmp = temp_env->next;
 			temp_env->next = tmp->next;
-			free(tmp);
+			// free(tmp);
 		}
 		temp_env = temp_env->next;
 	}

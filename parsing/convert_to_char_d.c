@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 01:40:48 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/28 16:02:40 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/29 15:21:54 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,24 @@ int	sizechar(t_cmd *cmd)
 	return (i);
 }
 
+char	*rplace_tab(char *str)
+{
+	int		i;
+	char	*newstr;
+
+	i = 0;
+	newstr = ft_strdup_mini("");
+	while (str[i])
+	{
+		if (str[i] == '\t')
+			newstr = ft_strjoin_char(newstr, ' ');
+		else
+			newstr = ft_strjoin_char(newstr, str[i]);
+		i++;
+	}
+	return (newstr);
+}
+
 void	table_lakher(t_cmd *cmd, t_exe **lakher)
 {
 	char	**spl;
@@ -79,7 +97,7 @@ void	table_lakher(t_cmd *cmd, t_exe **lakher)
 			rest = rest->next->next;
 		else
 		{
-			spl[i++] = (rest->cmd);
+			spl[i++] = rplace_tab(rest->cmd);
 			rest = rest->next;
 		}
 	}

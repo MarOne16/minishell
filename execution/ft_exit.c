@@ -19,52 +19,47 @@ void	check_num(char *s)
 	i = 0;
 	while (s[i])
 	{
-		if (s[i] && (s[i] < '0' || s[i] > '9') && s[i] != '-' && s[i] != '+')
+		if (s[i] == '+' || s[i] == '-')
+			i++;
+		if (ft_isdigit(s[i]) == 0)
 		{
-			printf("exit\nnumeric argument required\n");
+			ft_putstr_fd(s, 2);
+			ft_putstr_fd(": numeric argument required\n", 2);
 			exit(255);
 		}
 		i++;
-	}
-	if (s[i] != '\0')
-	{
-		printf("exit\nnumeric argument required\n");
-		exit(255);
 	}
 }
 
 void	multi_cmd(char *cmd)
 {
-
 	check_num(cmd);
-	printf("exit\ntoo many arguments\n");
+	ft_putstr_fd(" too many arguments\n", 2);
+	g_lob->exit_status = 1;
 }
 
 void	ft_exit(char **cmd)
 {
-	int		size;
-	int		i;
-	int		estatus;
+	int			i;
+	int			estatus;
 
-	size = size_cmd(cmd);
 	i = 0;
-	if (size == 1)
+	if (size_cmd(cmd) == 1)
 	{
-		printf("exit\n");
+		ft_putchar_fd('\n', 2);
 		exit(0);
 	}
-	else if (size == 2)
+	else if (size_cmd(cmd) == 2)
 	{
 		check_num(cmd[1]);
 		estatus = ft_atoi(cmd[1]);
-		if (estatus < -2147483648 || estatus > 2147483647)
-		{
-			printf("exit\nnumeric argument required\n");
-			exit(255);
-		}
-		printf("exit\n");
-		exit(estatus);
+		if (estatus < 0)
+			estatus = 256 + estatus;
+		else if (estatus > 255)
+			estatus = estatus % 256;
+		ft_putchar_fd('\n', 2);
+		exit((int)estatus);
 	}
-	else if (size > 2)
+	else if (size_cmd(cmd) > 2)
 		multi_cmd(cmd[1]);
 }

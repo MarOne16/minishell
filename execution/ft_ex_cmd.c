@@ -6,9 +6,10 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 02:37:20 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/05 14:24:00 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/07 13:06:26 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../minishell.h"
 
@@ -32,8 +33,8 @@ char	*f_slach(char *ar)
 	char	*str;
 
 	tab = ft_my_split(ar, ' ');
-	str = ft_strjoin("/", tab[0]);
-	frepath(tab);
+	str = ft_strjoin_mini("/", tab[0]);
+	// frepath(tab);
 	return (str);
 }
 
@@ -45,23 +46,23 @@ char	*pathcmd(char *str)
 	char	*t;
 	(void) str;
 	i = 0;
-	if (glob->env)
+	if (g_lob->env)
 	{
 		path = ft_my_split(find_var_exp("PATH",ft_strlen("PATH"))->value+1, ':');
 		while (path[i])
 		{
 			t = f_slach(str);
-			s = ft_strjoin(path[i], t);
+			s = ft_strjoin_mini(path[i], t);
 			if (!access(s, X_OK))
 			{
-				frepath(path);
-				return (free (t), s);
+				// frepath(path);
+				return (s);
 			}
 			i++;
-			free(s);
-			free(t);
+			// free(s);
+			// free(t);
 		}
-		frepath(path);
+		// frepath(path);
 	}
 	return (NULL);
 }
@@ -102,7 +103,7 @@ int file_info(int fd ,char *s)
     } 
 	else 
 	{
-        perror("Minishell");
+		ft_putstr_fd("No such file or directory.\n",fd);
 		ex = 127;
     }
 	return(ex);
@@ -119,49 +120,51 @@ void ex_cmd(char ** cmd)
 	
 
 	pid = fork();
-		if(pid == 0)
+	if(pid == 0)
+	{
+		if(ft_strchr(cmd[0],'/'))
 		{
-			if(ft_strchr(cmd[0],'/'))
-			{
-					if(execve(cmd[0], cmd, environ) == -1)
-					{
-						ex = file_info(2,cmd[0]);
-						exit(ex);
-					}
-			}
-			exe = pathcmd(cmd[0]);
-			{
-				if(execve(exe,cmd,environ) == -1)
+			printf("1\n");
+				if(execve(cmd[0], cmd, environ) == -1)
 				{
-						ft_putstr_fd("Minishell: command not found\n",2);
-						exit(127);
+					ex = file_info(2,cmd[0]);
+					exit(ex);
 				}
-			}
 		}
-		else
+		exe = pathcmd(cmd[0]);
 		{
-			if (waitpid(pid, &status, 0) == -1)
+			if(execve(exe,cmd,environ) == -1)
 			{
-				perror("waitpid");
-				exit(EXIT_FAILURE);
-			}
-			if (WIFEXITED(status))
-			{
-				if (WEXITSTATUS(status) != 0)
-						glob->exit_status = WEXITSTATUS(status);
-			}
-			else {
-					fprintf(stderr, "Command terminated abnormally\n");
+					ft_putstr_fd("command not found.\n",2);
+					exit(127);
 			}
 		}
+	}
+	else
+	{
+		if (waitpid(pid, &status, 0) == -1)
+		{
+			perror("waitpid");
+			// exit(EXIT_FAILURE);
+		}
+		if (WIFEXITED(status))
+		{
+			if (WEXITSTATUS(status) != 0)
+					g_lob->exit_status = WEXITSTATUS(status);
+		}
+		else {
+				fprintf(stderr, "Command terminated abnormally\n");
+		}
+	}
 }
 void mex_cmd(char ** cmd)
 {
 	char *exe;
 	int ex;
 	extern char ** environ;
+
 	if(ft_strchr(cmd[0],'/'))
-	{
+	{	
 		if(execve(cmd[0], cmd, environ) == -1)
 		{
 			ex = file_info(2,cmd[0]);

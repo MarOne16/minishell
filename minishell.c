@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 16:13:17 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/29 15:20:48 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/05 17:40:23 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 // free t_list *g_all
 void	feed_glob(char **argv, char **env)
 {
-	glob = (t_global *)malloc(sizeof(t_global));
+	g_lob = (t_global *)malloc(sizeof(t_global));
 	if (*env == NULL)
 		env = empty_env(argv);
-	glob->rd = 0;
-	glob->exit_status = 0;
-	glob->g_all = NULL;
+	g_lob->environ = env;
+	g_lob->rd = 0;
+	g_lob->exit_status = 0;
+	g_lob->g_all = NULL;
 	Creat_env(env);
 	Creat_exp(env);
 }
@@ -28,14 +29,51 @@ void	free_all(void)
 {
 	t_list	*tmp;
 
-	while (glob->g_all)
+	while (g_lob->g_all)
 	{
-		tmp = glob->g_all;
-		glob->g_all = glob->g_all->next;
+		tmp = g_lob->g_all;
+		g_lob->g_all = g_lob->g_all->next;
 		free(tmp->content);
 		free(tmp);
 	}
-	glob->g_all = NULL;
+	g_lob->g_all = NULL;
+}
+
+void	close_all(t_fd *fd)
+{
+	t_fd	*tmp;
+
+	while (fd)
+	{
+		tmp = fd;
+		fd = fd->next;
+		close(tmp->fd);
+	}
+}
+
+void	next_cmd(t_exe **all)
+{
+	t_exe	*tmp;
+	t_fd	*tmp2;
+	char 	**cmd;
+
+	tmp = *all;
+	cmd = ft_malloc(sizeof(char *) + 1);
+	while (tmp)
+	{
+		tmp2 = tmp->fd;
+		while (tmp2)
+		{
+			if(tmp2->fd == -1)
+			{
+				cmd[0] = ft_strdup_mini("");
+				tmp->lakher = (void**)cmd;
+				close_all(tmp->fd);
+			}
+			tmp2 = tmp2->next;
+		}
+		tmp = tmp->next;
+	}
 }
 
 int	main(int argc, char *argv[], char **env)
@@ -46,6 +84,7 @@ int	main(int argc, char *argv[], char **env)
 
 	input = NULL;
 	all = NULL;
+	(void)argc;
 	if (argc > 1)
 	{
 		ft_putstr_fd("Error: too many arguments\n", 2);
@@ -56,15 +95,22 @@ int	main(int argc, char *argv[], char **env)
 	{
 		signal(SIGINT, sig_handler);
 		signal(SIGQUIT, SIG_IGN);
-		rl_catch_signals = 0;
 		input = ft_readline();
+		rl_catch_signals = 0;
 		if (!input)
 			break ;
 		if (!ft_strcmp(input, "exit"))
 			break ;
 		newinput = replace_vars(input);
+		g_lob->exit_status = 0;
 		feedlist(&all, newinput);
+		next_cmd(&all);
 		session(all);
+		while (all)
+		{
+			close_all(all->fd);
+			all = all->next;
+		}
 		all = NULL;
 		free(input);
 	}
@@ -72,6 +118,7 @@ int	main(int argc, char *argv[], char **env)
 	exit(0);
 	return (0);
 }
+//TODO export, cat, expand inside heredoc, error in heredoc with redirection file
 
 // int main(int argc, char *argv[], char **env)
 // {
@@ -80,7 +127,7 @@ int	main(int argc, char *argv[], char **env)
 // 	char *input = NULL;
 // 	char *newinput = NULL;
 // 	t_exe       *all = NULL;
-// 	glob = (t_global *)malloc(sizeof(t_global));
+// 	g_lob = (t_global *)malloc(sizeof(t_g_lobal));
 // 	if( *env == NULL)
 // 	{
 // 		env = empty_env(argv);

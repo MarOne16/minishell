@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 03:04:10 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/30 19:44:22 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/07 13:07:23 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	herdoc(char *name)
 {
-
 	int		fd[2];
 	char	*content;
 
@@ -23,19 +22,19 @@ int	herdoc(char *name)
 	while (1)
 	{
 		content = readline("> ");
-		content = ft_strjoin_char(content, '\n');
+		content = ft_strjoin_char(replace_vars(content), '\n');
+		if (content == NULL || !ft_strcmp(content, ft_strjoin_char(name, \
+		'\n')) || (g_lob->rd == 1 && rl_done == 1))
+		{
+			g_lob->rd = 0;
+			break ;
+		}
 		if ((size_t)write(fd[1], content, ft_strlen(content)) \
 		!= ft_strlen(content))
 		{
 			printf("Error writing to file.\n");
 			close(fd[1]);
 			return (1);
-		}
-		if (content == NULL || !ft_strcmp(content, ft_strjoin_char(name, \
-		'\n')) || (glob->rd == 1 && rl_done == 1))
-		{
-			glob->rd = 0;
-			break ;
 		}
 	}
 	close(fd[1]);
@@ -56,8 +55,6 @@ int	output_input_append(char *name, char type)
 	else if (type == 'i')
 	{
 		fd = open(name, O_RDONLY);
-		if (fd == -1 && errno == ENOENT)
-			fd = open(name, O_CREAT | O_RDONLY, 0644);
 	}
 	else if (type == 'a')
 	{
@@ -90,7 +87,10 @@ void	creat_file_2(t_cmd *tmp, t_fd **fd_list)
 
 	fd = creat_fd(get_type(tmp->cmd), tmp->next->cmd);
 	if (fd == -1)
-		printf("Error opening file.\n");
+	{
+		file_info(2, tmp->next->cmd);
+		g_lob->exit_status = 1;
+	}
 	ft_lstadd_back_fd(fd_list, ft_lstnew_fd(get_type(tmp->cmd), fd));
 }
 

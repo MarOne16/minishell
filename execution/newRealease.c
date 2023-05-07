@@ -18,11 +18,11 @@ void Creat_env(char **env)
 		tmp = ft_my_split(env[i], '=');
 		if (tmp[0] && tmp[1])
 		{
-			ft_my_lstadd_back(&listenv, ft_my_lstnew(tmp[0], ft_strjoin("=", tmp[1])));
+			ft_my_lstadd_back(&listenv, ft_my_lstnew(tmp[0], ft_strjoin_mini("=", tmp[1])));
 		}
 		i++;
 	}
-	glob->env = listenv;
+	g_lob->env = listenv;
 }
 
 char **sort_env(char **env)
@@ -72,10 +72,10 @@ void Creat_exp(char **env)
 	{
 		tmp = ft_my_split(s_env[i], '=');
 		if (tmp && (*tmp) && tmp[0] && tmp[1])
-			ft_my_lstadd_back(&list, ft_my_lstnew(tmp[0], ft_strjoin("=", tmp[1])));
+			ft_my_lstadd_back(&list, ft_my_lstnew(tmp[0], ft_strjoin_mini("=", tmp[1])));
 		i++;
 	}
-	(glob->exp) = list;
+	(g_lob->exp) = list;
 }
 int size_fd(t_fd *fd)
 {
@@ -154,12 +154,10 @@ void o_cmd(t_exe *all)
 	if (infd)
 	{
 		dup2(saved_stdin_fd, STDIN_FILENO);
-		close(saved_stdout_fd);
 	}
 	if (outfd)
 	{
 		dup2(saved_stdout_fd, STDOUT_FILENO);
-		close(saved_stdin_fd);
 	}
 }
 void m_cmd(t_exe *all)
@@ -179,86 +177,92 @@ void m_cmd(t_exe *all)
 	check_builtin_multi(all);
 	if (infd)
 	{
-		close(infd);
-		close(saved_stdout_fd);
 		dup2(saved_stdin_fd, STDIN_FILENO);
 	}
 	if (outfd)
 	{
-		close(outfd);
-		close(saved_stdin_fd);
 		dup2(saved_stdout_fd, STDIN_FILENO);
 	}
 }
 
 void lot_cmd(t_exe *all, int size)
 {
-    int fd[2];
-    int pid;
-    int i = 0;
-    int input = dup(STDIN_FILENO);
-    int *saved_in_fd = &input;
-    int status = 0;
-    pid_t child_pids[size]; // array to store child process IDs
-    while (all)
-    {
-        ft_pipe(fd);
-        pid = ft_fork();
-        if (pid == 0)
-        {
-            if (i != 0)
-            {
-				close(fd[0]);
-                dup2(*saved_in_fd, STDIN_FILENO);
-            }
-            if (i < size - 1)
-            {
-				close(fd[0]);
-                dup2(fd[1], STDOUT_FILENO);
-            }
-            m_cmd(all);
-        }
-        else
-        {
-			if(i == size -1)
-			{
-				close(*saved_in_fd);
-				close(fd[0]);
-			}
-			close(fd[1]);
-			*saved_in_fd = fd[0];
-            child_pids[i] = pid;
-        }
-        all = all->next;
-        i++;
-    }
-    for (int j = 0; j < size; j++)
+	int		fd[2];
+	int		pid;
+	int		i;
+	int		saved_in_fd;
+	pid_t	*child_pids;
+
+	child_pids = ft_malloc(sizeof(pid_t) * size);
+
+	i = 0;
+	saved_in_fd = 0;
+	while (all)
 	{
-        if (waitpid(child_pids[j], &status, 0) == -1)
-        {
-            perror("waitpid");
-            exit(EXIT_FAILURE);
-        }
-        if (WIFEXITED(status))
-        {
-            if (WEXITSTATUS(status) != 0)
-				glob->exit_status = WEXITSTATUS(status);
-        }
-        else {
-			if (all && all->lakher)
-            	fprintf(stderr, "Command terminated abnormally: %s\n", all->lakher[0]);
+		ft_pipe(fd);
+		pid = ft_fork();
+		if (pid == 0)
+		{
+			if (i != 0)
+			{
+				close(fd[0]);
+				dup2(saved_in_fd, STDIN_FILENO);
+			}
+			if (i < size - 1)
+			{
+				close(fd[0]);
+				dup2(fd[1], STDOUT_FILENO);
+			}
+			m_cmd(all);
+		}
+		else
+		{
+			child_pids[i] = pid;
+			if (i == size -1)
+			{
+				close(fd[0]);
+				close(saved_in_fd);
+			}
+			saved_in_fd = fd[0];
+			close(fd[1]);
+		}
+		all = all->next;
+		i++;
+	}
+	wait_child(child_pids, size);
+}
+
+void wait_child (int *child_pids, int size)
+{
+	int	status;
+
+	status = 0;
+
+	for (int j = 0; j < size; j++)
+	{
+		if (waitpid(child_pids[j], &status, 0) == -1)
+		{
+			ft_putstr_fd("\n", 2);
+		}
+		if (WIFEXITED(status))
+		{
+			if (WEXITSTATUS(status) != 0)
+				g_lob->exit_status = WEXITSTATUS(status);
 		}
     }
 }
+
+
 void session(t_exe *all)
 {
-	int size;
+	int	size;
+
 	size = size_prc(all);
 	if (size == 1)
 	{
 		o_cmd(all);
 	}
-	if (size > 1)
+	else if (size > 1)
 	{
 		lot_cmd(all, size);
 	}

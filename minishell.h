@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/03 16:48:45 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/07 13:02:40 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include <string.h>
 # include <signal.h>
 # include <stdlib.h>
-#include <sys/stat.h>
+# include <sys/stat.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft/libft.h"
@@ -94,12 +94,13 @@ typedef struct s_global
 {
 	t_my_list	*env;
 	t_my_list	*exp;
+	char		**environ;
 	int			rd;
 	int			exit_status;
 	t_list		*g_all;
 }	t_global;
 
-t_global *glob;
+t_global *g_lob;
 
 //excute_tools
 void Creat_env(char **env);
@@ -134,11 +135,13 @@ void free_var_exp(char *s , int size);
 void free_var_env(char *s , int size);
 int size_prc(t_exe *allcmd);
 int size_cmd(char **cmd);
-// char	*ft_strjoin(char  *s1, char  *s2);
+char	*ft_strjoin_mini(char  *s1, char  *s2);
 void ex_cmd(char ** cmd);
 void mex_cmd(char ** cmd);
 void check_builtin_multi(t_exe *all);
 void	multi_echo(char **cmd);
+int file_info(int fd ,char *s);
+void wait_child (int *child_pids , int size);
 
 
 // list tools allcmd

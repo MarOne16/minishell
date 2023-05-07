@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 18:58:14 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/29 19:01:29 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/05 17:07:56 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_my_list	*ft_my_lstnew(char *name, char *value)
 {
 	t_my_list	*new;
 
-	new = (t_my_list *)malloc(sizeof(t_my_list));
+	new = (t_my_list *)ft_malloc(sizeof(t_my_list));
 	if (!new)
 		return (0);
 	if (!name && !value)
