@@ -154,12 +154,12 @@ void o_cmd(t_exe *all)
 	if (infd)
 	{
 		dup2(saved_stdin_fd, STDIN_FILENO);
-		close(saved_stdout_fd);
+		// close(saved_stdout_fd);
 	}
 	if (outfd)
 	{
 		dup2(saved_stdout_fd, STDOUT_FILENO);
-		close(saved_stdin_fd);
+		// close(saved_stdin_fd);
 	}
 }
 void m_cmd(t_exe *all)
@@ -176,13 +176,13 @@ void m_cmd(t_exe *all)
 	if (infd)
 	{
 		close(infd);
-		close(saved_stdout_fd);
+		// close(saved_stdout_fd);
 		dup2(saved_stdin_fd, STDIN_FILENO);
 	}
 	if (outfd)
 	{
 		close(outfd);
-		close(saved_stdin_fd);
+		// close(saved_stdin_fd);
 		dup2(saved_stdout_fd, STDIN_FILENO);
 	}
 }
