@@ -6,7 +6,11 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 03:04:10 by mqaos             #+#    #+#             */
+<<<<<<< HEAD:parsing/creatfile.c
 /*   Updated: 2023/05/07 13:07:23 by mbousouf         ###   ########.fr       */
+=======
+/*   Updated: 2023/05/07 12:35:22 by mbousouf         ###   ########.fr       */
+>>>>>>> 024018269eacfbac851e96ac0efdadfee0db045a:parcing/creatfile.c
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +92,13 @@ void	creat_file_2(t_cmd *tmp, t_fd **fd_list)
 	fd = creat_fd(get_type(tmp->cmd), tmp->next->cmd);
 	if (fd == -1)
 	{
+<<<<<<< HEAD:parsing/creatfile.c
 		file_info(2, tmp->next->cmd);
 		g_lob->exit_status = 1;
+=======
+		file_info(2,tmp->next->cmd);
+		return;
+>>>>>>> 024018269eacfbac851e96ac0efdadfee0db045a:parcing/creatfile.c
 	}
 	ft_lstadd_back_fd(fd_list, ft_lstnew_fd(get_type(tmp->cmd), fd));
 }

@@ -154,10 +154,18 @@ void o_cmd(t_exe *all)
 	if (infd)
 	{
 		dup2(saved_stdin_fd, STDIN_FILENO);
+<<<<<<< HEAD
+=======
+		// close(saved_stdout_fd);
+>>>>>>> 024018269eacfbac851e96ac0efdadfee0db045a
 	}
 	if (outfd)
 	{
 		dup2(saved_stdout_fd, STDOUT_FILENO);
+<<<<<<< HEAD
+=======
+		// close(saved_stdin_fd);
+>>>>>>> 024018269eacfbac851e96ac0efdadfee0db045a
 	}
 }
 void m_cmd(t_exe *all)
