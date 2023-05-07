@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 02:57:56 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/03 12:40:05 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/07 20:12:13 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int check_var(char *s)
 			i++;
 		else
 		{
-			ft_putstr_fd(" not a valid identifier", 2);
+			ft_putstr_fd(" not a valid identifier\n", 2);
 			g_lob->exit_status = 1;
 			return(0);
 		}
@@ -44,7 +44,7 @@ int check_var(char *s)
 		{
 			if(s[i] == '+' && s[i + 1] != '\0')
 			{
-				ft_putstr_fd(" not a valid identifier", 2);
+				ft_putstr_fd(" not a valid identifier\n", 2);
 				g_lob->exit_status = 1;
 					return(0);
 			}
@@ -53,7 +53,7 @@ int check_var(char *s)
 		}
 		if(s[i] != '\0')
 		{
-			ft_putstr_fd(" not a valid identifier", 2);
+			ft_putstr_fd(" not a valid identifier\n", 2);
             g_lob->exit_status = 1;
             return(0);
 		}
@@ -93,11 +93,12 @@ void put_plus(char *cmd,char *val)
 	t_my_list *s;
 
 	s = var_exp(cmd,ft_strlen(cmd) - 1);
+	cmd = ft_substr(cmd,0,ft_strlen(cmd) - 1);
 	if(s != NULL)
 	{
 		if(s->value)
 		{
-			if(!ft_strncmp(s->value,"=",1))
+			if(!ft_strncmp(s->value,"=",0))
 			{
 				val = ft_substr(val,1,ft_strlen(val) - 1);
 			}
@@ -106,7 +107,6 @@ void put_plus(char *cmd,char *val)
 	}
 	else if (s == NULL)
 	{
-			cmd = ft_substr(cmd,0,ft_strlen(cmd) - 1);
 				ft_my_lstadd_back(&g_lob->exp,ft_my_lstnew(cmd,val));
 	}
 	put_env_plus(cmd,val);
@@ -193,13 +193,13 @@ void ad_exp(char ** cmd)
 			}
 			else
 			{
-				ft_putstr_fd(" not a valid identifier", 2);
+				ft_putstr_fd(" not a valid identifier\n", 2);
 				g_lob->exit_status = 1;
 			}
 		}
 		else
 		{
-			ft_putstr_fd(" not a valid identifier", 2);
+			ft_putstr_fd(" not a valid identifier\n", 2);
 			g_lob->exit_status = 1;
 		}
 }

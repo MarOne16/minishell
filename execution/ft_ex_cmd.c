@@ -3,13 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ex_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 02:37:20 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/02 15:57:42 by mqaos            ###   ########.fr       */
-/*   Updated: 2023/05/02 18:34:13 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/07 20:06:07 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../minishell.h"
 
@@ -44,11 +44,11 @@ char	*pathcmd(char *str)
 	char	**path;
 	char	*s;
 	char	*t;
-	(void) str;
 	i = 0;
-	if (g_lob->env)
+	
+	if (g_lob->environ && getenv("PATH") != NULL)
 	{
-		path = ft_my_split(find_var_exp("PATH",ft_strlen("PATH"))->value+1, ':');
+		path = ft_my_split(getenv("PATH"), ':');
 		while (path[i])
 		{
 			t = f_slach(str);
@@ -56,14 +56,13 @@ char	*pathcmd(char *str)
 			if (!access(s, X_OK))
 			{
 				frepath(path);
-				return (free (t), s);
+				return (s);
 			}
 			i++;
-			free(s);
-			free(t);
 		}
 		frepath(path);
 	}
+	ft_putstr_fd("path not set \n",2);
 	return (NULL);
 }
 
@@ -113,31 +112,25 @@ int file_info(int fd ,char *s)
 void ex_cmd(char ** cmd)
 {
 	char *exe;
-	extern char ** environ;
 	pid_t pid;
 	int status;
 	int ex;
-	
-
-
-	pid = fork();
+		pid = fork();
 		if(pid == 0)
 		{
 			if(ft_strchr(cmd[0],'/'))
 			{
-					if(execve(cmd[0], cmd, environ) == -1)
+					if(execve(cmd[0], cmd, g_lob->environ) == -1)
 					{
 						ex = file_info(2,cmd[0]);
 						exit(ex);
 					}
 			}
 			exe = pathcmd(cmd[0]);
+			if(execve(exe,cmd,g_lob->environ) == -1)
 			{
-				if(execve(exe,cmd,environ) == -1)
-				{
-						ft_putstr_fd("command not found.\n",2);
-						exit(127);
-				}
+					ft_putstr_fd("command not found.\n",2);
+					exit(127);
 			}
 		}
 		else
@@ -151,9 +144,6 @@ void ex_cmd(char ** cmd)
 			{
 				if (WEXITSTATUS(status) != 0)
 						g_lob->exit_status = WEXITSTATUS(status);
-			}
-			else {
-					fprintf(stderr, "Command terminated abnormally\n");
 			}
 		}
 }

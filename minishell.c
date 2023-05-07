@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 16:13:17 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/02 15:44:36 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/07 20:20:10 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int	main(int argc, char *argv[], char **env)
 	exit(0);
 	return (0);
 }
-
+// TODO :: echo hi >         ./outfiles/outfile01 bye :: cat <file_not_ fond | cat < file_found :: export GHOST=123 | env | grep GHOST
 // int main(int argc, char *argv[], char **env)
 // {
 // 	(void)argv;
