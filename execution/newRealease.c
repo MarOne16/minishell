@@ -1,11 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   newRealease.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/08 10:47:17 by mbousouf          #+#    #+#             */
+/*   Updated: 2023/05/08 12:25:09 by mbousouf         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 #include "../minishell.h"
 #include <fcntl.h>
 
-void Creat_env(char **env)
+void	creat_env(char **env)
 {
-	int i;
-	char **tmp;
-	t_my_list *listenv;
+	int			i;
+	char		**tmp;
+	t_my_list	*listenv;
+
 	i = 0;
 	listenv = NULL;
 	while (env[i] != NULL)
@@ -18,7 +32,8 @@ void Creat_env(char **env)
 		tmp = ft_my_split(env[i], '=');
 		if (tmp[0] && tmp[1])
 		{
-			ft_my_lstadd_back(&listenv, ft_my_lstnew(tmp[0], ft_strjoin("=", tmp[1])));
+			ft_my_lstadd_back(&listenv, ft_my_lstnew(tmp[0], \
+			ft_strjoin("=", tmp[1])));
 		}
 		i++;
 	}
@@ -27,11 +42,15 @@ void Creat_env(char **env)
 
 char **sort_env(char **env)
 {
-	char **list;
-	char *tmp;
-	int i = 0;
-	int j = 0;
-	int k = 0;
+	char	**list;
+	char	*tmp;
+	int		i;
+	int		j;
+	int		k;
+
+	i = 0;
+	j = 0;
+	k = 0;
 	list = env;
 	while (list[i])
 	{
@@ -58,12 +77,17 @@ char **sort_env(char **env)
 	}
 	return (list);
 }
-void Creat_exp(char **env)
+
+void	creat_exp(char **env)
 {
-	char **s_env = NULL;
-	char **tmp;
-	t_my_list *list = NULL;
-	int i = 0;
+	char		**s_env;
+	char		**tmp;
+	t_my_list	*list;
+	int			i;
+
+	s_env = NULL;
+	list = NULL;
+	i = 0;
 	s_env = sort_env(env);
 	while (s_env[i])
 		i++;
@@ -72,14 +96,18 @@ void Creat_exp(char **env)
 	{
 		tmp = ft_my_split(s_env[i], '=');
 		if (tmp && (*tmp) && tmp[0] && tmp[1])
-			ft_my_lstadd_back(&list, ft_my_lstnew(tmp[0], ft_strjoin("=", tmp[1])));
+			ft_my_lstadd_back(&list, \
+			ft_my_lstnew(tmp[0], ft_strjoin("=", tmp[1])));
 		i++;
 	}
 	(g_lob->exp) = list;
 }
-int size_fd(t_fd *fd)
+
+int	size_fd(t_fd *fd)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (fd)
 	{
 		i++;
@@ -88,9 +116,11 @@ int size_fd(t_fd *fd)
 	return (i);
 }
 
-int in_fd(t_fd *tabfd)
+int	in_fd(t_fd *tabfd)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (tabfd)
 	{
 		if (tabfd->type == 'i' || tabfd->type == 'h')
@@ -100,7 +130,7 @@ int in_fd(t_fd *tabfd)
 	return (i);
 }
 
-int ft_pipe(int fd[2])
+int	ft_pipe(int fd[2])
 {
 	if (pipe(fd) == -1)
 	{
@@ -111,9 +141,9 @@ int ft_pipe(int fd[2])
 		return (0);
 }
 
-int ft_fork(void)
+int	ft_fork(void)
 {
-	int pid;
+	int	pid;
 
 	pid = fork();
 	if (pid < 0)
@@ -127,7 +157,9 @@ int ft_fork(void)
 
 int out_fd(t_fd *tabfd)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (tabfd)
 	{
 		if (tabfd->type == 'a' || tabfd->type == 'o')
@@ -136,104 +168,64 @@ int out_fd(t_fd *tabfd)
 	}
 	return (i);
 }
+
 void o_cmd(t_exe *all)
 {
-	int saved_stdin_fd = dup(STDIN_FILENO);
-	int saved_stdout_fd = dup(STDOUT_FILENO);
-	int infd = in_fd(all->fd);
-	int outfd = out_fd(all->fd);
+	int	saved_stdin_fd;
+	int	saved_stdout_fd;
+	int	infd;
+	int	outfd;	
+	saved_stdin_fd = dup(STDIN_FILENO);
+	saved_stdout_fd = dup(STDOUT_FILENO);
+	infd = in_fd(all->fd);
+	outfd = out_fd(all->fd);
 	if (infd)
-	{
 		dup2(infd, STDIN_FILENO);
-	}
 	if (outfd)
-	{
 		dup2(outfd, STDOUT_FILENO);
-	}
 	check_builtin(all);
 	if (infd)
-	{
 		dup2(saved_stdin_fd, STDIN_FILENO);
-		// close(saved_stdout_fd);
-	}
 	if (outfd)
-	{
 		dup2(saved_stdout_fd, STDOUT_FILENO);
-		// close(saved_stdin_fd);
-	}
 }
+
 void m_cmd(t_exe *all)
 {
-	int saved_stdin_fd = dup(STDIN_FILENO);
-	int saved_stdout_fd = dup(STDOUT_FILENO);
-	int infd = in_fd(all->fd);
-	int outfd = out_fd(all->fd);
+	int	saved_stdin_fd;
+	int	saved_stdout_fd;
+	int	infd;	
+	int	outfd;
+
+	saved_stdin_fd = dup(STDIN_FILENO);
+	saved_stdout_fd = dup(STDOUT_FILENO);
+	infd = in_fd(all->fd);
+	outfd = out_fd(all->fd);
 	if (infd)
-	{
 		dup2(infd, STDIN_FILENO);
-	}
 	if (outfd)
-	{
 		dup2(outfd, STDOUT_FILENO);
-	}
 	check_builtin_multi(all);
 	if (infd)
 	{
 		close(infd);
-		// close(saved_stdout_fd);
 		dup2(saved_stdin_fd, STDIN_FILENO);
 	}
 	if (outfd)
 	{
 		close(outfd);
-		// close(saved_stdin_fd);
 		dup2(saved_stdout_fd, STDIN_FILENO);
 	}
 }
 
-void lot_cmd(t_exe *all, int size)
+void wait_childs(int size, int *child_pids)
 {
-	int fd[2];
-	int pid;
-	int input = dup(STDIN_FILENO);
-	int *saved_in_fd = &input;
-	int status = 0;
-	pid_t child_pids[size]; 
-	int i = 0;
-	while (all)
-	{
-		ft_pipe(fd);
-		pid = ft_fork();
-		if (pid == 0)
-		{
-			if (i != 0)
-			{
-				close(fd[0]);
-				dup2(*saved_in_fd, STDIN_FILENO);
-			}
-			if (i < size - 1)
-			{
-				close(fd[0]);
-				dup2(fd[1], STDOUT_FILENO);
-			}
-			m_cmd(all);
-		}
-		else
-		{
-			if( i == size - 1)
-			{
-				close(*saved_in_fd);
-				close(fd[0]);
-			}
-			close(fd[1]);
-			*saved_in_fd = fd[0];
-			child_pids[i] = pid;
-		}
-		all = all->next;
-		i++;
-	}
+	int	j;
+	int	status;
 
-	for (int j = 0; j < size; j++)
+	j = 0;
+
+	while (j < size)
 	{
 		if (waitpid(child_pids[j], &status, 0) == -1)
 		{
@@ -244,16 +236,52 @@ void lot_cmd(t_exe *all, int size)
 			if (WEXITSTATUS(status) != 0)
 				g_lob->exit_status = WEXITSTATUS(status);
 		}
-		else
-		{
-			if (all && all->lakher)
-				ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
-		}
+		j++;
 	}
 }
+
+void lot_cmd(t_exe *all, int size)
+{
+	int		fd[2];
+	int		pid;
+	int		saved_in_fd;
+	pid_t	child_pids[size];
+	int		i;
+
+	i = 0;
+	saved_in_fd = 0;
+	while (all)
+	{
+		ft_pipe(fd);
+		pid = ft_fork();
+		if (pid == 0)
+		{
+			if (i != 0)
+				dup2(saved_in_fd, STDIN_FILENO);
+			if (i < size - 1)
+			{
+				close(fd[0]);
+				dup2(fd[1], STDOUT_FILENO);
+			}
+			m_cmd(all);
+		}
+		else
+		{
+			if (i == size - 1)
+				close(saved_in_fd);
+			close(fd[1]);
+			saved_in_fd = fd[0];
+			child_pids[i++] = pid;
+		}
+		all = all->next;
+	}
+	wait_childs(size, child_pids);
+}
+
 void session(t_exe *all)
 {
-	int size;
+	int	size;
+
 	size = size_prc(all);
 	if (size == 1)
 	{

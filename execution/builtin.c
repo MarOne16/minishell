@@ -6,12 +6,11 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 11:10:25 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/07 18:12:02 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/08 10:49:21 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
 
 char	**empty_env(char **av)
 {
@@ -74,11 +73,11 @@ void	check_builtin(t_exe *all)
 	char	*s;
 	char	**n;
 
-    if (all->lakher == NULL || all->lakher[0] == NULL)
+	if (all->lakher == NULL || all->lakher[0] == NULL)
 		return ;
 	s = all->lakher[0];
 	n = (char **)all->lakher;
-	if(s[0] == '\0')
+	if (s[0] == '\0')
 		return ;
 	if (!(ft_strncmp(s, "echo", 4)) && ft_strlen(s) == 4)
 		ft_echo(n);
@@ -109,7 +108,7 @@ void	check_builtin_multi(t_exe *all)
 		exit(1);
 	s = all->lakher[0];
 	n = (char **)all->lakher;
-	if(s[0]== '\0')
+	if (s[0] == '\0')
 		return ;
 	if (!(ft_strncmp(s, "echo", 4)) && ft_strlen(s) == 4)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/02 15:43:19 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/08 10:44:29 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,9 @@ typedef struct s_global
 t_global *g_lob;
 
 //excute_tools
-void Creat_env(char **env);
+void creat_env(char **env);
 char ** sort_env(char **env);
-void Creat_exp(char **env);
+void creat_exp(char **env);
 t_my_list	*ft_my_lstnew(char *name , char  *value);
 int		ft_my_lstsize(t_my_list *lst);
 t_my_list	*ft_my_lstlast(t_my_list *lst);

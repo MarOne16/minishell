@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 16:13:17 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/07 20:20:10 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/08 10:44:29 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	feed_glob(char **argv, char **env)
 	g_lob->rd = 0;
 	g_lob->exit_status = 0;
 	g_lob->g_all = NULL;
-	Creat_env(env);
-	Creat_exp(env);
+	creat_env(env);
+	creat_exp(env);
 }
 
 void	free_all(void)
@@ -131,8 +131,8 @@ int	main(int argc, char *argv[], char **env)
 // 	{
 // 		env = empty_env(argv);
 // 	}
-// 	Creat_env(env);
-// 	Creat_exp(env);
+// 	creat_env(env);
+// 	creat_exp(env);
 // 	while ((input = ft_readline()))
 // 	{	
 // 		signal(SIGINT, sig_handler);
