@@ -58,7 +58,7 @@ char	*my_getenv(char *search)
 	while (rest->next)
 	{
 		if (ft_strcmp(search, rest->name) == 0)
-			return (ft_substr(rest->value, 1, ft_strlen(rest->value)));
+			return (ft_substr_mini(rest->value, 1, ft_strlen(rest->value)));
 		rest = rest->next;
 	}
 	return (NULL);

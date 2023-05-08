@@ -145,6 +145,7 @@ int file_info(int fd ,char *s);
 
 // list tools allcmd
 char	*ft_strjoin_char(char *s, char c);
+char	*ft_substr_mini(char *s, unsigned int start, size_t len);
 char	*ft_strdup_mini( char *s1);
 void	*ft_malloc(size_t size);
 // list tools

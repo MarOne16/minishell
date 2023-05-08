@@ -64,10 +64,10 @@ void	next_cmd(t_exe **all)
 		tmp2 = tmp->fd;
 		while (tmp2)
 		{
-			if(tmp2->fd == -1)
+			if (tmp2->fd == -1)
 			{
 				cmd[0] = ft_strdup_mini("");
-				tmp->lakher = (void**)cmd;
+				tmp->lakher = (void **)cmd;
 				close_all(tmp->fd);
 			}
 			tmp2 = tmp2->next;
@@ -106,11 +106,6 @@ int	main(int argc, char *argv[], char **env)
 		feedlist(&all, newinput);
 		next_cmd(&all);
 		session(all);
-		while (all)
-		{
-			close_all(all->fd);
-			all = all->next;
-		}
 		all = NULL;
 		free(input);
 	}

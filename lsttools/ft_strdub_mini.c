@@ -29,3 +29,26 @@ char	*ft_strdup_mini( char *s1)
 	s11[i] = '\0';
 	return (s11);
 }
+
+char	*ft_substr_mini(char *s, unsigned int start, size_t len)
+{
+	size_t	i;
+	char	*str;
+
+	if (!s)
+		return (NULL);
+	if (ft_strlen(s) < start)
+		return (ft_strdup_mini(""));
+	str = (char *)ft_malloc(sizeof(char) * (len + 1));
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (i < len && s[start])
+	{
+		str[i] = s[start];
+		i++;
+		start++;
+	}
+	str[i] = '\0';
+	return (str);
+}
