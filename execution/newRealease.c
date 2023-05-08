@@ -169,9 +169,13 @@ void m_cmd(t_exe *all)
 	int infd = in_fd(all->fd);
 	int outfd = out_fd(all->fd);
 	if (infd)
+	{
 		dup2(infd, STDIN_FILENO);
+	}
 	if (outfd)
+	{
 		dup2(outfd, STDOUT_FILENO);
+	}
 	check_builtin_multi(all);
 	if (infd)
 	{
@@ -191,11 +195,11 @@ void lot_cmd(t_exe *all, int size)
 {
 	int fd[2];
 	int pid;
-	int i = 0;
 	int input = dup(STDIN_FILENO);
 	int *saved_in_fd = &input;
 	int status = 0;
-	pid_t child_pids[size]; // array to store child process IDs
+	pid_t child_pids[size]; 
+	int i = 0;
 	while (all)
 	{
 		ft_pipe(fd);
@@ -207,7 +211,7 @@ void lot_cmd(t_exe *all, int size)
 				close(fd[0]);
 				dup2(*saved_in_fd, STDIN_FILENO);
 			}
-			else if (i < size - 1)
+			if (i < size - 1)
 			{
 				close(fd[0]);
 				dup2(fd[1], STDOUT_FILENO);
@@ -216,12 +220,12 @@ void lot_cmd(t_exe *all, int size)
 		}
 		else
 		{
-			close(fd[1]);
-			if (i == size - 1)
+			if( i == size - 1)
 			{
-				close(fd[0]);
 				close(*saved_in_fd);
+				close(fd[0]);
 			}
+			close(fd[1]);
 			*saved_in_fd = fd[0];
 			child_pids[i] = pid;
 		}
