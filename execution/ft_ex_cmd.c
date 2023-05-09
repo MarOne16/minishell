@@ -64,60 +64,31 @@ char	*pathcmd(char *str)
 	return (NULL);
 }
 
-int file_info(int fd, char *s)
+int	file_info(int fd, char *s)
 {
 	struct stat	file_stats;
-	int			ex;
 
 	if (lstat(s, &file_stats) == 0)
 	{
 		if (S_ISREG(file_stats.st_mode))
-		{
-			ft_putstr_fd("Permission denied.\n", fd);
-			ex = 126;
-		}
+			return (ft_putstr_fd("Permission denied.\n", fd), 126);
 		else if (S_ISDIR(file_stats.st_mode))
-		{
-			ft_putstr_fd("is a directory.\n", fd);
-			ex = 126;
-		}
+			return (ft_putstr_fd("is a directory.\n", fd), 126);
 		else if (S_ISCHR(file_stats.st_mode))
-		{
-			ft_putstr_fd("is a character device.\n", fd);
-			ex = 127;
-		}
+			return (ft_putstr_fd("is a character device.\n", fd), 127);
 		else if (S_ISBLK(file_stats.st_mode))
-		{
-			ft_putstr_fd("is a block device.\n", fd);
-			ex = 127;
-		}
+			return (ft_putstr_fd("is a block device.\n", fd), 127);
 		else if (S_ISFIFO(file_stats.st_mode))
-		{
-			ft_putstr_fd("is a FIFO/pipe.\n", fd);
-			ex = 125;
-		}
+			return (ft_putstr_fd("is a FIFO/pipe.\n", fd), 125);
 		else if (S_ISSOCK(file_stats.st_mode))
-		{
-			ft_putstr_fd("is a socket.\n", fd);
-			ex = 125;
-		}
+			return (ft_putstr_fd("is a socket.\n", fd), 125);
 		else if (S_ISLNK(file_stats.st_mode))
-		{
-			ft_putstr_fd("is a symbolic link.\n", fd);
-			ex = 126;
-		}
+			return (ft_putstr_fd("is a symbolic link.\n", fd), 126);
 		else
-		{
-			ft_putstr_fd("type is unknown.\n", fd);
-			ex = 127;
-		}
+			return (ft_putstr_fd("type is unknown.\n", fd), 127);
 	}
 	else
-	{
-		ft_putstr_fd("No such file or directory.\n", fd);
-		ex = 127;
-	}
-	return (ex);
+		return (ft_putstr_fd("No such file or directory.\n", fd), 127);
 }
 
 void	ex_cmd(char **cmd)

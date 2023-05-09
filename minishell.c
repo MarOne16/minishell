@@ -23,6 +23,12 @@ void	feed_glob(char **argv, char **env)
 	g_lob->g_all = NULL;
 	creat_env(env);
 	creat_exp(env);
+	if (g_lob->if_free == 1)
+	{
+		free(env[0]);
+		free(env[2]);
+		free(env);
+	}
 }
 
 void	free_all(void)
@@ -39,7 +45,7 @@ void	free_all(void)
 	g_lob->g_all = NULL;
 }
 
-void	free_env_exp()
+void	free_env_exp(void)
 {
 	t_my_list	*tmp;
 
@@ -78,7 +84,7 @@ void	next_cmd(t_exe **all)
 {
 	t_exe	*tmp;
 	t_fd	*tmp2;
-	char 	**cmd;
+	char	**cmd;
 
 	tmp = *all;
 	cmd = ft_malloc(sizeof(char *) + 1);
@@ -120,10 +126,11 @@ int	main(int argc, char *argv[], char **env)
 		signal(SIGQUIT, SIG_IGN);
 		input = ft_readline();
 		rl_catch_signals = 0;
-		if (!input)
+		if (!input || !ft_strcmp(input, "exit"))
+		{
+			printf("exit\n");
 			break ;
-		if (!ft_strcmp(input, "exit"))
-			break ;
+		}
 		newinput = replace_vars(input);
 		g_lob->exit_status = 0;
 		feedlist(&all, newinput);

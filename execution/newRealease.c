@@ -239,7 +239,6 @@ void wait_childs(int size, int *child_pids)
 		}
 		if (WIFEXITED(status))
 		{
-			if (WEXITSTATUS(status) != 0)
 				g_lob->exit_status = WEXITSTATUS(status);
 		}
 		j++;

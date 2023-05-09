@@ -15,9 +15,15 @@
 char	**empty_env(char **av)
 {
 	char	**env;
+	char	*tmp;
 
+	g_lob->if_free = 1;
 	env = (char **)malloc(sizeof(char *) * 4);
-	env[0] = ft_strjoin("PWD=", getcwd(NULL, 0));
+	if (!env)
+		return (NULL);
+	tmp = getcwd(NULL, 0);
+	env[0] = ft_strjoin("PWD=", tmp);
+	free(tmp);
 	env[1] = "SHLVL=1";
 	env[2] = ft_strjoin("_=", av[0]);
 	env[3] = NULL;

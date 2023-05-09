@@ -96,6 +96,7 @@ typedef struct s_global
 	t_my_list	*exp;
 	char		**environ;
 	int			rd;
+	int			if_free;
 	int			exit_status;
 	t_list		*g_all;
 }	t_global;

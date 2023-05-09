@@ -14,7 +14,6 @@
 
 int	herdoc(char *name)
 {
-
 	int		fd[2];
 	char	*tmp;
 	char	*content;
@@ -25,7 +24,7 @@ int	herdoc(char *name)
 	{
 		content = readline("> ");
 		tmp = content;
-		content = ft_strjoin_char(replace_vars(content), '\n');
+		content = ft_strjoin_char(content, '\n');
 		free(tmp);
 		if (content == NULL || !ft_strcmp(content, ft_strjoin_char(name, \
 		'\n')) || (g_lob->rd == 1 && rl_done == 1))
@@ -33,13 +32,7 @@ int	herdoc(char *name)
 			g_lob->rd = 0;
 			break ;
 		}
-		if ((size_t)write(fd[1], content, ft_strlen(content)) \
-		!= ft_strlen(content))
-		{
-			printf("Error writing to file.\n");
-			close(fd[1]);
-			return (1);
-		}
+		write(fd[1], replace_vars(content), ft_strlen(replace_vars(content)));
 	}
 	close(fd[1]);
 	return (fd[0]);

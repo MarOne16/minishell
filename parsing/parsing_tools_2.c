@@ -44,11 +44,11 @@ int	typing(char *spl)
 		|| (spl[0] == '<' && spl[1] != '>') \
 		|| (spl[0] == '>' && spl[1] == '>') \
 		|| (spl[0] == '<' && spl[1] == '<')))
-		return (1);
+		return (free(spl), 1);
 	else if (spl[0] == '|' && ft_strlen(spl) <= 2)
-		return (2);
+		return (free(spl), 2);
 	else
-		return (0);
+		return (free(spl), 0);
 }
 
 void	feedhashtable(int **hash, char *input)
