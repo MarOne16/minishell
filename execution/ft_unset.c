@@ -52,6 +52,8 @@ void	free_var_exp(char *s, int size)
 		{
 			tmp = temp_env->next;
 			temp_env->next = tmp->next;
+			free(tmp->value);
+			free(tmp->name);
 			free(tmp);
 			free_var_env(s, size);
 		}
@@ -73,6 +75,8 @@ void	free_var_env(char *s, int size)
 		{
 			tmp = temp_env->next;
 			temp_env->next = tmp->next;
+			free(tmp->value);
+			free(tmp->name);
 			free(tmp);
 		}
 		temp_env = temp_env->next;
