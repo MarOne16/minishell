@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 10:47:17 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/08 12:25:09 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/08 16:36:31 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,38 +40,31 @@ void	creat_env(char **env)
 	g_lob->env = listenv;
 }
 
-char **sort_env(char **env)
+char	**sort_env(char **env)
 {
 	char	**list;
-	char	*tmp;
 	int		i;
 	int		j;
 	int		k;
+	char	*tmp;
 
 	i = 0;
-	j = 0;
-	k = 0;
 	list = env;
 	while (list[i])
 	{
 		j = i + 1;
 		while (list[j])
 		{
-			if (list[j][k] == list[i][k])
-			{
+			k = 0;
+			while (list[j][k] && list[i][k] && list[j][k] == list[i][k])
 				k++;
-			}
-			else if (list[j][k] < list[i][k])
+			if (list[j][k] < list[i][k])
 			{
 				tmp = list[i];
 				list[i] = list[j];
 				list[j] = tmp;
 			}
-			else
-			{
-				k = 0;
-				j++;
-			}
+			j++;
 		}
 		i++;
 	}

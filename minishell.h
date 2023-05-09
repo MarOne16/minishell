@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/08 10:44:29 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/09 16:12:14 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,9 @@ void mex_cmd(char ** cmd);
 void check_builtin_multi(t_exe *all);
 void	multi_echo(char **cmd);
 int file_info(int fd ,char *s);
+void	sort_exp(t_my_list **exp);
+int	cmpn(char *str, char *name);
+char ** list_to_array(t_my_list *exp);
 
 
 // list tools allcmd

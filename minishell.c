@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 16:13:17 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/08 10:44:29 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/09 17:58:06 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,8 @@ int	main(int argc, char *argv[], char **env)
 	return (0);
 }
 // TODO :: echo hi >         ./outfiles/outfile01 bye :: cat <file_not_ fond | cat < file_found :: export GHOST=123 | env | grep GHOST
+// TODO :: add variable using export doesn't work good           sort export when add a variable       unset PATH means any command should don't work 
+// TODO :: unset all environment       
 // int main(int argc, char *argv[], char **env)
 // {
 // 	(void)argv;

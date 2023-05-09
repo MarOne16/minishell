@@ -4,7 +4,7 @@ GREEN = \033[1;32m
 DEFAULT = \033[0m
 NAME		=	minishell
 CC			=	cc
-FLAGS		=	-Wall -Wextra -Werror -I/goinfre/mbousouf/.brew/opt/readline/include #-g -fsanitize=address
+FLAGS		=	-Wall -Wextra -Werror -I/goinfre/mbousouf/.brew/opt/readline/include -g -fsanitize=address
 RM			=	rm -rf
 HEADER		=	minishell.h
 SOURCE		=	lsttools/lst_all_cmd.c \
@@ -32,6 +32,7 @@ SOURCE		=	lsttools/lst_all_cmd.c \
 				execution/exp_option.c \
 				execution/ft_unset.c \
 				execution/ft_ex_cmd.c \
+				execution/sort.c\
 				minishell.c \
 
 OBJS		=	$(SOURCE:.c=.o)
@@ -42,7 +43,7 @@ LIBFT		= ./libft/libft.a
 				@${CC} ${FLAGS} -c $< -o $@
 
 $(NAME):		$(OBJS) $(LIBFT) 
-				@$(CC) $(OBJS) -o $(NAME) -L/goinfre/mbousouf/.brew/opt/readline/lib -L./libft -lft -lreadline -lhistory #-g -fsanitize=address
+				@$(CC) $(OBJS) -o $(NAME) -L/goinfre/mbousouf/.brew/opt/readline/lib -L./libft -lft -lreadline -lhistory -g -fsanitize=address
 				@echo "$(GREEN)$(NAME) Created √$(DEFAULT)" 
 
 all:			$(NAME) clean

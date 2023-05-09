@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 02:57:56 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/08 12:39:15 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/09 16:12:44 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	print_exp(void)
 {
 	t_my_list	*list;
-
 	if (g_lob->exp)
 	{
 		list = (g_lob->exp);
@@ -221,6 +220,8 @@ void ft_exp(char **cmd)
 		while (cmd[i])
 		{
 			ad_exp(&cmd[i]);
+			sort_exp(&g_lob->exp);
+			g_lob->environ = list_to_array(g_lob->exp);
 			i++;
 		}
 	}
