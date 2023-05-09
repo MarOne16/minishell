@@ -39,6 +39,29 @@ void	free_all(void)
 	g_lob->g_all = NULL;
 }
 
+void	free_env_exp()
+{
+	t_my_list	*tmp;
+
+	while (g_lob->env)
+	{
+		tmp = g_lob->env;
+		g_lob->env = g_lob->env->next;
+		free(tmp->name);
+		free(tmp->value);
+		free(tmp);
+	}
+	while (g_lob->exp)
+	{
+		tmp = g_lob->exp;
+		g_lob->exp = g_lob->exp->next;
+		free(tmp->name);
+		free(tmp->value);
+		free(tmp);
+	}
+	free(g_lob);
+
+}
 void	close_all(t_fd *fd)
 {
 	t_fd	*tmp;
@@ -107,10 +130,10 @@ int	main(int argc, char *argv[], char **env)
 		next_cmd(&all);
 		session(all);
 		all = NULL;
+		free_all();
 		free(input);
 	}
-	free_all();
-	exit(0);
+	free_env_exp();
 	return (0);
 }
 // TODO :: echo hi >         ./outfiles/outfile01 bye :: cat <file_not_ fond | cat < file_found :: export GHOST=123 | env | grep GHOST

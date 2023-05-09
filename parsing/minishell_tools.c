@@ -66,7 +66,7 @@ char	**ft_splithash(char *s, char c, int *hush)
 		return (0x0);
 	i = 0;
 	j = -1;
-	str = (char **)ft_malloc((nb_c(s, c, hush) + 1) * sizeof(char *));
+	str = (char **)malloc((nb_c(s, c, hush) + 1) * sizeof(char *));
 	if (!str)
 		return (NULL);
 	while (++j < nb_c(s, c, hush))

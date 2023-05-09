@@ -93,7 +93,7 @@ t_tools	get_variable_info(char *str, int i)
 	if (t.v_e >= t.var_start)
 	{
 		t.var_name_len = t.v_e - t.var_start;
-		strncpy(t.var_name, str + t.var_start, t.var_name_len);
+		ft_memcpy(t.var_name, str + t.var_start, t.var_name_len);
 		t.var_name[t.var_name_len] = '\0';
 		t.var_value = my_getenv(t.var_name);
 	}

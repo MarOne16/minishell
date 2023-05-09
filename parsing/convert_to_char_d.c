@@ -35,6 +35,7 @@ char	*removequote(char *str)
 	}
 	tmp = newstr;
 	newstr = ft_strjoin_char(newstr, str[i]);
+    free(str);
 	return (newstr);
 }
 

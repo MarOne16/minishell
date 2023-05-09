@@ -34,7 +34,9 @@ void	creat_env(char **env)
 		{
 			ft_my_lstadd_back(&listenv, ft_my_lstnew(tmp[0], \
 			ft_strjoin("=", tmp[1])));
+			free(tmp[1]);
 		}
+		free(tmp);
 		i++;
 	}
 	g_lob->env = listenv;
@@ -96,9 +98,13 @@ void	creat_exp(char **env)
 	{
 		tmp = ft_my_split(s_env[i], '=' , 1);
 		if (tmp && (*tmp) && tmp[0] && tmp[1])
+		{
 			ft_my_lstadd_back(&list, \
 			ft_my_lstnew(tmp[0], ft_strjoin("=", tmp[1])));
+			free(tmp[1]);
+		}
 		i++;
+		free(tmp);
 	}
 	(g_lob->exp) = list;
 }

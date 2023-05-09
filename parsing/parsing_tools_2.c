@@ -114,6 +114,7 @@ void	feedlist(t_exe **all, char *input)
 	while (cmd[++u])
 		ft_lstadd_backcmd(&cmdspl, \
 		ft_lstnewcmd(removequote(cmd[u]), typing(cmd[u])));
+	free(cmd);
 	if (checkcmd(newinput, hash) || check_rid(cmdspl) || \
 	operatorscount(input, hash) == 1337)
 	{
