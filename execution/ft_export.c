@@ -182,7 +182,7 @@ void ad_exp(char **cmd)
 
 	if (first_check(*cmd))
 	{
-		tmp = ft_my_split(*cmd, '=');
+		tmp = ft_my_split(*cmd, '=', 0);
 		if (tmp[0])
 		{
 			if (check_var(tmp[0]))

@@ -25,7 +25,7 @@ static	void	free_result(char **p, int nom)
 	free(p);
 }
 
-static int	numot(char *s, char c)
+static int	numot(char *s, char c, int flags)
 {
 	int		i;
 	int		nb;
@@ -43,10 +43,12 @@ static int	numot(char *s, char c)
 		else
 			i++;
 	}
+	if (flags && nb > 2)
+		return (2);
 	return (nb);
 }
 
-static char	**ft_get_next( char *s, char c, int len)
+static char	**ft_get_next( char *s, char c, int len, int flags)
 {
 	char	**p;
 	int		i;
@@ -63,6 +65,11 @@ static char	**ft_get_next( char *s, char c, int len)
 		while (s[i] == c)
 			i++;
 		start = i;
+		if (j + 1 == 2 && flags)
+		{
+			p[j++] = ft_substr(s, start, ft_strlen(s) - start);
+			break ;
+		}
 		while (s[i] != c && s[i])
 			i++;
 		p[j] = ft_substr(s, start, (i - start));
@@ -75,18 +82,18 @@ static char	**ft_get_next( char *s, char c, int len)
 	return (p);
 }
 
-char	**ft_my_split(char *s, char c)
+char	**ft_my_split(char *s, char c, int flags)
 {
 	char	**p;
 	int		lenght;
 
 	if (!s)
 		return (0);
-	lenght = numot(s, c);
-	p = ft_get_next(s, c, lenght);
+	lenght = numot(s, c , flags);
+	p = ft_get_next(s, c, lenght, flags);
 	if (!p)
 	{
-		free_result(p, numot(s, c));
+		free_result(p, numot(s, c, flags));
 		return (0);
 	}
 	return (p);

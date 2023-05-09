@@ -29,7 +29,7 @@ void	creat_env(char **env)
 	i = 0;
 	while (env[i])
 	{
-		tmp = ft_my_split(env[i], '=');
+		tmp = ft_my_split(env[i], '=', 1);
 		if (tmp[0] && tmp[1])
 		{
 			ft_my_lstadd_back(&listenv, ft_my_lstnew(tmp[0], \
@@ -94,7 +94,7 @@ void	creat_exp(char **env)
 	i = 0;
 	while (s_env[i])
 	{
-		tmp = ft_my_split(s_env[i], '=');
+		tmp = ft_my_split(s_env[i], '=' , 1);
 		if (tmp && (*tmp) && tmp[0] && tmp[1])
 			ft_my_lstadd_back(&list, \
 			ft_my_lstnew(tmp[0], ft_strjoin("=", tmp[1])));

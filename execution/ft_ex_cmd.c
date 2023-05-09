@@ -30,7 +30,7 @@ char	*f_slach(char *ar)
 	char	**tab;
 	char	*str;
 
-	tab = ft_my_split(ar, ' ');
+	tab = ft_my_split(ar, ' ', 0);
 	str = ft_strjoin("/", tab[0]);
 	frepath(tab);
 	return (str);
@@ -46,7 +46,7 @@ char	*pathcmd(char *str)
 	i = 0;
 	if (g_lob->environ && getenv("PATH") != NULL)
 	{
-		path = ft_my_split(getenv("PATH"), ':');
+		path = ft_my_split(getenv("PATH"), ':', 0);
 		while (path[i])
 		{
 			t = f_slach(str);

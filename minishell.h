@@ -110,7 +110,7 @@ t_my_list	*ft_my_lstnew(char *name , char  *value);
 int		ft_my_lstsize(t_my_list *lst);
 t_my_list	*ft_my_lstlast(t_my_list *lst);
 void	ft_my_lstadd_back(t_my_list **lst, t_my_list *new);
-char	**ft_my_split(char *s, char c);
+char	**ft_my_split(char *s, char c, int flags);
 void	session(t_exe *all);
 // int	ft_strncmp(char *s1,char *s2, size_t count);
 void check_builtin(t_exe *all);
