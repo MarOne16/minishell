@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 01:56:51 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/08 10:51:24 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/09 23:11:57 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*get_orgin(void)
 	list = (g_lob->env);
 	while (list)
 	{
-		if (!ft_strncmp(list->name, "PWD", 4) && ft_strlen(list->name) == 4)
+		if (!ft_strncmp(list->name, "PWD", 4))
 		{
 			return (list->value);
 		}

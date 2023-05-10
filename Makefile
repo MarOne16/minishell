@@ -32,6 +32,7 @@ SOURCE		=	lsttools/lst_all_cmd.c \
 				execution/exp_option.c \
 				execution/ft_unset.c \
 				execution/ft_ex_cmd.c \
+				execution/sort.c\
 				minishell.c \
 
 OBJS		=	$(SOURCE:.c=.o)

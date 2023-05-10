@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_chdir.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 18:03:29 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/03 16:01:07 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/09 22:31:22 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ void	ft_chdir(char **cmd)
 		else if (old_path == NULL && !ft_strncmp(cmd[1], ".", 1) \
 		&& ft_strlen(cmd[1]) == 1)
 		{
-			printf("%s\n", cmd[1]);
+			ft_putstr_fd("No such file or directory\n",2);
 			g_lob->exit_status = 1;
 			return ;
 		}

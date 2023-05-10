@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 02:57:56 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/08 12:39:15 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/09 16:12:44 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ void	print_exp(void)
 	if (g_lob->exp)
 	{
 		list = (g_lob->exp);
-		while (list)
+		while (list->next)
 		{
-			printf("declare -x %s%s\n", list->name, list->value);
+			printf("declare -x %s%s\n", list->next->name, list->next->value);
 			list = list->next;
 		}
 	}
@@ -71,7 +71,7 @@ char	*check_value(char *s)
 	if (s[i] == '\0')
 		return (NULL);
 	s = &s[i];
-	return (s);
+	return (ft_strdup(s));
 }
 
 int	first_check(char *s)
@@ -221,6 +221,8 @@ void ft_exp(char **cmd)
 		while (cmd[i])
 		{
 			ad_exp(&cmd[i]);
+			sort_exp(&g_lob->exp);
+			g_lob->environ = list_to_array(g_lob->exp);
 			i++;
 		}
 	}

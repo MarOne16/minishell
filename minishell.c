@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 16:13:17 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/08 10:44:29 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/09 17:58:06 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ void	feed_glob(char **argv, char **env)
 	g_lob->g_all = NULL;
 	creat_env(env);
 	creat_exp(env);
-	if (g_lob->if_free == 1)
-	{
-		free(env[0]);
-		free(env[2]);
-		free(env);
-	}
+	// if (g_lob->if_free == 1)
+	// {
+	// 	free(env[0]);
+	// 	free(env[2]);
+	// 	free(env);
+	// }
 }
 
 void	free_all(void)
@@ -136,39 +136,10 @@ int	main(int argc, char *argv[], char **env)
 		feedlist(&all, newinput);
 		next_cmd(&all);
 		session(all);
-		all = NULL;
 		free_all();
 		free(input);
+		all = NULL;
 	}
-	free_env_exp();
+	// free_env_exp();
 	return (0);
 }
-// TODO :: echo hi >         ./outfiles/outfile01 bye :: cat <file_not_ fond | cat < file_found :: export GHOST=123 | env | grep GHOST
-// int main(int argc, char *argv[], char **env)
-// {
-// 	(void)argv;
-// 	(void)argc;
-// 	char *input = NULL;
-// 	char *newinput = NULL;
-// 	t_exe       *all = NULL;
-// 	g_lob = (t_global *)malloc(sizeof(t_g_lobal));
-// 	if( *env == NULL)
-// 	{
-// 		env = empty_env(argv);
-// 	}
-// 	creat_env(env);
-// 	creat_exp(env);
-// 	while ((input = ft_readline()))
-// 	{	
-// 		signal(SIGINT, sig_handler);
-// 		signal(SIGQUIT, SIG_IGN);
-// 		if (!ft_strcmp(input, "exit"))
-// 			break;
-// 		newinput = replace_vars(input);
-// 		feedlist(&all, newinput);
-// 		all = NULL;
-// 		// // forcfree(&all);
-// 	}
-// 	exit(0);
-// 	return 0;
-// }

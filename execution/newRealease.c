@@ -6,10 +6,9 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 10:47:17 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/08 12:25:09 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/10 11:59:49 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../minishell.h"
 #include <fcntl.h>
@@ -42,38 +41,31 @@ void	creat_env(char **env)
 	g_lob->env = listenv;
 }
 
-char **sort_env(char **env)
+char	**sort_env(char **env)
 {
 	char	**list;
-	char	*tmp;
 	int		i;
 	int		j;
 	int		k;
+	char	*tmp;
 
 	i = 0;
-	j = 0;
-	k = 0;
 	list = env;
 	while (list[i])
 	{
 		j = i + 1;
 		while (list[j])
 		{
-			if (list[j][k] == list[i][k])
-			{
+			k = 0;
+			while (list[j][k] && list[i][k] && list[j][k] == list[i][k])
 				k++;
-			}
-			else if (list[j][k] < list[i][k])
+			if (list[j][k] < list[i][k])
 			{
 				tmp = list[i];
 				list[i] = list[j];
 				list[j] = tmp;
 			}
-			else
-			{
-				k = 0;
-				j++;
-			}
+			j++;
 		}
 		i++;
 	}
@@ -91,12 +83,10 @@ void	creat_exp(char **env)
 	list = NULL;
 	i = 0;
 	s_env = sort_env(env);
-	while (s_env[i])
-		i++;
 	i = 0;
 	while (s_env[i])
 	{
-		tmp = ft_my_split(s_env[i], '=' , 1);
+		tmp = ft_my_split(s_env[i], '=', 1);
 		if (tmp && (*tmp) && tmp[0] && tmp[1])
 		{
 			ft_my_lstadd_back(&list, \

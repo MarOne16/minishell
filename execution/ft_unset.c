@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 01:33:25 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/08 10:51:05 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/10 12:00:28 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ void	ft_unset(char **cmd)
 	{
 		if (check_unset_var(cmd[1]))
 			free_var_exp(cmd[1], ft_strlen(cmd[1]));
+		g_lob->environ = list_to_array(g_lob->exp);
 	}
 	else if (size > 2)
 	{
@@ -109,5 +110,6 @@ void	ft_unset(char **cmd)
 				free_var_exp(cmd[i], ft_strlen(cmd[i]));
 			i++;
 		}
+		g_lob->environ = list_to_array(g_lob->exp);
 	}
 }
