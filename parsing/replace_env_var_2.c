@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replace_env_var_2.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 15:04:23 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/02 15:41:47 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/09 23:22:40 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*my_getenv(char *search)
 	if (ft_strcmp(search, "?") == 0)
 		return (ft_itoa(g_lob->exit_status));
 	rest = g_lob->env;
-	while (rest->next)
+	while (rest)
 	{
 		if (ft_strcmp(search, rest->name) == 0)
 			return (ft_substr(rest->value, 1, ft_strlen(rest->value)));

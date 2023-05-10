@@ -6,10 +6,9 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 10:47:17 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/08 16:36:31 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/10 11:59:49 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../minishell.h"
 #include <fcntl.h>
