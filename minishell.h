@@ -106,6 +106,7 @@ t_global *g_lob;
 //excute_tools
 void creat_env(char **env);
 char ** sort_env(char **env);
+void	sort_env_l(t_my_list *env);
 void creat_exp(char **env);
 t_my_list	*ft_my_lstnew(char *name , char  *value);
 int		ft_my_lstsize(t_my_list *lst);

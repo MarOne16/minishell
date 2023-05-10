@@ -170,7 +170,8 @@ void o_cmd(t_exe *all)
 	int	saved_stdin_fd;
 	int	saved_stdout_fd;
 	int	infd;
-	int	outfd;	
+	int	outfd;
+
 	saved_stdin_fd = dup(STDIN_FILENO);
 	saved_stdout_fd = dup(STDOUT_FILENO);
 	infd = in_fd(all->fd);
