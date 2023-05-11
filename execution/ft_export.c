@@ -19,10 +19,22 @@ void	print_exp(void)
 	if (g_lob->exp)
 	{
 		list = (g_lob->exp);
-		while (list->next != NULL)
+		while (list)
 		{
-			printf("declare -x %s%s\n", list->next->name, list->next->value);
-			list = list->next;
+			if ((list)->value)
+			{
+				ft_putstr_fd("declare -x ", 1);
+				ft_putstr_fd((list)->name, 1);
+				ft_putstr_fd((list)->value, 1);
+				ft_putstr_fd("\n", 1);
+			}
+			else
+			{
+				ft_putstr_fd("declare -x ", 1);
+				ft_putstr_fd((list)->name, 1);
+				ft_putstr_fd("\n", 1);
+			}
+			list = (list)->next;
 		}
 	}
 }

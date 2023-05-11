@@ -109,10 +109,10 @@ void	zig_zag(char *old_path)
 {
 	char	*home;
 
-	if (find_var_env("OLDPWD", ft_strlen("OLDPWD") && ft_getcwd()))
+	if (find_var_env("OLDPWD", ft_strlen("OLDPWD"))->value)
 	{
 		home = find_var_env("OLDPWD", ft_strlen("OLDPWD"))->value;
-		if (home[0] == '=')
+		if (home && home[0] == '=')
 			home = ft_substr_mini(home, 1, ft_strlen(home), 0);
 	}
 	else
@@ -162,8 +162,9 @@ void	ft_chdir(char **cmd)
 			chdir_home();
 		else if (!ft_strncmp(cmd[1], "-", 1) && ft_strlen(cmd[1]) == 1)
 			zig_zag(old_path);
-		else if (old_path == NULL && !ft_strncmp(cmd[1], ".", 1) \
-		&& ft_strlen(cmd[1]) == 1)
+		else if (old_path == NULL &&( (!ft_strncmp(cmd[1], ".", 1)  \
+		&& ft_strlen(cmd[1]) == 1)  || (!ft_strncmp(cmd[1], "..", 2)  \
+		&& ft_strlen(cmd[1]) == 2)))
 		{
 			ft_putstr_fd("No such file or directory\n",2);
 			g_lob->exit_status = 1;

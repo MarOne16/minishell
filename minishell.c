@@ -15,13 +15,13 @@
 void	feed_glob(char **argv, char **env)
 {
 	g_lob = (t_global *)malloc(sizeof(t_global));
+	g_lob->g_exp = NULL;
+	g_lob->g_all = NULL;
 	if (*env == NULL)
-		env = empty_env(argv);
+		env = empty_env(argv, env);
 	g_lob->environ = env;
 	g_lob->rd = 0;
 	g_lob->exit_status = 0;
-	g_lob->g_all = NULL;
-	g_lob->g_exp = NULL;
 	creat_env(env);
 	creat_exp(env);
 	// if (g_lob->if_free == 1)
@@ -166,6 +166,7 @@ int	main(int argc, char *argv[], char **env)
 		feedlist(&all, newinput);
 		next_cmd(&all);
 		session(all);
+		sort_exp_l(&g_lob->exp);
 		free_all();
 		free(input);
 		all = NULL;

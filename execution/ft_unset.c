@@ -63,8 +63,8 @@ void	free_var_exp(char *s, int size)
 			temp_env->next = tmp->next;
 			// free(tmp->value);
 			// free(tmp->name);
-			// free(tmp);
-			// free_var_env(s, size);
+			free(tmp);
+			free_var_env(s, size);
 		}
 		temp_env = temp_env->next;
 	}
@@ -86,7 +86,7 @@ void	free_var_env(char *s, int size)
 			temp_env->next = tmp->next;
 			// free(tmp->value);
 			// free(tmp->name);
-			// free(tmp);
+			free(tmp);
 		}
 		temp_env = temp_env->next;
 	}
@@ -105,7 +105,6 @@ void	ft_unset(char **cmd)
 	{
 		if (check_unset_var(cmd[1]))
 			free_var_exp(cmd[1], ft_strlen(cmd[1]));
-		g_lob->environ = list_to_array(g_lob->exp);
 	}
 	else if (size > 2)
 	{
@@ -117,6 +116,5 @@ void	ft_unset(char **cmd)
 				free_var_exp(cmd[i], ft_strlen(cmd[i]));
 			i++;
 		}
-		g_lob->environ = list_to_array(g_lob->exp);
 	}
 }

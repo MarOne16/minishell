@@ -121,7 +121,7 @@ void		ft_echo(char **cmd);
 void		ft_chdir(char **cmd);
 void		iter(int i);
 void		ft_exit(char **cmd);
-char		**empty_env(char **av);
+char		**empty_env(char **av, char **env);
 void 		print_exp();
 void 		ft_exp(char **cmd);
 void 		ft_pwd(char **pwd);

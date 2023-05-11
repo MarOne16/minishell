@@ -111,7 +111,6 @@ void	ex_cmd(char **cmd)
 		exe = pathcmd(cmd[0]);
 		if (execve(exe, cmd, g_lob->environ) == -1)
 		{
-			perror("error");
 			ft_putstr_fd("command not found.\n", 2);
 			exit(127);
 		}
@@ -121,7 +120,6 @@ void	ex_cmd(char **cmd)
 		if (waitpid(pid, &status, 0) == -1)
 			exit(EXIT_FAILURE);
 		if (WIFEXITED(status))
-			if (WEXITSTATUS(status) != 0)
 				g_lob->exit_status = WEXITSTATUS(status);
 	}
 }
@@ -140,9 +138,9 @@ void	mex_cmd(char **cmd)
 		}
 	}
 	exe = pathcmd(cmd[0]);
+	printf("%s\n", exe);
 	if (execve(exe, cmd, g_lob->environ) == -1)
 	{
-		perror("error");
 		ft_putstr_fd("Minishell: multi_command not found\n", 2);
 		exit(127);
 	}

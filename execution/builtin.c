@@ -12,19 +12,17 @@
 
 #include "../minishell.h"
 
-char	**empty_env(char **av)
+char	**empty_env(char **av, char **env)
 {
-	char	**env;
 	char	*tmp;
 
 	g_lob->if_free = 1;
-	env = (char **)malloc(sizeof(char *) * 4);
+	env = (char **)ft_malloc(sizeof(char *) * 4, 0);
 	if (!env)
 		return (NULL);
 	tmp = ft_getcwd();
 	env[0] = ft_strjoin_mini("PWD=", tmp);
-	free(tmp);
-	env[1] = "SHLVL=1";
+	env[1] = ft_strdup_mini("SHLVL=1", 0);
 	env[2] = ft_strjoin_mini("_=", av[0]);
 	env[3] = NULL;
 	return (env);
