@@ -64,6 +64,7 @@ int	check_var(char *s)
 			}
 			i++;
 		}
+		
 	}
 	return (1);
 }
@@ -235,4 +236,5 @@ void ft_exp(char **cmd)
 			i++;
 		}
 	}
+	g_lob->environ = list_to_array(g_lob->env);
 }

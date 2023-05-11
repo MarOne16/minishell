@@ -117,4 +117,5 @@ void	ft_unset(char **cmd)
 			i++;
 		}
 	}
+	g_lob->environ = list_to_array(g_lob->env);
 }

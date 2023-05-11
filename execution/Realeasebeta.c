@@ -105,14 +105,11 @@ void	lot_cmd(t_exe *all, int size)
 			}
 			m_cmd(all);
 		}
-		else
-		{
-			if (i == size - 1)
-				close(saved_in_fd);
-			close(fd[1]);
-			saved_in_fd = fd[0];
-			child_pids[i++] = pid;
-		}
+		if (i == size - 1)
+			close(saved_in_fd);
+		close(fd[1]);
+		saved_in_fd = fd[0];
+		child_pids[i++] = pid;
 		all = all->next;
 	}
 	wait_childs(size, child_pids);

@@ -109,7 +109,7 @@ void	zig_zag(char *old_path)
 {
 	char	*home;
 
-	if (find_var_env("OLDPWD", ft_strlen("OLDPWD"))->value)
+	if (find_var_env("OLDPWD", ft_strlen("OLDPWD")) && ft_getcwd())
 	{
 		home = find_var_env("OLDPWD", ft_strlen("OLDPWD"))->value;
 		if (home && home[0] == '=')
