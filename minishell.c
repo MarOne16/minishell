@@ -21,6 +21,7 @@ void	feed_glob(char **argv, char **env)
 	g_lob->rd = 0;
 	g_lob->exit_status = 0;
 	g_lob->g_all = NULL;
+	g_lob->g_exp = NULL;
 	creat_env(env);
 	creat_exp(env);
 	// if (g_lob->if_free == 1)
@@ -116,7 +117,7 @@ void	next_cmd(t_exe **all)
 	char	**cmd;
 
 	tmp = *all;
-	cmd = ft_malloc(sizeof(char *) + 1);
+	cmd = ft_malloc((sizeof(char *) + 1), 1);
 	while (tmp)
 	{
 		tmp2 = tmp->fd;
@@ -124,7 +125,7 @@ void	next_cmd(t_exe **all)
 		{
 			if (tmp2->fd == -1)
 			{
-				cmd[0] = ft_strdup_mini("");
+				cmd[0] = ft_strdup_mini("", 1);
 				tmp->lakher = (void **)cmd;
 				close_all(tmp->fd);
 			}

@@ -24,10 +24,10 @@ int	herdoc(char *name)
 	{
 		content = readline("> ");
 		tmp = content;
-		content = ft_strjoin_char(content, '\n');
+		content = ft_strjoin_char(content, '\n', 1);
 		free(tmp);
 		if (content == NULL || !ft_strcmp(content, ft_strjoin_char(name, \
-		'\n')) || (g_lob->rd == 1 && rl_done == 1))
+		'\n', 1)) || (g_lob->rd == 1 && rl_done == 1))
 		{
 			g_lob->rd = 0;
 			break ;

@@ -22,15 +22,15 @@ char	**empty_env(char **av)
 	if (!env)
 		return (NULL);
 	tmp = getcwd(NULL, 0);
-	env[0] = ft_strjoin("PWD=", tmp);
+	env[0] = ft_strjoin_mini("PWD=", tmp);
 	free(tmp);
 	env[1] = "SHLVL=1";
-	env[2] = ft_strjoin("_=", av[0]);
+	env[2] = ft_strjoin_mini("_=", av[0]);
 	env[3] = NULL;
 	return (env);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin_mini(char *s1, char *s2)
 {
 	int		s1len;
 	int		s2len;
@@ -44,7 +44,7 @@ char	*ft_strjoin(char *s1, char *s2)
 		return (NULL);
 	s1len = ft_strlen(s1);
 	s2len = ft_strlen(s2);
-	ptr = (char *)malloc(s2len + s1len + 1);
+	ptr = (char *)ft_malloc((s2len + s1len + 1), 0);
 	if (!ptr)
 		return (NULL);
 	while (++j <= s1len)

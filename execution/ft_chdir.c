@@ -90,7 +90,7 @@ void	chdir_home(void)
 	old_path = getcwd(NULL, 0);
 	home = get_home();
 	if (home)
-		home = ft_substr(home, 1, ft_strlen(home));
+		home = ft_substr_mini(home, 1, ft_strlen(home), 0);
 	else
 	{
 		home = getcwd(NULL, 0);
@@ -113,7 +113,7 @@ void	zig_zag(char *old_path)
 	{
 		home = find_var_env("OLDPWD", ft_strlen("OLDPWD"))->value;
 		if (home[0] == '=')
-			home = ft_substr(home, 1, ft_strlen(home));
+			home = ft_substr_mini(home, 1, ft_strlen(home), 0);
 	}
 	else
 	{

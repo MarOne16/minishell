@@ -72,31 +72,6 @@ void	feedhashtable(int **hash, char *input)
 	}
 }
 
-char	*add_space_before_quote(char	*s)
-{
-	char	*result;
-	int		*hash;
-	int		i;
-
-	i = 0;
-	feedhashtable(&hash, s);
-	result = ft_strdup_mini("");
-	while (s[i])
-	{
-		if ((s[i] == '\"' || s[i] == '\'') && hash[i] == 0)
-		{
-			result = ft_strjoin_char(result, ' ');
-			result = ft_strjoin_char(result, s[i++]);
-			while (hash[i] == 1 && s[i])
-				result = ft_strjoin_char(result, s[i++]);
-			result = ft_strjoin_char(result, ' ');
-		}
-		else
-			result = ft_strjoin_char(result, s[i++]);
-	}
-	return (result);
-}
-
 void	feedlist(t_exe **all, char *input)
 {
 	int		u;

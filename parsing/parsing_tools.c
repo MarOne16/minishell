@@ -43,18 +43,18 @@ char	*add_spaces_around_pipe(char *s, int *hash)
 	int		i;
 
 	i = 0;
-	result = ft_strdup_mini("");
+	result = ft_strdup_mini("", 1);
 	feedhashtable(&hash, s);
 	while (s[i])
 	{
 		if (s[i] == '|' && hash[i] == 0)
 		{
-			result = ft_strjoin_char(result, ' ');
-			result = ft_strjoin_char(result, s[i++]);
-			result = ft_strjoin_char(result, ' ');
+			result = ft_strjoin_char(result, ' ', 1);
+			result = ft_strjoin_char(result, s[i++], 1);
+			result = ft_strjoin_char(result, ' ', 1);
 		}
 		else
-			result = ft_strjoin_char(result, s[i++]);
+			result = ft_strjoin_char(result, s[i++], 1);
 	}
 	return (result);
 }
@@ -64,7 +64,7 @@ char	*add_spaces_around_redirection(char *s, int *hash)
 	struct s_asao	t;
 
 	t.i = 0;
-	t.result = ft_strdup_mini("");
+	t.result = ft_strdup_mini("", 1);
 	while (s[t.i])
 	{
 		t.u = t.i - 1;
@@ -73,16 +73,16 @@ char	*add_spaces_around_redirection(char *s, int *hash)
 			t.c++;
 		if (t.c == 1 || t.c == 2)
 		{
-			t.result = ft_strjoin_char(t.result, ' ');
+			t.result = ft_strjoin_char(t.result, ' ', 1);
 			while (s[t.i] && (s[t.i] == '>' || s[t.i] == '<'))
-				t.result = ft_strjoin_char(t.result, s[t.i++]);
-			t.result = ft_strjoin_char(t.result, ' ');
+				t.result = ft_strjoin_char(t.result, s[t.i++], 1);
+			t.result = ft_strjoin_char(t.result, ' ', 1);
 		}
 		else if (t.c > 2)
 			while (s[t.i] && t.c--)
-				t.result = ft_strjoin_char(t.result, s[t.i++]);
+				t.result = ft_strjoin_char(t.result, s[t.i++], 1);
 		else
-			t.result = ft_strjoin_char(t.result, s[t.i++]);
+			t.result = ft_strjoin_char(t.result, s[t.i++], 1);
 	}
 	return (t.result);
 }

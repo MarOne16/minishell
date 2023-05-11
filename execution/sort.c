@@ -83,7 +83,7 @@ char ** list_to_array(t_my_list *exp)
 	list = malloc(sizeof(char *) * (count + 1));
 	while(i < count)
 	{
-		list[i] = ft_strjoin(tmp->name, tmp->value);
+		list[i] = ft_strjoin_mini(tmp->name, tmp->value);
 		i++;
 		tmp = tmp->next;
 	}

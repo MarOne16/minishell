@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-void	*ft_malloc(size_t size)
+void	*ft_malloc(size_t size, int x)
 {
 	void	*ptr;
 
@@ -22,11 +22,14 @@ void	*ft_malloc(size_t size)
 		ft_putstr_fd("Error: malloc failed\n", 2);
 		exit(1);
 	}
-	ft_lstadd_back(&g_lob->g_all, ft_lstnew(ptr));
+	if (x == 1)
+		ft_lstadd_back(&g_lob->g_all, ft_lstnew(ptr));
+	else
+		ft_lstadd_back(&g_lob->g_exp, ft_lstnew(ptr));
 	return (ptr);
 }
 
-char	*ft_strjoin_char(char *s, char c)
+char	*ft_strjoin_char(char *s, char c, int x)
 {
 	size_t	len;
 	char	*str;
@@ -35,7 +38,7 @@ char	*ft_strjoin_char(char *s, char c)
 	if (!s)
 		return (0);
 	len = ft_strlen(s) + 1;
-	str = (char *)ft_malloc(sizeof(char) * (len + 1));
+	str = (char *)ft_malloc((sizeof(char) * (len + 1)), x);
 	if (!str)
 		return (0);
 	i = 0;

@@ -22,19 +22,19 @@ char	*removequote(char *str)
 	i = 0;
 	hash = NULL;
 	feedhashtable(&hash, str);
-	newstr = ft_strdup_mini("");
+	newstr = ft_strdup_mini("", 1);
 	while (str[i])
 	{
 		if ((str[i] == '\"' || str[i] == '\'') && hash[i] == 0)
 			i++;
 		else
 		{
-			newstr = ft_strjoin_char(newstr, str[i]);
+			newstr = ft_strjoin_char(newstr, str[i], 1);
 			i++;
 		}
 	}
 	tmp = newstr;
-	newstr = ft_strjoin_char(newstr, str[i]);
+	newstr = ft_strjoin_char(newstr, str[i], 1);
 	return (newstr);
 }
 
@@ -68,13 +68,13 @@ char	*rplace_tab(char *str)
 	char	*newstr;
 
 	i = 0;
-	newstr = ft_strdup_mini("");
+	newstr = ft_strdup_mini("", 1);
 	while (str[i])
 	{
 		if (str[i] == '\t')
-			newstr = ft_strjoin_char(newstr, ' ');
+			newstr = ft_strjoin_char(newstr, ' ', 1);
 		else
-			newstr = ft_strjoin_char(newstr, str[i]);
+			newstr = ft_strjoin_char(newstr, str[i], 1);
 		i++;
 	}
 	return (newstr);
@@ -88,7 +88,7 @@ void	table_lakher(t_cmd *cmd, t_exe **lakher)
 
 	i = 0;
 	rest = cmd;
-	spl = ft_malloc((sizechar(rest) + 1) * sizeof(char *));
+	spl = ft_malloc((sizechar(rest) + 1) * sizeof(char *), 1);
 	if (rest && rest->type == 2)
 		rest = rest->next;
 	while (rest && rest->type != 2)

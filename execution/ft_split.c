@@ -57,7 +57,7 @@ static char	**ft_get_next( char *s, char c, int len, int flags)
 
 	i = 0;
 	j = 0;
-	p = malloc((len + 1) * sizeof(char *));
+	p = ft_malloc((len + 1) * sizeof(char *), 0);
 	if (!p)
 		return (0);
 	while (len && s[i])
@@ -67,12 +67,12 @@ static char	**ft_get_next( char *s, char c, int len, int flags)
 		start = i;
 		if (j + 1 == 2 && flags)
 		{
-			p[j++] = ft_substr(s, start, ft_strlen(s) - start);
+			p[j++] = ft_substr_mini(s, start, ft_strlen(s) - start, 0);
 			break ;
 		}
 		while (s[i] != c && s[i])
 			i++;
-		p[j] = ft_substr(s, start, (i - start));
+		p[j] = ft_substr_mini(s, start, (i - start), 0);
 		start = i;
 		i++;
 		j++;
@@ -89,7 +89,7 @@ char	**ft_my_split(char *s, char c, int flags)
 
 	if (!s)
 		return (0);
-	lenght = numot(s, c , flags);
+	lenght = numot(s, c, flags);
 	p = ft_get_next(s, c, lenght, flags);
 	if (!p)
 	{

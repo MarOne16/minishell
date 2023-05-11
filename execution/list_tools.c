@@ -16,7 +16,7 @@ t_my_list	*ft_my_lstnew(char *name, char *value)
 {
 	t_my_list	*new;
 
-	new = (t_my_list *)malloc(sizeof(t_my_list));
+	new = (t_my_list *)ft_malloc(sizeof(t_my_list), 0);
 	if (!new)
 		return (0);
 	if (!name && !value)

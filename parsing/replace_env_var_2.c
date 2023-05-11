@@ -41,7 +41,7 @@ char	*replace_vars(char	*str)
 	struct s_tool	t;
 
 	feedhashtable(&t.hash, str);
-	t.new_str = ft_malloc(get_new_length(str));
+	t.new_str = ft_malloc(get_new_length(str), 1);
 	t.new_str_ptr = t.new_str;
 	t.i = 0;
 	t.new_str_ptr = return_new_ptr(str, t.new_str_ptr, t, t.i);
@@ -58,7 +58,7 @@ char	*my_getenv(char *search)
 	while (rest)
 	{
 		if (ft_strcmp(search, rest->name) == 0)
-			return (ft_substr_mini(rest->value, 1, ft_strlen(rest->value)));
+			return (ft_substr_mini(rest->value, 1, ft_strlen(rest->value), 1));
 		rest = rest->next;
 	}
 	return (NULL);

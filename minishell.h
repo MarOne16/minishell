@@ -98,6 +98,7 @@ typedef struct s_global
 	int			if_free;
 	int			exit_status;
 	t_list		*g_all;
+	t_list		*g_exp;
 }	t_global;
 
 t_global *g_lob;
@@ -136,7 +137,7 @@ void		free_var_exp(char *s, int size);
 void		free_var_env(char *s, int size);
 int			size_prc(t_exe *allcmd);
 int			size_cmd(char **cmd);
-// char	*ft_strjoin(char  *s1, char  *s2);
+char		*ft_strjoin_mini(char  *s1, char  *s2);
 void		ex_cmd(char **cmd);
 void 		mex_cmd(char **cmd);
 void 		check_builtin_multi(t_exe *all);
@@ -157,10 +158,10 @@ int			size_fd(t_fd *fd);
 void extra_bluitin_multi(char **n, char *s);
 
 // list tools allcmd
-char	*ft_strjoin_char(char *s, char c);
-char	*ft_substr_mini(char *s, unsigned int start, size_t len);
-char	*ft_strdup_mini( char *s1);
-void	*ft_malloc(size_t size);
+char	*ft_strjoin_char(char *s, char c, int x);
+char	*ft_substr_mini(char *s, unsigned int start, size_t len, int x);
+char	*ft_strdup_mini( char *s1, int x);
+void	*ft_malloc(size_t size, int x);
 // list tools
 t_exe *ft_lstnewallcmd(void **cmd, void *fd);
 void ft_lstadd_frontcmd(t_exe **lst, t_exe *new);

@@ -12,12 +12,12 @@
 
 #include "../minishell.h"
 
-char	*ft_strdup_mini( char *s1)
+char	*ft_strdup_mini( char *s1, int x)
 {
 	size_t	i;
 	char	*s11;
 
-	s11 = (char *)ft_malloc(sizeof(char) * (ft_strlen(s1) + 1));
+	s11 = (char *)ft_malloc(sizeof(char) * (ft_strlen(s1) + 1), x);
 	if (!s11)
 		return (NULL);
 	i = 0;
@@ -30,7 +30,7 @@ char	*ft_strdup_mini( char *s1)
 	return (s11);
 }
 
-char	*ft_substr_mini(char *s, unsigned int start, size_t len)
+char	*ft_substr_mini(char *s, unsigned int start, size_t len, int x)
 {
 	size_t	i;
 	char	*str;
@@ -38,8 +38,8 @@ char	*ft_substr_mini(char *s, unsigned int start, size_t len)
 	if (!s)
 		return (NULL);
 	if (ft_strlen(s) < start)
-		return (ft_strdup_mini(""));
-	str = (char *)ft_malloc(sizeof(char) * (len + 1));
+		return (ft_strdup_mini("", x));
+	str = (char *)ft_malloc(sizeof(char) * (len + 1), x);
 	if (!str)
 		return (NULL);
 	i = 0;

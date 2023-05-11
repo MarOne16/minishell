@@ -40,5 +40,6 @@ void	ft_pwd(char **pwd)
 			s = get_orgin();
 		}
 		printf("%s\n", s);
+		free(s);
 	}
 }

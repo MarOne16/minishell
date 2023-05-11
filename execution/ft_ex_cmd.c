@@ -31,8 +31,7 @@ char	*f_slach(char *ar)
 	char	*str;
 
 	tab = ft_my_split(ar, ' ', 0);
-	str = ft_strjoin("/", tab[0]);
-	frepath(tab);
+	str = ft_strjoin_mini("/", tab[0]);
 	return (str);
 }
 
@@ -46,11 +45,11 @@ char	*pathcmd(char *str)
 	i = 0;
 	if (g_lob->environ && my_getenv("PATH") != NULL)
 	{
-		path = ft_my_split(getenv("PATH"), ':', 0);
+		path = ft_my_split(my_getenv("PATH"), ':', 0);
 		while (path[i])
 		{
 			t = f_slach(str);
-			s = ft_strjoin(path[i], t);
+			s = ft_strjoin_mini(path[i], t);
 			if (!access(s, X_OK))
 			{
 				frepath(path);
@@ -58,7 +57,7 @@ char	*pathcmd(char *str)
 			}
 			i++;
 		}
-		frepath(path);
+		// free(path);
 	}
 	ft_putstr_fd("path not set \n", 2);
 	return (NULL);

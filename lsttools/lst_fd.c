@@ -55,7 +55,7 @@ t_fd	*ft_lstnew_fd(char type, int fd)
 {
 	t_fd	*node;
 
-	node = (t_fd *)ft_malloc(sizeof(*node));
+	node = (t_fd *)ft_malloc(sizeof(*node), 1);
 	if (!node)
 		return (0);
 	node->type = type;

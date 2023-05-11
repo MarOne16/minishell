@@ -16,7 +16,7 @@ t_exe	*ft_lstnewallcmd(void **cmd, void *fd)
 {
 	t_exe	*node;
 
-	node = (t_exe *)ft_malloc(sizeof(*node));
+	node = (t_exe *)ft_malloc(sizeof(*node), 1);
 	if (!node)
 		return (0);
 	node->lakher = cmd;

@@ -16,7 +16,7 @@ t_cmd	*ft_lstnewcmd(char *cmd, int type)
 {
 	t_cmd	*newcmd;
 
-	newcmd = ft_malloc(sizeof(t_cmd));
+	newcmd = ft_malloc(sizeof(t_cmd), 1);
 	if (!newcmd)
 		return (0);
 	newcmd->type = type;

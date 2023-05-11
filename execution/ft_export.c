@@ -19,7 +19,7 @@ void	print_exp(void)
 	if (g_lob->exp)
 	{
 		list = (g_lob->exp);
-		while (list->next)
+		while (list->next != NULL)
 		{
 			printf("declare -x %s%s\n", list->next->name, list->next->value);
 			list = list->next;
@@ -71,7 +71,7 @@ char	*check_value(char *s)
 	if (s[i] == '\0')
 		return (NULL);
 	s = &s[i];
-	return (ft_strdup(s));
+	return (s);
 }
 
 int	first_check(char *s)
@@ -94,7 +94,7 @@ void	put_plus(char *cmd, char *val)
 {
 	t_my_list	*s;
 
-	cmd = ft_substr(cmd, 0, ft_strlen(cmd) - 1);
+	cmd = ft_substr_mini(cmd, 0, ft_strlen(cmd) - 1, 0);
 	s = var_exp(cmd, ft_strlen(cmd));
 	if (s != NULL)
 	{
@@ -102,9 +102,9 @@ void	put_plus(char *cmd, char *val)
 		{
 			if (!ft_strncmp(s->value, "=", 0))
 			{
-				val = ft_substr(val, 1, ft_strlen(val) - 1);
+				val = ft_substr_mini(val, 1, ft_strlen(val) - 1, 0);
 			}
-			s->value = ft_strjoin(s->value, val);
+			s->value = ft_strjoin_mini(s->value, val);
 		}
 	}
 	else if (s == NULL)
@@ -122,7 +122,7 @@ void put_env_plus(char *cmd, char *val)
 	if (e)
 	{
 		if (e->value)
-			e->value = ft_strjoin(e->value, val);
+			e->value = ft_strjoin_mini(e->value, val);
 	}
 	else
 	{
@@ -187,7 +187,7 @@ void ad_exp(char **cmd)
 		{
 			if (check_var(tmp[0]))
 			{
-				val = check_value(*cmd);
+				val = check_value(ft_strdup_mini(*cmd, 0));
 				put_in_exp(tmp[0], val);
 			}
 		}
@@ -216,8 +216,7 @@ void ft_exp(char **cmd)
 	}
 	else if (size >= 2)
 	{
-		i = 0;
-		cmd = &cmd[1];
+		i = 1;
 		while (cmd[i])
 		{
 			ad_exp(&cmd[i]);
