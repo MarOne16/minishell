@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 01:33:25 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/10 22:54:47 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/11 11:56:34 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,20 +47,21 @@ void	free_var_exp(char *s, int size)
 
 	i = 0;
 	temp_env = (g_lob->exp);
-	while (temp_env && temp_env->next && i++)
+	while (temp_env && temp_env->next)
 	{
 		if (!ft_strncmp(s, temp_env->name, size) \
-		&& (int)ft_strlen(temp_env->name) == size && i == 0)
+		&& (int)ft_strlen(temp_env->name) == size && i++ == 0)
 		{
 			tmp = temp_env;
 			temp_env = tmp->next;
 			g_lob->exp = temp_env;
 		}
-		else if (!ft_strncmp(s, temp_env->next->name, size) \
+		if (!ft_strncmp(s, temp_env->next->name, size) \
 		&& (int)ft_strlen(temp_env->next->name) == size)
 		{
 			tmp = temp_env->next;
 			temp_env->next = tmp->next;
+			free(tmp);
 			free_var_env(s, size);
 		}
 		temp_env = temp_env->next;

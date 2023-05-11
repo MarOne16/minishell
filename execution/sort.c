@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:54:14 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/10 22:39:16 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/11 11:50:05 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ char	**sort_env(char **env)
 	while (list[++i])
 	{
 		j = i;
-		while (list[--j])
+		while (list[++j])
 		{
 			k = 0;
 			while (list[j][k] && list[i][k] && list[j][k] == list[i][k])
