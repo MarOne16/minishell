@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 16:22:42 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/11 22:06:14 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/11 22:13:16 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,13 +95,13 @@ void	lot_cmd(t_exe *all, int size)
 {
 	int		fd[size];
 	int		pid;
+	pid_t	child_pids[size * 2];
 	int		i;
 	int		j;
 
 	i = 0;
 	j = 0;
-	while (i < size)
-		ft_pipe(&fd[i++ *2]);
+	while(i < size) ft_pipe(&fd[i++ * 2]);
 	while (all)
 	{
 		pid = ft_fork();
@@ -112,19 +112,24 @@ void	lot_cmd(t_exe *all, int size)
 			if (all->next)
 				dup2(fd[j + 1], STDOUT_FILENO);
 			i = 0;
-			while (i < (size * 2))
+			while( i < size * 2)
 				close(fd[i++]);
 			m_cmd(all);
 		}
+		else
+		{
+			child_pids[i++] = pid;
+		}
 		all = all->next;
-		j += 2;
+		j+=2;
 	}
 	i = 0;
-	while (i < (size * 2))
+	while( i < size * 2)
 		close(fd[i++]);
 	i = 0;
-	while (i < (size * 2))
+	for (i = 0; i < size; i++)
 		wait(NULL);
+	// wait_childs(size, child_pids);
 }
 
 void	session(t_exe *all)
