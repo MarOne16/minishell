@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 16:22:42 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/10 16:28:48 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/11 22:06:14 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,43 +79,52 @@ void	wait_childs(int size, int *child_pids)
 		j++;
 	}
 }
-
-void	lot_cmd(t_exe *all, int size)
+int count_all(t_exe *all)
 {
-	int		fd[2];
-	int		pid;
-	int		saved_in_fd;
-	pid_t	child_pids[size];
-	int		i;
+	int i = 0;
 
 	i = 0;
-	saved_in_fd = 0;
 	while (all)
 	{
-		ft_pipe(fd);
+		i++;
+		all = all->next;
+	}
+	return(i);
+}
+void	lot_cmd(t_exe *all, int size)
+{
+	int		fd[size];
+	int		pid;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	while (i < size)
+		ft_pipe(&fd[i++ *2]);
+	while (all)
+	{
 		pid = ft_fork();
 		if (pid == 0)
 		{
-			if (i != 0)
-				dup2(saved_in_fd, STDIN_FILENO);
-			if (i < size - 1)
-			{
-				close(fd[0]);
-				dup2(fd[1], STDOUT_FILENO);
-			}
+			if (j != 0)
+				dup2(fd[j - 2], STDIN_FILENO);
+			if (all->next)
+				dup2(fd[j + 1], STDOUT_FILENO);
+			i = 0;
+			while (i < (size * 2))
+				close(fd[i++]);
 			m_cmd(all);
 		}
-		else
-		{
-			if (i == size - 1)
-				close(saved_in_fd);
-			close(fd[1]);
-			saved_in_fd = fd[0];
-			child_pids[i++] = pid;
-		}
 		all = all->next;
+		j += 2;
 	}
-	wait_childs(size, child_pids);
+	i = 0;
+	while (i < (size * 2))
+		close(fd[i++]);
+	i = 0;
+	while (i < (size * 2))
+		wait(NULL);
 }
 
 void	session(t_exe *all)

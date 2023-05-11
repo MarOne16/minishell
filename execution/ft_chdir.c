@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 18:03:29 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/09 22:31:22 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/11 17:00:14 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void	zig_zag(char *old_path)
 	if (find_var_env("OLDPWD", ft_strlen("OLDPWD")))
 	{
 		home = find_var_env("OLDPWD", ft_strlen("OLDPWD"))->value;
-		if (home[0] == '=')
+		if (home[0] == '=' && home)
 			home = ft_substr_mini(home, 1, ft_strlen(home), 0);
 	}
 	else
