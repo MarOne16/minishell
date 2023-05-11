@@ -32,27 +32,31 @@ void	feed_glob(char **argv, char **env)
 }
 
 // sort list of env
-void	sort_env_l(t_my_list *env)
+void	sort_exp_l(t_my_list **exp)
 {
 	t_my_list	*tmp;
-	char		*tmp_name;
-	char		*tmp_value;
+	t_my_list	*tmp2;
+	char		*name;
+	char		*value;
 
-	tmp = env;
+	tmp = *exp;
 	while (tmp)
 	{
-		if (tmp->next && ft_strcmp(tmp->name, tmp->next->name) > 0)
+		tmp2 = tmp->next;
+		while (tmp2)
 		{
-			tmp_name = tmp->name;
-			tmp_value = tmp->value;
-			tmp->name = tmp->next->name;
-			tmp->value = tmp->next->value;
-			tmp->next->name = tmp_name;
-			tmp->next->value = tmp_value;
-			tmp = env;
+			if (ft_strcmp(tmp->name, tmp2->name) > 0)
+			{
+				name = tmp->name;
+				value = tmp->value;
+				tmp->name = tmp2->name;
+				tmp->value = tmp2->value;
+				tmp2->name = name;
+				tmp2->value = value;
+			}
+			tmp2 = tmp2->next;
 		}
-		else
-			tmp = tmp->next;
+		tmp = tmp->next;
 	}
 }
 

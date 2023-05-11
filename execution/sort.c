@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:54:14 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/09 19:04:05 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/11 11:50:05 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void sort_exp(t_my_list **exp)
 	t_my_list *min_node;
 	char *temp_name;
 	char *temp_value;
-	
+
 	current = *exp;
 	min_node = current;
 	ops = current->next;
@@ -40,8 +40,8 @@ void sort_exp(t_my_list **exp)
 			min_node->name = temp_name;
 			min_node->value = temp_value;
 		}
-		else
-			break;
+		// else
+		//     break;
 		current = current->next;
 	}
 }
@@ -89,4 +89,33 @@ char ** list_to_array(t_my_list *exp)
 	}
 	list[i] = NULL;
 	return(list);
+}
+
+char	**sort_env(char **env)
+{
+	char	**list;
+	int		i;
+	int		j;
+	int		k;
+	char	*tmp;
+
+	i = -1;
+	list = env;
+	while (list[++i])
+	{
+		j = i;
+		while (list[++j])
+		{
+			k = 0;
+			while (list[j][k] && list[i][k] && list[j][k] == list[i][k])
+				k++;
+			if (list[j][k] < list[i][k])
+			{
+				tmp = list[i];
+				list[i] = list[j];
+				list[j] = tmp;
+			}
+		}
+	}
+	return (list);
 }

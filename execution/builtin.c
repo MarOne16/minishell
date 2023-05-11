@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 11:10:25 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/08 10:49:21 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/10 22:51:47 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,62 +77,64 @@ void	ft_env(void)
 void	check_builtin(t_exe *all)
 {
 	char	*s;
-	char	**n;
 
 	if (all->lakher == NULL || all->lakher[0] == NULL)
 		return ;
 	s = all->lakher[0];
-	n = (char **)all->lakher;
 	if (s[0] == '\0')
 		return ;
 	if (!(ft_strncmp(s, "echo", 4)) && ft_strlen(s) == 4)
-		ft_echo(n);
+		ft_echo((char **)all->lakher);
 	else if (!(ft_strncmp(s, "cd", 2)) && ft_strlen(s) == 2)
-		ft_chdir(n);
+		ft_chdir((char **)all->lakher);
 	else if ((!(ft_strncmp(s, "pwd", 3)) && ft_strlen(s) == 3) \
 	|| (!(ft_strncmp(s, "PWD", 3)) && ft_strlen(s) == 3))
-		ft_pwd(n);
+		ft_pwd((char **)all->lakher);
 	else if (!(ft_strncmp(s, "export", 6)) && ft_strlen(s) == 6)
-		ft_exp(n);
+		ft_exp((char **)all->lakher);
 	else if (!(ft_strncmp(s, "unset", 5)) && ft_strlen(s) == 5)
-		ft_unset(n);
+		ft_unset((char **)all->lakher);
 	else if ((!(ft_strncmp(s, "env", 3)) && ft_strlen(s) == 3) \
 	|| (!(ft_strncmp(s, "ENV", 3)) && ft_strlen(s) == 3))
 		ft_env();
 	else if (!(ft_strncmp(s, "exit", 4)) && ft_strlen(s) == 4)
-		ft_exit(n);
+		ft_exit((char **)all->lakher);
 	else
-		ex_cmd(n);
+		ex_cmd((char **)all->lakher);
 }
 
 void	check_builtin_multi(t_exe *all)
 {
 	char	*s;
-	char	**n;
 
 	if (all->lakher == NULL || all->lakher[0] == '\0')
 		exit(1);
 	s = all->lakher[0];
-	n = (char **)all->lakher;
 	if (s[0] == '\0')
 		return ;
 	if (!(ft_strncmp(s, "echo", 4)) && ft_strlen(s) == 4)
 	{
-		ft_echo(n);
+		ft_echo((char **)all->lakher);
 		exit(0);
 	}
 	else if (!(ft_strncmp(s, "cd", 2)) && ft_strlen(s) == 2)
 	{
-		ft_chdir(n);
+		ft_chdir((char **)all->lakher);
 		exit(0);
 	}
 	else if ((!(ft_strncmp(s, "pwd", 3)) && ft_strlen(s) == 3) \
 	|| (!(ft_strncmp(s, "PWD", 3)) && ft_strlen(s) == 3))
 	{
-		ft_pwd(n);
+		ft_pwd((char **)all->lakher);
 		exit(0);
 	}
-	else if (!(ft_strncmp(s, "export", 6)) && ft_strlen(s) == 6)
+	else
+		extra_bluitin_multi((char **)all->lakher, s);
+}
+
+void	extra_bluitin_multi(char **n, char *s)
+{
+	if (!(ft_strncmp(s, "export", 6)) && ft_strlen(s) == 6)
 	{
 		ft_exp(n);
 		exit(0);

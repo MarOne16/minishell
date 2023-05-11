@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 02:37:20 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/09 19:24:53 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/10 12:46:55 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*pathcmd(char *str)
 	char	*t;
 
 	i = 0;
-	if (g_lob->environ && getenv("PATH") != NULL)
+	if (g_lob->environ && my_getenv("PATH") != NULL)
 	{
 		path = ft_my_split(getenv("PATH"), ':', 0);
 		while (path[i])

@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 02:57:56 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/09 16:12:44 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/10 16:17:10 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,7 +221,6 @@ void ft_exp(char **cmd)
 		while (cmd[i])
 		{
 			ad_exp(&cmd[i]);
-			sort_exp(&g_lob->exp);
 			g_lob->environ = list_to_array(g_lob->exp);
 			i++;
 		}

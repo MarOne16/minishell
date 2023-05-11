@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 01:33:25 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/10 12:00:28 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/11 11:56:34 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,19 @@ void	free_var_exp(char *s, int size)
 {
 	t_my_list	*temp_env;
 	t_my_list	*tmp;
+	int			i;
 
+	i = 0;
 	temp_env = (g_lob->exp);
 	while (temp_env && temp_env->next)
 	{
+		if (!ft_strncmp(s, temp_env->name, size) \
+		&& (int)ft_strlen(temp_env->name) == size && i++ == 0)
+		{
+			tmp = temp_env;
+			temp_env = tmp->next;
+			g_lob->exp = temp_env;
+		}
 		if (!ft_strncmp(s, temp_env->next->name, size) \
 		&& (int)ft_strlen(temp_env->next->name) == size)
 		{
@@ -91,9 +100,7 @@ void	ft_unset(char **cmd)
 
 	size = size_cmd(cmd);
 	if (size == 1)
-	{
 		return ;
-	}
 	else if (size == 2)
 	{
 		if (check_unset_var(cmd[1]))
