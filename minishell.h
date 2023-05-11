@@ -104,6 +104,7 @@ typedef struct s_global
 t_global *g_lob;
 
 //excute_tools
+char	*ft_getcwd(void);
 void creat_env(char **env);
 char ** sort_env(char **env);
 void	sort_exp_l(t_my_list **exp);

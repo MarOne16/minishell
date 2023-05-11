@@ -34,12 +34,27 @@ void	ft_pwd(char **pwd)
 
 	if (pwd[0])
 	{
-		s = getcwd(NULL, 0);
+		s = ft_getcwd();
 		if (s == NULL)
 		{
 			s = get_orgin();
 		}
 		printf("%s\n", s);
-		free(s);
 	}
+}
+
+char	*ft_getcwd(void)
+{
+	char	*cwd;
+	char	*cwd_2;
+
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+	{
+		g_lob->exit_status = 1;
+		return (NULL);
+	}
+	cwd_2 = ft_strdup_mini(cwd, 0);
+	free(cwd);
+	return (cwd_2);
 }

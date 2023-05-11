@@ -220,7 +220,6 @@ void ft_exp(char **cmd)
 		while (cmd[i])
 		{
 			ad_exp(&cmd[i]);
-			g_lob->environ = list_to_array(g_lob->exp);
 			i++;
 		}
 	}

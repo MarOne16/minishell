@@ -87,13 +87,13 @@ void	chdir_home(void)
 	char	*old_path;
 	char	*home;
 
-	old_path = getcwd(NULL, 0);
+	old_path = ft_getcwd();
 	home = get_home();
 	if (home)
 		home = ft_substr_mini(home, 1, ft_strlen(home), 0);
 	else
 	{
-		home = getcwd(NULL, 0);
+		home = ft_getcwd();
 	}
 	if (chdir(home) == -1)
 	{
@@ -109,7 +109,7 @@ void	zig_zag(char *old_path)
 {
 	char	*home;
 
-	if (find_var_env("OLDPWD", ft_strlen("OLDPWD")))
+	if (find_var_env("OLDPWD", ft_strlen("OLDPWD") && ft_getcwd()))
 	{
 		home = find_var_env("OLDPWD", ft_strlen("OLDPWD"))->value;
 		if (home[0] == '=')
@@ -128,7 +128,7 @@ void	zig_zag(char *old_path)
 		return ;
 	}
 	printf("%s\n", home);
-	home = getcwd(NULL, 0);
+	home = ft_getcwd();
 	change_env(home, "PWD");
 	change_env(old_path, "OLDPWD");
 	return ;
@@ -142,7 +142,7 @@ void	get_dir(char *home , char *old_path)
 		g_lob->exit_status = 1;
 		return ;
 	}
-	home = getcwd(NULL, 0);
+	home = ft_getcwd();
 	change_env(home, "PWD");
 	change_env(old_path, "OLDPWD");
 }
@@ -157,7 +157,7 @@ void	ft_chdir(char **cmd)
 		chdir_home();
 	else if (size >= 2)
 	{
-		old_path = getcwd(NULL, 0);
+		old_path = ft_getcwd();
 		if (!ft_strncmp(cmd[1], "~", 1) && ft_strlen(cmd[1]) == 1)
 			chdir_home();
 		else if (!ft_strncmp(cmd[1], "-", 1) && ft_strlen(cmd[1]) == 1)

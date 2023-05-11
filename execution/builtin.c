@@ -21,7 +21,7 @@ char	**empty_env(char **av)
 	env = (char **)malloc(sizeof(char *) * 4);
 	if (!env)
 		return (NULL);
-	tmp = getcwd(NULL, 0);
+	tmp = ft_getcwd();
 	env[0] = ft_strjoin_mini("PWD=", tmp);
 	free(tmp);
 	env[1] = "SHLVL=1";
