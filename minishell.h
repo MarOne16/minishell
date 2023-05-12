@@ -41,10 +41,10 @@ typedef struct s_fd
 
 typedef struct s_exe
 {
-	void **lakher;
-	t_fd *fd;
-	struct s_exe *next;
-	struct s_exe *previus;
+	char			**lakher;
+	t_fd			*fd;
+	struct s_exe	*next;
+	struct s_exe	*previus;
 } t_exe;
 
 typedef struct s_cmd
@@ -164,7 +164,7 @@ char	*ft_substr_mini(char *s, unsigned int start, size_t len, int x);
 char	*ft_strdup_mini( char *s1, int x);
 void	*ft_malloc(size_t size, int x);
 // list tools
-t_exe *ft_lstnewallcmd(void **cmd, void *fd);
+t_exe *ft_lstnewallcmd(char **cmd, void *fd);
 void ft_lstadd_frontcmd(t_exe **lst, t_exe *new);
 void ft_lstadd_backallcmd(t_exe **lst, t_exe *new);
 t_exe *ft_lstlastallcmd(t_exe *lst);

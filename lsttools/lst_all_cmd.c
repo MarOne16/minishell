@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-t_exe	*ft_lstnewallcmd(void **cmd, void *fd)
+t_exe	*ft_lstnewallcmd(char **cmd, void *fd)
 {
 	t_exe	*node;
 

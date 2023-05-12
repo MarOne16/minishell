@@ -126,7 +126,7 @@ void	next_cmd(t_exe **all)
 			if (tmp2->fd == -1)
 			{
 				cmd[0] = ft_strdup_mini("", 1);
-				tmp->lakher = (void **)cmd;
+				tmp->lakher = cmd;
 				close_all(tmp->fd);
 			}
 			tmp2 = tmp2->next;

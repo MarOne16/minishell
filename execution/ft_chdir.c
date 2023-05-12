@@ -163,7 +163,7 @@ void	ft_chdir(char **cmd)
 		&& ft_strlen(cmd[1]) == 1)  || (!ft_strncmp(cmd[1], "..", 2)  \
 		&& ft_strlen(cmd[1]) == 2)))
 		{
-			ft_putstr_fd("No such file or directory\n",2);
+			ft_putstr_fd("No such file or directory\n", 2);
 			g_lob->exit_status = 1;
 			return ;
 		}
