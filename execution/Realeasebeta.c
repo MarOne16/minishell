@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 16:22:42 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/11 22:13:16 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/12 13:24:16 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,12 @@ void	wait_childs(int size, int *child_pids)
 	j = 0;
 	while (j < size)
 	{
-		if (waitpid(child_pids[j], &status, 0) == -1)
+		if (waitpid(child_pids[j],&status,0)== -1)
 		{
 			exit(EXIT_FAILURE);
 		}
 		if (WIFEXITED(status))
-				g_lob->exit_status = WEXITSTATUS(status);
+			g_lob->exit_status = WEXITSTATUS(status);
 		j++;
 	}
 }
@@ -93,43 +93,42 @@ int count_all(t_exe *all)
 }
 void	lot_cmd(t_exe *all, int size)
 {
-	int		fd[size];
+	int		*fd;
 	int		pid;
-	pid_t	child_pids[size * 2];
 	int		i;
 	int		j;
 
 	i = 0;
 	j = 0;
-	while(i < size) ft_pipe(&fd[i++ * 2]);
+	fd = ft_malloc(sizeof(int) * (size * 2), 0);
+	while(i < size)
+		ft_pipe(&fd[i++ * 2]);
 	while (all)
 	{
 		pid = ft_fork();
 		if (pid == 0)
 		{
-			if (j != 0)
-				dup2(fd[j - 2], STDIN_FILENO);
 			if (all->next)
 				dup2(fd[j + 1], STDOUT_FILENO);
+			if (j != 0)
+				dup2(fd[j - 2],STDIN_FILENO);
 			i = 0;
-			while( i < size * 2)
+			while(i < size * 2)
 				close(fd[i++]);
 			m_cmd(all);
 		}
-		else
-		{
-			child_pids[i++] = pid;
-		}
 		all = all->next;
-		j+=2;
+		j = j + 2;
 	}
-	i = 0;
-	while( i < size * 2)
-		close(fd[i++]);
-	i = 0;
-	for (i = 0; i < size; i++)
-		wait(NULL);
-	// wait_childs(size, child_pids);
+		i = 0;
+		while(i < size * 2)
+			close(fd[i++]);
+		i = 0;
+		while(i < size)
+		{
+			wait(NULL);
+			i++;
+		}
 }
 
 void	session(t_exe *all)
