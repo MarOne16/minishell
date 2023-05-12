@@ -82,37 +82,44 @@ void	wait_childs(int size, int *child_pids)
 
 void	lot_cmd(t_exe *all, int size)
 {
-	int		fd[2];
+	int		fd[size];
 	int		pid;
-	int		saved_in_fd;
-	pid_t	child_pids[size];
+	pid_t	child_pids[size * 2];
 	int		i;
+	int		j;
 
 	i = 0;
-	saved_in_fd = 0;
+	j = 0;
+	while(i < size) ft_pipe(&fd[i++ * 2]);
 	while (all)
 	{
-		ft_pipe(fd);
 		pid = ft_fork();
 		if (pid == 0)
 		{
-			if (i != 0)
-				dup2(saved_in_fd, STDIN_FILENO);
-			if (i < size - 1)
-			{
-				close(fd[0]);
-				dup2(fd[1], STDOUT_FILENO);
-			}
+			if (j != 0)
+				dup2(fd[j - 2], STDIN_FILENO);
+			if (all->next)
+				dup2(fd[j + 1], STDOUT_FILENO);
+			i = 0;
+			while( i < size * 2)
+				close(fd[i++]);
 			m_cmd(all);
 		}
-		if (i == size - 1)
-			close(saved_in_fd);
-		close(fd[1]);
-		saved_in_fd = fd[0];
-		child_pids[i++] = pid;
+		else
+		{
+			child_pids[i++] = pid;
+		}
 		all = all->next;
+		j+=2;
 	}
-	wait_childs(size, child_pids);
+	i = 0;
+	while( i < size * 2)
+		close(fd[i++]);
+	i = 0;
+	for (i = 0; i < size; i++)
+		wait(NULL);
+	g_lob->exit_status = 0;
+	// wait_childs(size, child_pids);
 }
 
 void	session(t_exe *all)

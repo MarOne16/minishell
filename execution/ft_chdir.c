@@ -109,29 +109,26 @@ void	zig_zag(char *old_path)
 {
 	char	*home;
 
-	if (find_var_env("OLDPWD", ft_strlen("OLDPWD")) && ft_getcwd())
+	if (my_getenv("OLDPWD"))
 	{
-		home = find_var_env("OLDPWD", ft_strlen("OLDPWD"))->value;
-		if (home && home[0] == '=')
-			home = ft_substr_mini(home, 1, ft_strlen(home), 0);
+		home = my_getenv("OLDPWD");
+		printf("%s\n", home);
 	}
 	else
 	{
-		printf("%s\n", " OLDPWD not set");
-		g_lob->exit_status = 0;
-		return ;
+		home = ft_getcwd();
+		printf("%s\n", home);
 	}
 	if (chdir(home) == -1)
 	{
-		printf("%s cd - \n", strerror(errno));
+		printf("Can't Find home path : %s\n", strerror(errno));
 		g_lob->exit_status = 0;
 		return ;
 	}
-	printf("%s\n", home);
-	home = ft_getcwd();
 	change_env(home, "PWD");
 	change_env(old_path, "OLDPWD");
-	return ;
+	change_env("PWD", "OLDPWD");
+	change_env("OLDPWD", "OLDPWD");
 }
 
 void	get_dir(char *home , char *old_path)

@@ -17,14 +17,15 @@ char	**empty_env(char **av, char **env)
 	char	*tmp;
 
 	g_lob->if_free = 1;
-	env = (char **)ft_malloc(sizeof(char *) * 4, 0);
+	env = (char **)ft_malloc(sizeof(char *) * 5, 0);
 	if (!env)
 		return (NULL);
 	tmp = ft_getcwd();
-	env[0] = ft_strjoin_mini("PWD=", tmp);
-	env[1] = ft_strdup_mini("SHLVL=1", 0);
-	env[2] = ft_strjoin_mini("_=", av[0]);
-	env[3] = NULL;
+	env[0] = ft_strjoin_mini("OLDPWD=", tmp);
+	env[1] = ft_strjoin_mini("PWD=", tmp);
+	env[2] = ft_strdup_mini("SHLVL=1", 0);
+	env[3] = ft_strjoin_mini("_=", av[0]);
+	env[4] = NULL;
 	return (env);
 }
 
