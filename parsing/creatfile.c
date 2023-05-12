@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 03:04:10 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/02 15:41:47 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/12 22:36:08 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ int	creat_fd(char type, char *name)
 	{
 		fd = herdoc(name);
 	}
-	else if ((type == 'i') || (type == 'o') || (type == 'a'))
+	else if (((type == 'i') || (type == 'o') || (type == 'a')) && \
+	g_lob->rd != -1)
 		fd = output_input_append(name, type);
 	return (fd);
 }
@@ -86,6 +87,7 @@ void	creat_file_2(t_cmd *tmp, t_fd **fd_list)
 	if (fd == -1)
 	{
 		file_info(2, tmp->next->cmd);
+		g_lob->fd = -1;
 		g_lob->exit_status = 1;
 	}
 	ft_lstadd_back_fd(fd_list, ft_lstnew_fd(get_type(tmp->cmd), fd));
@@ -109,6 +111,7 @@ void	creat_files(t_cmd *cmd, t_exe **exe)
 		else if (tmp->type == 2)
 		{
 			tmp_exe->fd = fd_list;
+			g_lob->fd = 0;
 			fd_list = NULL;
 			tmp_exe = tmp_exe->next;
 		}

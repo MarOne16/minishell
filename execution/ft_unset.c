@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 01:33:25 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/11 11:56:34 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/12 23:00:19 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,11 @@ void	free_var_exp(char *s, int size)
 		{
 			tmp = temp_env->next;
 			temp_env->next = tmp->next;
-			// free(tmp->value);
-			// free(tmp->name);
 			free(tmp);
 			free_var_env(s, size);
 		}
 		temp_env = temp_env->next;
 	}
-	return ;
 }
 
 void	free_var_env(char *s, int size)
@@ -84,8 +81,6 @@ void	free_var_env(char *s, int size)
 		{
 			tmp = temp_env->next;
 			temp_env->next = tmp->next;
-			// free(tmp->value);
-			// free(tmp->name);
 			free(tmp);
 		}
 		temp_env = temp_env->next;

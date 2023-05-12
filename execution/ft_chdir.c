@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_chdir.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 18:03:29 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/09 22:31:22 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/12 22:30:08 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,71 +103,4 @@ void	chdir_home(void)
 	}
 	change_env(home, "PWD");
 	change_env(old_path, "OLDPWD");
-}
-
-void	zig_zag(char *old_path)
-{
-	char	*home;
-
-	if (my_getenv("OLDPWD"))
-	{
-		home = my_getenv("OLDPWD");
-		printf("%s\n", home);
-	}
-	else
-	{
-		home = ft_getcwd();
-		printf("%s\n", home);
-	}
-	if (chdir(home) == -1)
-	{
-		printf("Can't Find home path : %s\n", strerror(errno));
-		g_lob->exit_status = 0;
-		return ;
-	}
-	change_env(home, "PWD");
-	change_env(old_path, "OLDPWD");
-	change_env("PWD", "OLDPWD");
-	change_env("OLDPWD", "OLDPWD");
-}
-
-void	get_dir(char *home , char *old_path)
-{
-	if (chdir(home) == -1)
-	{
-		perror("Minishell");
-		g_lob->exit_status = 1;
-		return ;
-	}
-	home = ft_getcwd();
-	change_env(home, "PWD");
-	change_env(old_path, "OLDPWD");
-}
-
-void	ft_chdir(char **cmd)
-{
-	int		size;
-	char	*old_path;
-
-	size = size_cmd(cmd);
-	if (size == 1)
-		chdir_home();
-	else if (size >= 2)
-	{
-		old_path = ft_getcwd();
-		if (!ft_strncmp(cmd[1], "~", 1) && ft_strlen(cmd[1]) == 1)
-			chdir_home();
-		else if (!ft_strncmp(cmd[1], "-", 1) && ft_strlen(cmd[1]) == 1)
-			zig_zag(old_path);
-		else if (old_path == NULL &&( (!ft_strncmp(cmd[1], ".", 1)  \
-		&& ft_strlen(cmd[1]) == 1)  || (!ft_strncmp(cmd[1], "..", 2)  \
-		&& ft_strlen(cmd[1]) == 2)))
-		{
-			ft_putstr_fd("No such file or directory\n", 2);
-			g_lob->exit_status = 1;
-			return ;
-		}
-		else
-			get_dir(cmd[1], old_path);
-	}
 }

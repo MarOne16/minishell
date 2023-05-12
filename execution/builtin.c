@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 11:10:25 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/10 22:51:47 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/12 23:43:34 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,31 +129,4 @@ void	check_builtin_multi(t_exe *all)
 	}
 	else
 		extra_bluitin_multi((char **)all->lakher, s);
-}
-
-void	extra_bluitin_multi(char **n, char *s)
-{
-	if (!(ft_strncmp(s, "export", 6)) && ft_strlen(s) == 6)
-	{
-		ft_exp(n);
-		exit(0);
-	}
-	else if (!(ft_strncmp(s, "unset", 5)) && ft_strlen(s) == 5)
-	{
-		ft_unset(n);
-		exit(0);
-	}
-	else if ((!(ft_strncmp(s, "env", 3)) && ft_strlen(s) == 3) \
-	|| (!(ft_strncmp(s, "ENV", 3)) && ft_strlen(s) == 3))
-	{
-		ft_env();
-		exit(0);
-	}
-	else if (!(ft_strncmp(s, "exit", 4)) && ft_strlen(s) == 4)
-	{
-		ft_exit(n);
-		exit(0);
-	}
-	else
-		mex_cmd(n);
 }

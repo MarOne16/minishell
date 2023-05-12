@@ -6,13 +6,13 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 13:55:00 by mqaos             #+#    #+#             */
-/*   Updated: 2023/03/27 02:07:34 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/12 23:33:27 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strmapi(char  *s, char (*f)(unsigned int, char))
+char	*ft_strmapi(char *s, char (*f)(unsigned int, char))
 {
 	char			*arr;
 	unsigned int	i;

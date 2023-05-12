@@ -77,27 +77,12 @@ void	free_all(void)
 
 void	free_env_exp(void)
 {
-	t_my_list	*tmp;
 
-	while (g_lob->env)
-	{
-		tmp = g_lob->env;
-		g_lob->env = g_lob->env->next;
-		free(tmp->name);
-		free(tmp->value);
-		free(tmp);
-	}
-	while (g_lob->exp)
-	{
-		tmp = g_lob->exp;
-		g_lob->exp = g_lob->exp->next;
-		free(tmp->name);
-		free(tmp->value);
-		free(tmp);
-	}
-	free(g_lob);
+	ft_putstr_fd("exit\n", 1);
+	exit(0);
 
 }
+
 void	close_all(t_fd *fd)
 {
 	t_fd	*tmp;
@@ -157,10 +142,7 @@ int	main(int argc, char *argv[], char **env)
 		input = ft_readline();
 		rl_catch_signals = 0;
 		if (!input || !ft_strcmp(input, "exit"))
-		{
-			printf("exit\n");
 			break ;
-		}
 		newinput = replace_vars(input);
 		g_lob->exit_status = 0;
 		feedlist(&all, newinput);
@@ -171,6 +153,6 @@ int	main(int argc, char *argv[], char **env)
 		free(input);
 		all = NULL;
 	}
-	// free_env_exp();
+	free_env_exp();
 	return (0);
 }

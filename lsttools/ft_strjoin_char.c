@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 10:22:18 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/02 15:41:47 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/12 22:38:17 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	*ft_malloc(size_t size, int x)
 		ft_putstr_fd("Error: malloc failed\n", 2);
 		exit(1);
 	}
+	ft_memset(ptr, 0, size);
 	if (x == 1)
 		ft_lstadd_back(&g_lob->g_all, ft_lstnew(ptr));
 	else

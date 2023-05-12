@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ex_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 02:37:20 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/10 12:46:55 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/12 22:42:54 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ char	*pathcmd(char *str)
 			}
 			i++;
 		}
-		// free(path);
 	}
 	ft_putstr_fd("path not set \n", 2);
 	return (NULL);
@@ -88,60 +87,4 @@ int	file_info(int fd, char *s)
 	}
 	else
 		return (ft_putstr_fd("No such file or directory.\n", fd), 127);
-}
-
-void	ex_cmd(char **cmd)
-{
-	char	*exe;
-	pid_t	pid;
-	int		status;
-	int		ex;
-
-	pid = fork();
-	if (pid == 0)
-	{
-		if (ft_strchr(cmd[0], '/'))
-		{
-			if (execve(cmd[0], cmd, g_lob->environ) == -1)
-			{
-				ex = file_info(2, cmd[0]);
-				exit(ex);
-			}
-		}
-		exe = pathcmd(cmd[0]);
-		if (execve(exe, cmd, g_lob->environ) == -1)
-		{
-			ft_putstr_fd("command not found.\n", 2);
-			exit(127);
-		}
-	}
-	else
-	{
-		if (waitpid(pid, &status, 0) == -1)
-			exit(EXIT_FAILURE);
-		if (WIFEXITED(status))
-				g_lob->exit_status = WEXITSTATUS(status);
-	}
-}
-
-void	mex_cmd(char **cmd)
-{
-	char	*exe;
-	int		ex;
-
-	if (ft_strchr(cmd[0], '/'))
-	{
-		if (execve(cmd[0], cmd, g_lob->environ) == -1)
-		{
-			ex = file_info(2, cmd[0]);
-			exit(ex);
-		}
-	}
-	exe = pathcmd(cmd[0]);
-	printf("%s\n", exe);
-	if (execve(exe, cmd, g_lob->environ) == -1)
-	{
-		ft_putstr_fd("Minishell: multi_command not found\n", 2);
-		exit(127);
-	}
 }
