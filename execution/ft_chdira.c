@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 22:28:11 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/13 14:17:28 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/13 16:14:16 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,7 @@ void	ft_chdir(char **cmd)
 		else if (!ft_strncmp(cmd[1], "-", 1) && ft_strlen(cmd[1]) == 1)
 			zig_zag(old_path);
 		else if (old_path == NULL && ((!ft_strncmp(cmd[1], ".", 1) \
-		&& ft_strlen(cmd[1]) == 1) || (!ft_strncmp(cmd[1], "..", 2) \
-		&& ft_strlen(cmd[1]) == 2)))
+		&& ft_strlen(cmd[1]) == 1)))
 		{
 			ft_putstr_fd("No such file or directory\n", 2);
 			g_lob->exit_status = 1;

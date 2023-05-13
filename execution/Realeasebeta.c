@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 16:22:42 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/13 14:53:40 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/13 18:03:07 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,28 +92,60 @@ int	count_all(t_exe *all)
 	}
 	return (i);
 }
-
+void ft_close(int size,int *fd)
+{
+	int i= 0;
+	while(i < size)
+	{
+		close(fd[i]);
+		i++;
+	}
+}
+// int  *dub(t_exe *all , int *fd ,int *child_pids ,int size)
+// {
+// 	int pid;
+// 	int j = 0;
+// 	int i = 0;
+// 	while (all)
+// 	{
+// 		if (all && all->lakher[0] && all->lakher[0][0] == 0 && all->next)
+// 			all = all->next;
+// 		pid = ft_fork();
+// 		if (pid == 0)
+// 		{
+// 			if (all->next)
+// 				dup2(fd[j + 1], STDOUT_FILENO);
+// 			if (j != 0)
+// 				dup2(fd[j - 2], STDIN_FILENO);
+// 			ft_close(size * 2, fd);
+// 			m_cmd(all);
+// 		}
+// 		else
+// 			child_pids[i++] = pid;
+// 		j = j+2;
+// 		all = all->next;
+// 	}
+// 	return(child_pids);
+// }
 void	lot_cmd(t_exe *all, int size)
 {
 	int		*fd;
 	int		pid;
-	pid_t	child_pids[size];
+	pid_t	*child_pids;
 	int		i;
 	int		j;
-	int		k;
 
 	i = 0;
 	j = 0;
-	k = 0;
+	child_pids = ft_malloc((sizeof(pid_t) * size), 0);
 	fd = ft_malloc(sizeof(int) * (size * 2), 0);
 	while (i < size)
 		ft_pipe(&fd[i++ *2]);
+	i = 0;
 	while (all)
 	{
-		if (all->lakher[0][0] == 0 && all->next)
-		{
+		if (all && all->lakher[0] && all->lakher[0][0] == 0 && all->next)
 			all = all->next;
-		}
 		pid = ft_fork();
 		if (pid == 0)
 		{
@@ -121,23 +153,16 @@ void	lot_cmd(t_exe *all, int size)
 				dup2(fd[j + 1], STDOUT_FILENO);
 			if (j != 0)
 				dup2(fd[j - 2], STDIN_FILENO);
-			i = 0;
-			while (i < size * 2)
-				close(fd[i++]);
+			ft_close(size * 2, fd);
 			m_cmd(all);
 		}
 		else
-		{
-			child_pids[k++] = pid;
-		}
+			child_pids[i++] = pid;
 		all = all->next;
 		j = j + 2;
 	}
-	i = 0;
-	while (i < size * 2)
-		close(fd[i++]);
-	i = 0;
-	wait_childs(k, child_pids);
+	ft_close(size * 2, fd);
+	wait_childs(i, child_pids);
 }
 
 void	session(t_exe *all)
