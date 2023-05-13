@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 02:37:20 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/12 22:42:54 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/13 14:34:41 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ char	*pathcmd(char *str)
 			i++;
 		}
 	}
-	ft_putstr_fd("path not set \n", 2);
 	return (NULL);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 16:04:01 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/12 22:37:46 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/13 14:37:21 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	feedlist(t_exe **all, char *input)
 	if (checkcmd(newinput, hash) || check_rid(cmdspl) || \
 	operatorscount(input, hash) == 1337)
 	{
-		printf("syntax error\n");
+		ft_putstr_fd("minishell: syntax error near unexpected token `\n", 2);
 		g_lob->exit_status = 258;
 		return ;
 	}

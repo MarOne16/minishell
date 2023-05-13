@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 16:13:17 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/09 17:58:06 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/13 15:19:21 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-// free t_list *g_all
+
 void	feed_glob(char **argv, char **env)
 {
 	g_lob = (t_global *)malloc(sizeof(t_global));
@@ -24,12 +24,6 @@ void	feed_glob(char **argv, char **env)
 	g_lob->exit_status = 0;
 	creat_env(env);
 	creat_exp(env);
-	// if (g_lob->if_free == 1)
-	// {
-	// 	free(env[0]);
-	// 	free(env[2]);
-	// 	free(env);
-	// }
 }
 
 // sort list of env
@@ -128,7 +122,6 @@ int	main(int argc, char *argv[], char **env)
 
 	input = NULL;
 	all = NULL;
-	(void)argc;
 	if (argc > 1)
 	{
 		ft_putstr_fd("Error: too many arguments\n", 2);
@@ -138,13 +131,12 @@ int	main(int argc, char *argv[], char **env)
 	while (1)
 	{
 		signal(SIGINT, sig_handler);
-		signal(SIGQUIT, SIG_IGN);
+		signal(SIGQUIT, sig_handler);
 		input = ft_readline();
 		rl_catch_signals = 0;
 		if (!input || !ft_strcmp(input, "exit"))
 			break ;
 		newinput = replace_vars(input);
-		g_lob->exit_status = 0;
 		feedlist(&all, newinput);
 		next_cmd(&all);
 		session(all);
@@ -154,5 +146,4 @@ int	main(int argc, char *argv[], char **env)
 		all = NULL;
 	}
 	free_env_exp();
-	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replace_env_var_2.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 15:04:23 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/10 12:50:35 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/13 14:25:01 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ char	*replace_vars(char	*str)
 	t.new_str_ptr = t.new_str;
 	t.i = 0;
 	t.new_str_ptr = return_new_ptr(str, t.new_str_ptr, t, t.i);
+	g_lob->exit_status = 0;
 	return (*t.new_str_ptr = '\0', t.new_str);
 }
 
