@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 16:04:01 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/13 14:37:21 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/13 16:40:43 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,5 +96,6 @@ void	feedlist(t_exe **all, char *input)
 		return ;
 	}
 	table_lakher(cmdspl, all);
-	creat_files(cmdspl, all);
+	if (cmdspl && cmdspl->next && all && *all)
+		creat_files(cmdspl, all);
 }

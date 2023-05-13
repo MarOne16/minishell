@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 03:04:10 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/12 22:36:08 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/13 16:44:32 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,9 @@ int	creat_fd(char type, char *name)
 void	creat_file_2(t_cmd *tmp, t_fd **fd_list)
 {
 	int	fd;
+	int	i;
 
+	i = -1;
 	fd = creat_fd(get_type(tmp->cmd), tmp->next->cmd);
 	if (fd == -1)
 	{
@@ -104,7 +106,8 @@ void	creat_files(t_cmd *cmd, t_exe **exe)
 	tmp = cmd;
 	fd_list = NULL;
 	tmp_exe = *exe;
-	while (tmp->next)
+	tmp_exe->fd = NULL;
+	while (tmp && tmp->next && tmp->next->cmd)
 	{
 		if (tmp->type == 1)
 			creat_file_2(tmp, &fd_list);
@@ -117,5 +120,6 @@ void	creat_files(t_cmd *cmd, t_exe **exe)
 		}
 		tmp = tmp->next;
 	}
-	tmp_exe->fd = fd_list;
+	if (tmp_exe)
+		tmp_exe->fd = fd_list;
 }

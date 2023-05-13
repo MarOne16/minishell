@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 16:22:42 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/13 15:14:13 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/13 16:09:44 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	lot_cmd(t_exe *all, int size)
 		ft_pipe(&fd[i++ *2]);
 	while (all)
 	{
-		if (all->lakher[0][0] == 0 && all->next)
+		if (all->lakher && all->lakher[0] && all->lakher[0][0] == 0 && all->next)
 		{
 			all = all->next;
 		}
