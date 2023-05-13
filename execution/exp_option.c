@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_option.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 01:16:42 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/10 16:33:56 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/12 23:43:49 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,31 @@ char	*ft_strncpy(char *src, char *dest, int size)
 		size--;
 	}
 	return (dest);
+}
+
+void	extra_bluitin_multi(char **n, char *s)
+{
+	if (!(ft_strncmp(s, "export", 6)) && ft_strlen(s) == 6)
+	{
+		ft_exp(n);
+		exit(0);
+	}
+	else if (!(ft_strncmp(s, "unset", 5)) && ft_strlen(s) == 5)
+	{
+		ft_unset(n);
+		exit(0);
+	}
+	else if ((!(ft_strncmp(s, "env", 3)) && ft_strlen(s) == 3) \
+	|| (!(ft_strncmp(s, "ENV", 3)) && ft_strlen(s) == 3))
+	{
+		ft_env();
+		exit(0);
+	}
+	else if (!(ft_strncmp(s, "exit", 4)) && ft_strlen(s) == 4)
+	{
+		ft_exit(n);
+		exit(0);
+	}
+	else
+		mex_cmd(n);
 }

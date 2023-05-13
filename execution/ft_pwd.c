@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 01:56:51 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/09 23:11:57 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/12 23:35:08 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,41 @@ void	ft_pwd(char **pwd)
 
 	if (pwd[0])
 	{
-		s = getcwd(NULL, 0);
+		s = ft_getcwd();
 		if (s == NULL)
 		{
 			s = get_orgin();
 		}
 		printf("%s\n", s);
-		free(s);
 	}
+}
+
+char	*ft_getcwd(void)
+{
+	char	*cwd;
+	char	*cwd_2;
+
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+	{
+		g_lob->exit_status = 1;
+		return (NULL);
+	}
+	cwd_2 = ft_strdup_mini(cwd, 0);
+	free(cwd);
+	return (cwd_2);
+}
+
+int	out_fd(t_fd *tabfd)
+{
+	int	i;
+
+	i = 0;
+	while (tabfd)
+	{
+		if (tabfd->type == 'a' || tabfd->type == 'o')
+			i = tabfd->fd;
+		tabfd = tabfd->next;
+	}
+	return (i);
 }

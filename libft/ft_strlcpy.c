@@ -6,13 +6,13 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 11:19:52 by mqaos             #+#    #+#             */
-/*   Updated: 2023/03/27 02:07:34 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/12 23:33:35 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlcpy(char *dst,  char *src, size_t n)
+size_t	ft_strlcpy(char *dst, char *src, size_t n)
 {
 	size_t	i;
 	size_t	m;

@@ -102,7 +102,7 @@ void	table_lakher(t_cmd *cmd, t_exe **lakher)
 		}
 	}
 	spl[i] = NULL;
-	ft_lstadd_backallcmd(lakher, ft_lstnewallcmd((void **)spl, NULL));
+	ft_lstadd_backallcmd(lakher, ft_lstnewallcmd(spl, NULL));
 	if (rest && rest->next)
 		table_lakher(rest, lakher);
 }

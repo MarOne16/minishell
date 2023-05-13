@@ -6,13 +6,13 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 14:42:55 by mqaos             #+#    #+#             */
-/*   Updated: 2023/03/27 02:07:34 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/12 23:33:48 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	nb_c(char  *s, char c)
+static int	nb_c(char *s, char c)
 {
 	int	i;
 	int	nb;
@@ -33,7 +33,7 @@ static int	nb_c(char  *s, char c)
 	return (nb);
 }
 
-static int	strlenword(char  *s, char c, int i)
+static int	strlenword(char *s, char c, int i)
 {
 	int	len;
 

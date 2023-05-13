@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 16:22:42 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/12 13:24:16 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/13 14:53:40 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	m_cmd(t_exe *all)
 {
 	int	saved_stdin_fd;
 	int	saved_stdout_fd;
-	int	infd;	
+	int	infd;
 	int	outfd;
 
 	saved_stdin_fd = dup(STDIN_FILENO);
@@ -70,7 +70,7 @@ void	wait_childs(int size, int *child_pids)
 	j = 0;
 	while (j < size)
 	{
-		if (waitpid(child_pids[j],&status,0)== -1)
+		if (waitpid(child_pids[j], &status, 0) == -1)
 		{
 			exit(EXIT_FAILURE);
 		}
@@ -79,9 +79,10 @@ void	wait_childs(int size, int *child_pids)
 		j++;
 	}
 }
-int count_all(t_exe *all)
+
+int	count_all(t_exe *all)
 {
-	int i = 0;
+	int	i;
 
 	i = 0;
 	while (all)
@@ -89,46 +90,54 @@ int count_all(t_exe *all)
 		i++;
 		all = all->next;
 	}
-	return(i);
+	return (i);
 }
+
 void	lot_cmd(t_exe *all, int size)
 {
 	int		*fd;
 	int		pid;
+	pid_t	child_pids[size];
 	int		i;
 	int		j;
+	int		k;
 
 	i = 0;
 	j = 0;
+	k = 0;
 	fd = ft_malloc(sizeof(int) * (size * 2), 0);
-	while(i < size)
-		ft_pipe(&fd[i++ * 2]);
+	while (i < size)
+		ft_pipe(&fd[i++ *2]);
 	while (all)
 	{
+		if (all->lakher[0][0] == 0 && all->next)
+		{
+			all = all->next;
+		}
 		pid = ft_fork();
 		if (pid == 0)
 		{
 			if (all->next)
 				dup2(fd[j + 1], STDOUT_FILENO);
 			if (j != 0)
-				dup2(fd[j - 2],STDIN_FILENO);
+				dup2(fd[j - 2], STDIN_FILENO);
 			i = 0;
-			while(i < size * 2)
+			while (i < size * 2)
 				close(fd[i++]);
 			m_cmd(all);
+		}
+		else
+		{
+			child_pids[k++] = pid;
 		}
 		all = all->next;
 		j = j + 2;
 	}
-		i = 0;
-		while(i < size * 2)
-			close(fd[i++]);
-		i = 0;
-		while(i < size)
-		{
-			wait(NULL);
-			i++;
-		}
+	i = 0;
+	while (i < size * 2)
+		close(fd[i++]);
+	i = 0;
+	wait_childs(k, child_pids);
 }
 
 void	session(t_exe *all)

@@ -15,13 +15,13 @@
 void	feed_glob(char **argv, char **env)
 {
 	g_lob = (t_global *)malloc(sizeof(t_global));
+	g_lob->g_exp = NULL;
+	g_lob->g_all = NULL;
 	if (*env == NULL)
-		env = empty_env(argv);
+		env = empty_env(argv, env);
 	g_lob->environ = env;
 	g_lob->rd = 0;
 	g_lob->exit_status = 0;
-	g_lob->g_all = NULL;
-	g_lob->g_exp = NULL;
 	creat_env(env);
 	creat_exp(env);
 	// if (g_lob->if_free == 1)
@@ -77,27 +77,12 @@ void	free_all(void)
 
 void	free_env_exp(void)
 {
-	t_my_list	*tmp;
 
-	while (g_lob->env)
-	{
-		tmp = g_lob->env;
-		g_lob->env = g_lob->env->next;
-		free(tmp->name);
-		free(tmp->value);
-		free(tmp);
-	}
-	while (g_lob->exp)
-	{
-		tmp = g_lob->exp;
-		g_lob->exp = g_lob->exp->next;
-		free(tmp->name);
-		free(tmp->value);
-		free(tmp);
-	}
-	free(g_lob);
+	ft_putstr_fd("exit\n", 1);
+	exit(0);
 
 }
+
 void	close_all(t_fd *fd)
 {
 	t_fd	*tmp;
@@ -126,7 +111,7 @@ void	next_cmd(t_exe **all)
 			if (tmp2->fd == -1)
 			{
 				cmd[0] = ft_strdup_mini("", 1);
-				tmp->lakher = (void **)cmd;
+				tmp->lakher = cmd;
 				close_all(tmp->fd);
 			}
 			tmp2 = tmp2->next;
@@ -157,19 +142,17 @@ int	main(int argc, char *argv[], char **env)
 		input = ft_readline();
 		rl_catch_signals = 0;
 		if (!input || !ft_strcmp(input, "exit"))
-		{
-			printf("exit\n");
 			break ;
-		}
 		newinput = replace_vars(input);
 		g_lob->exit_status = 0;
 		feedlist(&all, newinput);
 		next_cmd(&all);
 		session(all);
+		sort_exp_l(&g_lob->exp);
 		free_all();
 		free(input);
 		all = NULL;
 	}
-	// free_env_exp();
+	free_env_exp();
 	return (0);
 }

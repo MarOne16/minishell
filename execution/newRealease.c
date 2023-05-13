@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   newRealease.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 10:47:17 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/10 16:27:21 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/12 23:02:10 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,18 +100,4 @@ int	ft_fork(void)
 	}
 	else
 		return (pid);
-}
-
-int	out_fd(t_fd *tabfd)
-{
-	int	i;
-
-	i = 0;
-	while (tabfd)
-	{
-		if (tabfd->type == 'a' || tabfd->type == 'o')
-			i = tabfd->fd;
-		tabfd = tabfd->next;
-	}
-	return (i);
 }

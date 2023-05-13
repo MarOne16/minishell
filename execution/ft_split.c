@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 18:59:09 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/04/29 19:04:26 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/12 22:59:29 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,10 @@ static char	**ft_get_next( char *s, char c, int len, int flags)
 	int		j;
 	int		start;
 
-	i = 0;
+	i = -1;
 	j = 0;
 	p = ft_malloc((len + 1) * sizeof(char *), 0);
-	if (!p)
-		return (0);
-	while (len && s[i])
+	while (len && s[++i])
 	{
 		while (s[i] == c)
 			i++;
@@ -72,14 +70,11 @@ static char	**ft_get_next( char *s, char c, int len, int flags)
 		}
 		while (s[i] != c && s[i])
 			i++;
-		p[j] = ft_substr_mini(s, start, (i - start), 0);
+		p[j++] = ft_substr_mini(s, start, (i - start), 0);
 		start = i;
-		i++;
-		j++;
 		len--;
 	}
-	p[j] = 0;
-	return (p);
+	return (p[j] = 0, p);
 }
 
 char	**ft_my_split(char *s, char c, int flags)

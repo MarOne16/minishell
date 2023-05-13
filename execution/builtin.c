@@ -3,30 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 11:10:25 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/10 22:51:47 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/12 23:43:34 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	**empty_env(char **av)
+char	**empty_env(char **av, char **env)
 {
-	char	**env;
 	char	*tmp;
 
 	g_lob->if_free = 1;
-	env = (char **)malloc(sizeof(char *) * 4);
+	env = (char **)ft_malloc(sizeof(char *) * 5, 0);
 	if (!env)
 		return (NULL);
-	tmp = getcwd(NULL, 0);
-	env[0] = ft_strjoin_mini("PWD=", tmp);
-	free(tmp);
-	env[1] = "SHLVL=1";
-	env[2] = ft_strjoin_mini("_=", av[0]);
-	env[3] = NULL;
+	tmp = ft_getcwd();
+	env[0] = ft_strjoin_mini("OLDPWD=", tmp);
+	env[1] = ft_strjoin_mini("PWD=", tmp);
+	env[2] = ft_strdup_mini("SHLVL=1", 0);
+	env[3] = ft_strjoin_mini("_=", av[0]);
+	env[4] = NULL;
 	return (env);
 }
 
@@ -130,31 +129,4 @@ void	check_builtin_multi(t_exe *all)
 	}
 	else
 		extra_bluitin_multi((char **)all->lakher, s);
-}
-
-void	extra_bluitin_multi(char **n, char *s)
-{
-	if (!(ft_strncmp(s, "export", 6)) && ft_strlen(s) == 6)
-	{
-		ft_exp(n);
-		exit(0);
-	}
-	else if (!(ft_strncmp(s, "unset", 5)) && ft_strlen(s) == 5)
-	{
-		ft_unset(n);
-		exit(0);
-	}
-	else if ((!(ft_strncmp(s, "env", 3)) && ft_strlen(s) == 3) \
-	|| (!(ft_strncmp(s, "ENV", 3)) && ft_strlen(s) == 3))
-	{
-		ft_env();
-		exit(0);
-	}
-	else if (!(ft_strncmp(s, "exit", 4)) && ft_strlen(s) == 4)
-	{
-		ft_exit(n);
-		exit(0);
-	}
-	else
-		mex_cmd(n);
 }

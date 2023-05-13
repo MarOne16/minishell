@@ -26,9 +26,11 @@ SOURCE		=	lsttools/lst_all_cmd.c \
 				execution/newRealease.c \
 				execution/ft_echo.c \
 				execution/ft_chdir.c \
+				execution/ft_chdira.c \
 				execution/ft_exit.c \
 				execution/ft_pwd.c \
 				execution/ft_export.c  \
+				execution/ft_export_2.c  \
 				execution/exp_option.c \
 				execution/ft_unset.c \
 				execution/ft_ex_cmd.c \
