@@ -6,26 +6,28 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:56:50 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/13 15:46:29 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/13 22:39:06 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*ft_readline(void)
+char	*ft_readline(char *line)
 {
-	char	*line;
+	char	*tmp;
+	char	*line_copy;
 
-	line = NULL;
-	if (line)
+	tmp = NULL;
+	line_copy = NULL;
+	rl_free_line_state();
+	line_copy = strdup(line);
+	tmp = readline(line_copy);
+	if (line_copy != NULL)
 	{
-		free(line);
-		line = NULL;
+		add_history(line_copy);
+		free(line_copy);
 	}
-	line = readline("Minishell> ");
-	if (line)
-		add_history(line);
-	return (line);
+	return (tmp);
 }
 
 void	sig_handler(int signum)

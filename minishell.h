@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/12 23:45:51 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/13 22:28:35 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,7 +210,7 @@ char		*replace_vars(char *str);
 char		*my_getenv(char *search);
 // readline
 void		sig_handler(int signum);
-char		*ft_readline(void);
+char		*ft_readline(char *prompt);
 void		sig_here(int sig);
 int			my_event(void);
 void		sig_int(void);

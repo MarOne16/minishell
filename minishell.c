@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 16:13:17 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/13 15:19:21 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/13 22:29:30 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ int	main(int argc, char *argv[], char **env)
 	{
 		signal(SIGINT, sig_handler);
 		signal(SIGQUIT, sig_handler);
-		input = ft_readline();
+		input = ft_readline("minishell >");
 		rl_catch_signals = 0;
 		if (!input || !ft_strcmp(input, "exit"))
 			break ;
