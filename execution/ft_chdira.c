@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 22:28:11 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/13 16:14:16 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/14 17:45:14 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,32 @@
 void	zig_zag(char *old_path)
 {
 	char	*home;
+	char	*fake;
 
-	if (my_getenv("OLDPWD"))
+	home = NULL;
+	if (find_var_env("OLDPWD", ft_strlen("OLDPWD")))
 	{
-		home = my_getenv("OLDPWD");
-		printf("%s\n", home);
+		home = find_var_env("OLDPWD", ft_strlen("OLDPWD"))->value;
 	}
 	else
 	{
-		home = ft_getcwd();
-		printf("%s\n", home);
+		if (g_lob->old_pwd)
+		{
+			home = g_lob->old_pwd;
+		}
 	}
-	if (chdir(home) == -1)
+	fake = ft_substr_mini(home, 1, ft_strlen(home), 0);
+	if (chdir(fake) == -1)
 	{
-		printf("Can't Find home path : %s\n", strerror(errno));
+		printf("OLD PWD not set : %s\n", strerror(errno));
 		g_lob->exit_status = 0;
 		return ;
 	}
+	printf("%s\n", fake);
 	change_env(home, "PWD");
 	change_env(old_path, "OLDPWD");
-	change_env("PWD", "OLDPWD");
-	change_env("OLDPWD", "OLDPWD");
+	g_lob->old_pwd = old_path;
+	g_lob->pwd = home;
 }
 
 void	get_dir(char *home, char *old_path)
@@ -47,6 +52,8 @@ void	get_dir(char *home, char *old_path)
 		return ;
 	}
 	home = ft_getcwd();
+	g_lob->pwd = home;
+	g_lob->old_pwd = old_path;
 	change_env(home, "PWD");
 	change_env(old_path, "OLDPWD");
 }
