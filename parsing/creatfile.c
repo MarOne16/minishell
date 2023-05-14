@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 03:04:10 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/28 09:38:32 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/12 22:36:08 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	herdoc(char *name)
 {
 	int		fd[2];
+	char	*tmp;
 	char	*content;
 
 	sig_int();
@@ -22,23 +23,19 @@ int	herdoc(char *name)
 	while (1)
 	{
 		content = readline("> ");
-		if (content == NULL || !ft_strcmp(content, name) || \
-		(ft_rl_done == 1 && rl_done == 1))
+		tmp = content;
+		content = ft_strjoin_char(content, '\n', 1);
+		free(tmp);
+		if (content == NULL || !ft_strcmp(content, ft_strjoin_char(name, \
+		'\n', 1)) || (g_lob->rd == 1 && rl_done == 1))
 		{
-			ft_rl_done = 0;
+			g_lob->rd = 0;
 			break ;
 		}
-		if ((size_t)write(fd[1], content, ft_strlen(content)) \
-		!= ft_strlen(content))
-		{
-			printf("\nError writing to file.\n");
-			close(fd[1]);
-			return (free(content), 1);
-		}
-		free(content);
+		write(fd[1], replace_vars(content), ft_strlen(replace_vars(content)));
 	}
 	close(fd[1]);
-	return (free(content), fd[0]);
+	return (fd[0]);
 }
 
 int	output_input_append(char *name, char type)
@@ -55,8 +52,6 @@ int	output_input_append(char *name, char type)
 	else if (type == 'i')
 	{
 		fd = open(name, O_RDONLY);
-		if (fd == -1 && errno == ENOENT)
-			fd = open(name, O_CREAT | O_RDONLY, 0644);
 	}
 	else if (type == 'a')
 	{
@@ -78,7 +73,8 @@ int	creat_fd(char type, char *name)
 	{
 		fd = herdoc(name);
 	}
-	else if ((type == 'i') || (type == 'o') || (type == 'a'))
+	else if (((type == 'i') || (type == 'o') || (type == 'a')) && \
+	g_lob->rd != -1)
 		fd = output_input_append(name, type);
 	return (fd);
 }
@@ -89,7 +85,11 @@ void	creat_file_2(t_cmd *tmp, t_fd **fd_list)
 
 	fd = creat_fd(get_type(tmp->cmd), tmp->next->cmd);
 	if (fd == -1)
-		printf("Error opening file.\n");
+	{
+		file_info(2, tmp->next->cmd);
+		g_lob->fd = -1;
+		g_lob->exit_status = 1;
+	}
 	ft_lstadd_back_fd(fd_list, ft_lstnew_fd(get_type(tmp->cmd), fd));
 }
 
@@ -111,6 +111,7 @@ void	creat_files(t_cmd *cmd, t_exe **exe)
 		else if (tmp->type == 2)
 		{
 			tmp_exe->fd = fd_list;
+			g_lob->fd = 0;
 			fd_list = NULL;
 			tmp_exe = tmp_exe->next;
 		}

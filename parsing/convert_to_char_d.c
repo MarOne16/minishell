@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 01:40:48 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/28 10:43:40 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/04/29 15:21:54 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,19 @@ char	*removequote(char *str)
 	i = 0;
 	hash = NULL;
 	feedhashtable(&hash, str);
-	newstr = ft_strdup_mini("");
+	newstr = ft_strdup_mini("", 1);
 	while (str[i])
 	{
 		if ((str[i] == '\"' || str[i] == '\'') && hash[i] == 0)
 			i++;
 		else
 		{
-			newstr = ft_strjoin_char(newstr, str[i]);
+			newstr = ft_strjoin_char(newstr, str[i], 1);
 			i++;
 		}
 	}
 	tmp = newstr;
-	newstr = ft_strjoin_char(newstr, str[i]);
+	newstr = ft_strjoin_char(newstr, str[i], 1);
 	return (newstr);
 }
 
@@ -62,6 +62,24 @@ int	sizechar(t_cmd *cmd)
 	return (i);
 }
 
+char	*rplace_tab(char *str)
+{
+	int		i;
+	char	*newstr;
+
+	i = 0;
+	newstr = ft_strdup_mini("", 1);
+	while (str[i])
+	{
+		if (str[i] == '\t')
+			newstr = ft_strjoin_char(newstr, ' ', 1);
+		else
+			newstr = ft_strjoin_char(newstr, str[i], 1);
+		i++;
+	}
+	return (newstr);
+}
+
 void	table_lakher(t_cmd *cmd, t_exe **lakher)
 {
 	char	**spl;
@@ -70,7 +88,7 @@ void	table_lakher(t_cmd *cmd, t_exe **lakher)
 
 	i = 0;
 	rest = cmd;
-	spl = ft_malloc((sizechar(rest) + 1) * sizeof(char *));
+	spl = ft_malloc((sizechar(rest) + 1) * sizeof(char *), 1);
 	if (rest && rest->type == 2)
 		rest = rest->next;
 	while (rest && rest->type != 2)
@@ -79,12 +97,12 @@ void	table_lakher(t_cmd *cmd, t_exe **lakher)
 			rest = rest->next->next;
 		else
 		{
-			spl[i++] = (rest->cmd);
+			spl[i++] = rplace_tab(rest->cmd);
 			rest = rest->next;
 		}
 	}
 	spl[i] = NULL;
-	ft_lstadd_backallcmd(lakher, ft_lstnewallcmd((void **)spl, NULL));
+	ft_lstadd_backallcmd(lakher, ft_lstnewallcmd(spl, NULL));
 	if (rest && rest->next)
 		table_lakher(rest, lakher);
 }

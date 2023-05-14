@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parcing_tools_2.c                                  :+:      :+:    :+:   */
+/*   parsing_tools_2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 16:04:01 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/28 09:38:32 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/12 22:37:46 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,21 +44,19 @@ int	typing(char *spl)
 		|| (spl[0] == '<' && spl[1] != '>') \
 		|| (spl[0] == '>' && spl[1] == '>') \
 		|| (spl[0] == '<' && spl[1] == '<')))
-		return (1);
+		return (free(spl), 1);
 	else if (spl[0] == '|' && ft_strlen(spl) <= 2)
-		return (2);
+		return (free(spl), 2);
 	else
-		return (0);
+		return (free(spl), 0);
 }
 
 void	feedhashtable(int **hash, char *input)
 {
 	size_t	i;
-	int		hash2[ARG_MAX];
+	int		*hash2;
 
-	i = -1;
-	while (++i < ARG_MAX)
-		hash2[i] = 0;
+	hash2 = ft_malloc(sizeof(int) * (ft_strlen(input) + 1), 0);
 	i = -1;
 	*hash = hash2;
 	while (input[++i])
@@ -70,31 +68,6 @@ void	feedhashtable(int **hash, char *input)
 			while (input[++i] != '\'' && input[i + 1])
 				(*hash)[i] = 1;
 	}
-}
-
-char	*add_space_before_quote(char	*s)
-{
-	char	*result;
-	int		*hash;
-	int		i;
-
-	i = 0;
-	feedhashtable(&hash, s);
-	result = ft_strdup_mini("");
-	while (s[i])
-	{
-		if ((s[i] == '\"' || s[i] == '\'') && hash[i] == 0)
-		{
-			result = ft_strjoin_char(result, ' ');
-			result = ft_strjoin_char(result, s[i++]);
-			while (hash[i] == 1 && s[i])
-				result = ft_strjoin_char(result, s[i++]);
-			result = ft_strjoin_char(result, ' ');
-		}
-		else
-			result = ft_strjoin_char(result, s[i++]);
-	}
-	return (result);
 }
 
 void	feedlist(t_exe **all, char *input)
@@ -114,10 +87,12 @@ void	feedlist(t_exe **all, char *input)
 	while (cmd[++u])
 		ft_lstadd_backcmd(&cmdspl, \
 		ft_lstnewcmd(removequote(cmd[u]), typing(cmd[u])));
+	free(cmd);
 	if (checkcmd(newinput, hash) || check_rid(cmdspl) || \
 	operatorscount(input, hash) == 1337)
 	{
 		printf("syntax error\n");
+		g_lob->exit_status = 258;
 		return ;
 	}
 	table_lakher(cmdspl, all);

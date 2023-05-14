@@ -37,7 +37,6 @@ FILES =	ft_memset.c\
 		ft_putstr_fd.c\
 		ft_putendl_fd.c\
 		ft_putnbr_fd.c \
-		ft_strjoin_char.c\
 		ft_strcmp.c\
 
 BOUNUS_FILES = ft_lstnew.c\

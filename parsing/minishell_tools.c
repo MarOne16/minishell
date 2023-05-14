@@ -6,12 +6,11 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 12:07:36 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/28 09:38:32 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/12 23:33:16 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
 
 int	nb_c(char *str, char c, int *hash)
 {
@@ -47,7 +46,6 @@ int	strlenword(char *s, char c, int i, int *hash)
 	return (len);
 }
 
-
 void	ft_free(char **strs, int j)
 {
 	while (j--)
@@ -66,7 +64,7 @@ char	**ft_splithash(char *s, char c, int *hush)
 		return (0x0);
 	i = 0;
 	j = -1;
-	str = (char **)ft_malloc((nb_c(s, c, hush) + 1) * sizeof(char *));
+	str = (char **)malloc((nb_c(s, c, hush) + 1) * sizeof(char *));
 	if (!str)
 		return (NULL);
 	while (++j < nb_c(s, c, hush))
@@ -91,11 +89,9 @@ int	ft_strncmpm(char *s1, char *s2, size_t n)
 	size_t			x;
 
 	i = 0;
-	x = -1;
-	while (s1[++x] != '=' && s1[x])
-	{
-
-	}
+	x = 0;
+	while (s1[x] != '=' && s1[x])
+		x++;
 	if (x < ft_strlen(s2))
 		return (1);
 	while ((s1[i] || s2[i]) && s1[i] != '=' && i <= n)
