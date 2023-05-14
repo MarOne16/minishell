@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 01:56:51 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/12 23:35:08 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/14 20:10:57 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,12 @@ void	ft_pwd(char **pwd)
 		if (s == NULL)
 		{
 			s = get_orgin();
+			if (s == NULL)
+				s = g_lob->pwd;
+		}
+		if (s == NULL)
+		{
+			printf("PWD not set");
 		}
 		printf("%s\n", s);
 	}
