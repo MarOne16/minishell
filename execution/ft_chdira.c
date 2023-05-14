@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 22:28:11 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/14 17:45:14 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/14 18:01:42 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	zig_zag(char *old_path)
 {
 	char	*home;
-	char	*fake;
 
 	home = NULL;
 	if (find_var_env("OLDPWD", ft_strlen("OLDPWD")))
@@ -29,14 +28,13 @@ void	zig_zag(char *old_path)
 			home = g_lob->old_pwd;
 		}
 	}
-	fake = ft_substr_mini(home, 1, ft_strlen(home), 0);
-	if (chdir(fake) == -1)
+	if (chdir(home) == -1)
 	{
 		printf("OLD PWD not set : %s\n", strerror(errno));
 		g_lob->exit_status = 0;
 		return ;
 	}
-	printf("%s\n", fake);
+	printf("%s\n", home);
 	change_env(home, "PWD");
 	change_env(old_path, "OLDPWD");
 	g_lob->old_pwd = old_path;

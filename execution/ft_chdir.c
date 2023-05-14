@@ -6,7 +6,7 @@
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 18:03:29 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/14 17:18:01 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/14 17:56:37 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,6 @@ void	chdir_home(void)
 	}
 	g_lob->pwd = home;
 	g_lob->old_pwd = old_path;
-	change_env(ft_strjoin_mini("=", home), "PWD");
-	change_env(ft_strjoin_mini("=", old_path), "OLDPWD");
+	change_env(home, "PWD");
+	change_env(old_path, "OLDPWD");
 }
