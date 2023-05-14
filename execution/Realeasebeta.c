@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 16:22:42 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/13 16:09:44 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/14 17:57:21 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,64 +80,47 @@ void	wait_childs(int size, int *child_pids)
 	}
 }
 
-void	lot_cmd(t_exe *all, int size)
+void	run_command(t_exe *all, t_lot *l, int size)
 {
-	int		*fd;
-	int		pid;
-	pid_t	child_pids[size];
-	int		i;
-	int		j;
-	int		k;
-
-	i = 0;
-	j = 0;
-	k = 0;
-	fd = ft_malloc(sizeof(int) * (size * 2), 0);
-	while (i < size)
-		ft_pipe(&fd[i++ *2]);
 	while (all)
 	{
-		if (all->lakher && all->lakher[0] && all->lakher[0][0] == 0 && all->next)
-		{
+		if (all->lakher && all->lakher[0] && \
+		all->lakher[0][0] == 0 && all->next)
 			all = all->next;
-		}
-		pid = ft_fork();
-		if (pid == 0)
+		l->pid = ft_fork();
+		if (l->pid == 0)
 		{
 			if (all->next)
-				dup2(fd[j + 1], STDOUT_FILENO);
-			if (j != 0)
-				dup2(fd[j - 2], STDIN_FILENO);
-			i = 0;
-			while (i < size * 2)
-				close(fd[i++]);
+				dup2(l->fd[l->j + 1], STDOUT_FILENO);
+			if (l->j != 0)
+				dup2(l->fd[l->j - 2], STDIN_FILENO);
+			l->i = 0;
+			while (l->i < size * 2)
+				close(l->fd[l->i++]);
 			m_cmd(all);
 		}
 		else
-		{
-			child_pids[k++] = pid;
-		}
+			l->child_pids[l->k++] = l->pid;
 		all = all->next;
-		j = j + 2;
+		l->j = l->j + 2;
 	}
-	i = 0;
-	while (i < size * 2)
-		close(fd[i++]);
-	i = 0;
-	wait_childs(k, child_pids);
 }
 
-void	session(t_exe *all)
+void	lot_cmd(t_exe *all, int size)
 {
-	int	size;
+	t_lot	l;
 
-	size = size_prc(all);
-	if (size == 1)
-	{
-		o_cmd(all);
-	}
-	if (size > 1)
-	{
-		lot_cmd(all, size);
-	}
+	l.i = 0;
+	l.j = 0;
+	l.k = 0;
+	l.child_pids = ft_malloc(sizeof(pid_t) * size, 0);
+	l.fd = ft_malloc(sizeof(int) * (size * 2), 0);
+	while (l.i < size)
+		ft_pipe(&l.fd[l.i++ *2]);
+	run_command(all, &l, size);
+	l.i = 0;
+	while (l.i < size * 2)
+		close(l.fd[l.i++]);
+	l.i = 0;
+	wait_childs(l.k, l.child_pids);
 }

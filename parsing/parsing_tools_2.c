@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 16:04:01 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/13 16:40:43 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/14 15:59:18 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ void	feedlist(t_exe **all, char *input)
 	char	**cmd;
 	t_cmd	*cmdspl;
 
-	hash = NULL;
 	cmdspl = NULL;
+	hash = NULL;
 	newinput = add_spaces_around_operators(input, hash);
 	feedhashtable(&hash, newinput);
 	cmd = ft_splithash(newinput, ' ', hash);
@@ -96,6 +96,5 @@ void	feedlist(t_exe **all, char *input)
 		return ;
 	}
 	table_lakher(cmdspl, all);
-	if (cmdspl && cmdspl->next && all && *all)
-		creat_files(cmdspl, all);
+	creat_files(cmdspl, all);
 }

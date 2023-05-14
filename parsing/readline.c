@@ -6,52 +6,53 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:56:50 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/13 22:39:06 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/14 18:15:03 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*ft_readline(char *line)
+char	*ft_readline(char *rl_prompt)
 {
-	char	*tmp;
-	char	*line_copy;
+	char	*line;
 
-	tmp = NULL;
-	line_copy = NULL;
-	rl_free_line_state();
-	line_copy = strdup(line);
-	tmp = readline(line_copy);
-	if (line_copy != NULL)
+	line = NULL;
+	if (!isatty(STDIN_FILENO))
 	{
-		add_history(line_copy);
-		free(line_copy);
+		printf("Error: Input is not coming from a terminal.\n");
+		return (NULL);
 	}
-	return (tmp);
+	signal(SIGINT, sig_handler);
+	signal(SIGQUIT, sig_handler);
+	if (line)
+	{
+		free(line);
+		line = NULL;
+	}
+	line = readline(rl_prompt);
+	rl_catch_signals = 0;
+	if (line)
+		add_history(line);
+	return (line);
 }
 
 void	sig_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
-		if (waitpid(-1, NULL, WNOHANG) == 0)
-		{
-			g_lob->exit_status = 130;
-			printf("\n");
-		}
-		else
-		{
-			g_lob->exit_status = 1;
-			printf("\n");
-			rl_on_new_line();
-			rl_replace_line("", 0);
-			rl_redisplay();
-		}
+		g_lob->exit_status = 1;
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
 	}
 	else if (signum == SIGQUIT)
 	{
 		if (waitpid(-1, NULL, WNOHANG) == 0)
+		{
 			printf("Quit: 3\n");
+			g_lob->exit_status = 131;
+		}
 		else
 			signal(SIGQUIT, SIG_IGN);
 	}

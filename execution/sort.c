@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:54:14 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/12 23:05:22 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/14 15:47:35 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,19 @@ char	**sort_env(char **env)
 		}
 	}
 	return (list);
+}
+
+void	session(t_exe *all)
+{
+	int	size;
+
+	size = size_prc(all);
+	if (size == 1)
+	{
+		o_cmd(all);
+	}
+	if (size > 1)
+	{
+		lot_cmd(all, size);
+	}
 }

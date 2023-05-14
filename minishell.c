@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 16:13:17 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/13 22:29:30 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/14 18:15:34 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	sort_exp_l(t_my_list **exp)
 	}
 }
 
-void	free_all(void)
+void	free_all(char *input, t_exe **all)
 {
 	t_list	*tmp;
 
@@ -66,52 +66,15 @@ void	free_all(void)
 		free(tmp->content);
 		free(tmp);
 	}
+	free(input);
+	*all = NULL;
 	g_lob->g_all = NULL;
 }
 
 void	free_env_exp(void)
 {
-
 	ft_putstr_fd("exit\n", 1);
 	exit(0);
-
-}
-
-void	close_all(t_fd *fd)
-{
-	t_fd	*tmp;
-
-	while (fd)
-	{
-		tmp = fd;
-		fd = fd->next;
-		close(tmp->fd);
-	}
-}
-
-void	next_cmd(t_exe **all)
-{
-	t_exe	*tmp;
-	t_fd	*tmp2;
-	char	**cmd;
-
-	tmp = *all;
-	cmd = ft_malloc((sizeof(char *) + 1), 1);
-	while (tmp)
-	{
-		tmp2 = tmp->fd;
-		while (tmp2)
-		{
-			if (tmp2->fd == -1)
-			{
-				cmd[0] = ft_strdup_mini("", 1);
-				tmp->lakher = cmd;
-				close_all(tmp->fd);
-			}
-			tmp2 = tmp2->next;
-		}
-		tmp = tmp->next;
-	}
 }
 
 int	main(int argc, char *argv[], char **env)
@@ -130,10 +93,7 @@ int	main(int argc, char *argv[], char **env)
 	feed_glob(argv, env);
 	while (1)
 	{
-		signal(SIGINT, sig_handler);
-		signal(SIGQUIT, sig_handler);
-		input = ft_readline("minishell >");
-		rl_catch_signals = 0;
+		input = ft_readline("minishell> ");
 		if (!input || !ft_strcmp(input, "exit"))
 			break ;
 		newinput = replace_vars(input);
@@ -141,9 +101,7 @@ int	main(int argc, char *argv[], char **env)
 		next_cmd(&all);
 		session(all);
 		sort_exp_l(&g_lob->exp);
-		free_all();
-		free(input);
-		all = NULL;
+		free_all(input, &all);
 	}
 	free_env_exp();
 }

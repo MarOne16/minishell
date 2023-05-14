@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 22:31:11 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/13 22:26:12 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/14 16:00:23 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ long long	ft_atoi_mini(const char *str)
 	}
 	return (z * x);
 }
-
 
 void	check_num(char *s)
 {
