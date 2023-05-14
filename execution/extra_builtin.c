@@ -1,44 +1,71 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_chdira.c                                        :+:      :+:    :+:   */
+/*   extra_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/12 22:28:11 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/14 18:01:42 by mbousouf         ###   ########.fr       */
+/*   Created: 2023/05/12 17:01:53 by mbousouf          #+#    #+#             */
+/*   Updated: 2023/05/12 17:14:03 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+void	extra_bluitin_multi(char **n, char *s)
+{
+	if (!(ft_strncmp(s, "export", 6)) && ft_strlen(s) == 6)
+	{
+		ft_exp(n);
+		exit(0);
+	}
+	else if (!(ft_strncmp(s, "unset", 5)) && ft_strlen(s) == 5)
+	{
+		ft_unset(n);
+		exit(0);
+	}
+	else if ((!(ft_strncmp(s, "env", 3)) && ft_strlen(s) == 3) \
+	|| (!(ft_strncmp(s, "ENV", 3)) && ft_strlen(s) == 3))
+	{
+		ft_env();
+		exit(0);
+	}
+	else if (!(ft_strncmp(s, "exit", 4)) && ft_strlen(s) == 4)
+	{
+		ft_exit(n);
+		exit(0);
+	}
+	else
+		mex_cmd(n);
+}
+
 void	zig_zag(char *old_path)
 {
 	char	*home;
 
-	home = NULL;
 	if (find_var_env("OLDPWD", ft_strlen("OLDPWD")))
 	{
 		home = find_var_env("OLDPWD", ft_strlen("OLDPWD"))->value;
+		if (home[0] == '=')
+			home = ft_substr_mini(home, 1, ft_strlen(home), 0);
 	}
 	else
 	{
-		if (g_lob->old_pwd)
-		{
-			home = g_lob->old_pwd;
-		}
+		printf("%s\n", " OLDPWD not set");
+		g_lob->exit_status = 0;
+		return ;
 	}
 	if (chdir(home) == -1)
 	{
-		printf("OLD PWD not set : %s\n", strerror(errno));
+		printf("%s cd - \n", strerror(errno));
 		g_lob->exit_status = 0;
 		return ;
 	}
 	printf("%s\n", home);
+	home = getcwd(NULL, 0);
 	change_env(home, "PWD");
 	change_env(old_path, "OLDPWD");
-	g_lob->old_pwd = old_path;
-	g_lob->pwd = home;
+	return ;
 }
 
 void	get_dir(char *home, char *old_path)
@@ -49,9 +76,7 @@ void	get_dir(char *home, char *old_path)
 		g_lob->exit_status = 1;
 		return ;
 	}
-	home = ft_getcwd();
-	g_lob->pwd = home;
-	g_lob->old_pwd = old_path;
+	home = getcwd(NULL, 0);
 	change_env(home, "PWD");
 	change_env(old_path, "OLDPWD");
 }
@@ -66,13 +91,13 @@ void	ft_chdir(char **cmd)
 		chdir_home();
 	else if (size >= 2)
 	{
-		old_path = ft_getcwd();
+		old_path = getcwd(NULL, 0);
 		if (!ft_strncmp(cmd[1], "~", 1) && ft_strlen(cmd[1]) == 1)
 			chdir_home();
 		else if (!ft_strncmp(cmd[1], "-", 1) && ft_strlen(cmd[1]) == 1)
 			zig_zag(old_path);
-		else if (old_path == NULL && ((!ft_strncmp(cmd[1], ".", 1) \
-		&& ft_strlen(cmd[1]) == 1)))
+		else if (old_path == NULL && !ft_strncmp(cmd[1], ".", 1) \
+		&& ft_strlen(cmd[1]) == 1)
 		{
 			ft_putstr_fd("No such file or directory\n", 2);
 			g_lob->exit_status = 1;
@@ -80,55 +105,5 @@ void	ft_chdir(char **cmd)
 		}
 		else
 			get_dir(cmd[1], old_path);
-	}
-}
-
-void	ex_cmd(char **cmd)
-{
-	char	*exe;
-	pid_t	pid;
-	int		status;
-
-	pid = fork();
-	if (pid == 0)
-	{
-		if (ft_strchr(cmd[0], '/'))
-		{
-			if (execve(cmd[0], cmd, g_lob->environ) == -1)
-				exit(file_info(2, cmd[0]));
-		}
-		exe = pathcmd(cmd[0]);
-		if (execve(exe, cmd, g_lob->environ) == -1)
-		{
-			ft_putstr_fd("command not found.\n", 2);
-			exit(127);
-		}
-	}
-	else
-	{
-		if (waitpid(pid, &status, 0) == -1)
-			exit(EXIT_FAILURE);
-		g_lob->exit_status = WEXITSTATUS(status);
-	}
-}
-
-void	mex_cmd(char **cmd)
-{
-	char	*exe;
-	int		ex;
-
-	if (ft_strchr(cmd[0], '/'))
-	{
-		if (execve(cmd[0], cmd, g_lob->environ) == -1)
-		{
-			ex = file_info(2, cmd[0]);
-			exit(ex);
-		}
-	}
-	exe = pathcmd(cmd[0]);
-	if (execve(exe, cmd, g_lob->environ) == -1)
-	{
-		ft_putstr_fd("Minishell: multi_command not found\n", 2);
-		exit(127);
 	}
 }

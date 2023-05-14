@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/14 17:05:37 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/14 18:25:16 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,15 +100,17 @@ typedef struct s_my_list
 
 typedef struct s_global
 {
-	t_my_list		*env;
-	t_my_list		*exp;
-	char			**environ;
-	int				rd;
-	int				fd;
-	int				if_free;
-	int				exit_status;
-	t_list			*g_all;
-	t_list			*g_exp;
+	t_my_list	*env;
+	t_my_list	*exp;
+	char		**environ;
+	int			rd;
+	int			fd;
+	int			if_free;
+	int			exit_status;
+	t_list		*g_all;
+	t_list		*g_exp;
+	char		*pwd;
+	char		*old_pwd;
 }	t_global;
 
 t_global	*g_lob;

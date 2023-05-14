@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 11:10:25 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/12 23:43:34 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/14 18:40:01 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	**empty_env(char **av, char **env)
 	if (!env)
 		return (NULL);
 	tmp = ft_getcwd();
-	env[0] = ft_strjoin_mini("OLDPWD=", tmp);
+	env[0] = ft_strjoin_mini("OLDPWD=", "");
 	env[1] = ft_strjoin_mini("PWD=", tmp);
 	env[2] = ft_strdup_mini("SHLVL=1", 0);
 	env[3] = ft_strjoin_mini("_=", av[0]);

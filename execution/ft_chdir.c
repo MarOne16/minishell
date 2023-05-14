@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_chdir.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 18:03:29 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/12 22:30:08 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/14 18:21:37 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void	chdir_home(void)
 		home = ft_substr_mini(home, 1, ft_strlen(home), 0);
 	else
 	{
+		printf("HOME not set\n");
 		home = ft_getcwd();
 	}
 	if (chdir(home) == -1)
@@ -101,6 +102,8 @@ void	chdir_home(void)
 		g_lob->exit_status = 0;
 		return ;
 	}
+	g_lob->pwd = home;
+	g_lob->old_pwd = old_path;
 	change_env(home, "PWD");
 	change_env(old_path, "OLDPWD");
 }

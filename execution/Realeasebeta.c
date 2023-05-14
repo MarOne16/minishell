@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 16:22:42 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/14 17:57:21 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/14 18:26:39 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	m_cmd(t_exe *all)
 {
 	int	saved_stdin_fd;
 	int	saved_stdout_fd;
-	int	infd;	
+	int	infd;
 	int	outfd;
 
 	saved_stdin_fd = dup(STDIN_FILENO);
@@ -75,7 +75,7 @@ void	wait_childs(int size, int *child_pids)
 			exit(EXIT_FAILURE);
 		}
 		if (WIFEXITED(status))
-				g_lob->exit_status = WEXITSTATUS(status);
+			g_lob->exit_status = WEXITSTATUS(status);
 		j++;
 	}
 }
