@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:56:50 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/15 22:36:29 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/16 00:40:28 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*ft_readline(char *rl_prompt)
 	line = NULL;
 	if (!isatty(STDIN_FILENO))
 	{
-		printf("Error: Input is not coming from a terminal.\n");
+		printf("Error: Input is not coming from a minishell.\n");
 		return (NULL);
 	}
 	signal(SIGINT, sig_handler);
@@ -46,7 +46,7 @@ void	sig_handler(int signum)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-	else if (signum == SIGQUIT && waitpid(-1, NULL, WNOHANG) == -1)
+	else if (signum == SIGQUIT)
 	{
 		signal(SIGQUIT, SIG_IGN);
 	}
