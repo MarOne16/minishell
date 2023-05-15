@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/14 18:25:16 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/15 17:13:51 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft/libft.h"
+# include <sys/param.h>
 # define MAX_VAR_LENGTH 1024
+# define _POSIX_CHILD_MAX_M 500
 
 typedef struct s_fd
 {
@@ -103,6 +105,7 @@ typedef struct s_global
 	t_my_list	*env;
 	t_my_list	*exp;
 	char		**environ;
+	int			sig_cat;
 	int			rd;
 	int			fd;
 	int			if_free;
@@ -183,6 +186,7 @@ void		ad_exp(char **cmd);
 void		ft_exp(char **cmd);
 int			out_fd(t_fd *tabfd);
 void		ft_env(void);
+void		parent_process(pid_t pid);
 /*parsing*/
 // list tools allcmd
 char		*ft_strjoin_char(char *s, char c, int x);
@@ -251,5 +255,6 @@ void		feedlist(t_exe **all, char *input);
 //minishell_tools_3
 void		next_cmd(t_exe **all);
 void		close_all(t_fd *fd);
-
+int			pip_count(char *str);
+void		sig_handler_2(int sig);
 #endif // MINISHELL_H

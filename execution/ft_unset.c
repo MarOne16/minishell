@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 01:33:25 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/12 23:00:19 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/15 15:09:33 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	free_var_exp(char *s, int size)
 			temp_env = tmp->next;
 			g_lob->exp = temp_env;
 		}
-		if (!ft_strncmp(s, temp_env->next->name, size) \
+		else if (!ft_strncmp(s, temp_env->next->name, size) \
 		&& (int)ft_strlen(temp_env->next->name) == size)
 		{
 			tmp = temp_env->next;

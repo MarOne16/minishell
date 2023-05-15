@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 02:37:20 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/13 14:34:41 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/14 21:31:31 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,25 +65,26 @@ int	file_info(int fd, char *s)
 {
 	struct stat	file_stats;
 
+	fd = 2;
 	if (lstat(s, &file_stats) == 0)
 	{
 		if (S_ISREG(file_stats.st_mode))
-			return (ft_putstr_fd("Permission denied.\n", fd), 126);
+			return (ft_putstr_fd("Permission denied.\n", 2), 126);
 		else if (S_ISDIR(file_stats.st_mode))
-			return (ft_putstr_fd("is a directory.\n", fd), 126);
+			return (ft_putstr_fd("is a directory.\n", 2), 126);
 		else if (S_ISCHR(file_stats.st_mode))
-			return (ft_putstr_fd("is a character device.\n", fd), 127);
+			return (ft_putstr_fd("is a character device.\n", 2), 127);
 		else if (S_ISBLK(file_stats.st_mode))
-			return (ft_putstr_fd("is a block device.\n", fd), 127);
+			return (ft_putstr_fd("is a block device.\n", 2), 127);
 		else if (S_ISFIFO(file_stats.st_mode))
-			return (ft_putstr_fd("is a FIFO/pipe.\n", fd), 125);
+			return (ft_putstr_fd("is a FIFO/pipe.\n", 2), 125);
 		else if (S_ISSOCK(file_stats.st_mode))
-			return (ft_putstr_fd("is a socket.\n", fd), 125);
+			return (ft_putstr_fd("is a socket.\n", 2), 125);
 		else if (S_ISLNK(file_stats.st_mode))
-			return (ft_putstr_fd("is a symbolic link.\n", fd), 126);
+			return (ft_putstr_fd("is a symbolic link.\n", 2), 126);
 		else
-			return (ft_putstr_fd("type is unknown.\n", fd), 127);
+			return (ft_putstr_fd("type is unknown.\n", 2), 127);
 	}
 	else
-		return (ft_putstr_fd("No such file or directory.\n", fd), 127);
+		return (ft_putstr_fd("No such file or directory.\n", 2), 127);
 }

@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 15:04:23 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/14 18:37:47 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/15 15:59:06 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,12 @@ char	*replace_vars(char	*str)
 {
 	struct s_tool	t;
 
+	if (pip_count(str) >= _POSIX_CHILD_MAX_M)
+	{
+		ft_putstr_fd("minishell: fork: Resource temporarily unavailable\n", 2);
+		g_lob->exit_status = 1;
+		return (ft_strdup_mini("", 1));
+	}
 	feedhashtable(&t.hash, str);
 	t.new_str = ft_malloc(get_new_length(str), 1);
 	t.new_str_ptr = t.new_str;
@@ -52,11 +58,15 @@ char	*replace_vars(char	*str)
 char	*my_getenv(char *search)
 {
 	t_my_list	*rest;
+	char		*tmp;
+	char		*tmp2;
 
 	if (ft_strcmp(search, "?") == 0)
 	{
-		ft_putnbr_fd(g_lob->exit_status, 1);
-		return (0);
+		tmp = ft_itoa(g_lob->exit_status);
+		tmp2 = ft_strdup_mini(tmp, 1);
+		free(tmp);
+		return (tmp2);
 	}
 	rest = g_lob->env;
 	while (rest)

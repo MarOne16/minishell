@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_chdira.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 22:28:11 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/14 18:01:42 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/15 17:18:45 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ void	ex_cmd(char **cmd)
 {
 	char	*exe;
 	pid_t	pid;
-	int		status;
 
 	pid = fork();
 	if (pid == 0)
@@ -105,11 +104,7 @@ void	ex_cmd(char **cmd)
 		}
 	}
 	else
-	{
-		if (waitpid(pid, &status, 0) == -1)
-			exit(EXIT_FAILURE);
-		g_lob->exit_status = WEXITSTATUS(status);
-	}
+		parent_process(pid);
 }
 
 void	mex_cmd(char **cmd)

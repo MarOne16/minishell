@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:56:50 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/14 18:27:38 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/15 17:18:36 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,7 @@ void	sig_handler(int signum)
 	}
 	else if (signum == SIGQUIT)
 	{
-		if (waitpid(-1, NULL, WNOHANG) == 0)
-		{
-			printf("Quit: 3\n");
-			g_lob->exit_status = 131;
-		}
-		else
-			signal(SIGQUIT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
 	}
 }
 

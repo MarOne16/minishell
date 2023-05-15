@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 03:04:10 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/14 15:59:04 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/14 22:57:58 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	creat_fd(char type, char *name)
 		fd = herdoc(name);
 	}
 	else if (((type == 'i') || (type == 'o') || (type == 'a')) && \
-	g_lob->rd != -1)
+	g_lob->fd != -1)
 		fd = output_input_append(name, type);
 	return (fd);
 }

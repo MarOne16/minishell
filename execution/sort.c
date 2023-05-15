@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:54:14 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/14 15:47:35 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/15 17:16:23 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,27 @@ void	session(t_exe *all)
 	{
 		lot_cmd(all, size);
 	}
+}
+
+void	parent_process(pid_t pid)
+{
+	int	status;
+
+	if (waitpid(pid, &status, 0) == -1)
+		exit(EXIT_FAILURE);
+	if (WIFSIGNALED(status))
+	{
+		if (WTERMSIG(status) == SIGINT)
+		{
+			write(1, "\n", 1);
+			g_lob->exit_status = 130;
+		}
+		else if (WTERMSIG(status) == SIGQUIT)
+		{
+			g_lob->exit_status = 131;
+			write(1, "Quit: 3\n", 8);
+		}
+	}
+	else
+		g_lob->exit_status = WEXITSTATUS(status);
 }

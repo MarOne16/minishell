@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:48:57 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/14 15:52:44 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/15 17:19:20 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,37 @@ void	next_cmd(t_exe **all)
 			tmp2 = tmp2->next;
 		}
 		tmp = tmp->next;
+	}
+}
+
+int	pip_count(char *str)
+{
+	int	*hash;
+	int	i;
+	int	count;
+
+	i = 0;
+	feedhashtable(&hash, str);
+	count = 0;
+	while (str[i])
+	{
+		if (str[i] == '|' && hash[i] == 0)
+			count++;
+		i++;
+	}
+	return (count);
+}
+
+void	sig_handler_2(int sig)
+{
+	if (sig == SIGQUIT)
+	{
+		ft_putstr_fd("Quit: 3\n", 1);
+		g_lob->exit_status = 131;
+	}
+	else if (sig == SIGINT)
+	{
+		ft_putstr_fd("\n", 1);
+		g_lob->exit_status = 130;
 	}
 }

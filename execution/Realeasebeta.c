@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 16:22:42 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/14 18:26:39 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/15 17:05:36 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,16 +67,27 @@ void	wait_childs(int size, int *child_pids)
 	int	j;
 	int	status;
 
-	j = 0;
-	while (j < size)
+	j = -1;
+	while (++j < size)
 	{
 		if (waitpid(child_pids[j], &status, 0) == -1)
-		{
 			exit(EXIT_FAILURE);
+		if (WIFSIGNALED(status))
+		{
+			if (WTERMSIG(status) == SIGINT)
+			{
+				write(1, "\n", 1);
+				g_lob->exit_status = 130;
+			}
+			else if (WTERMSIG(status) == SIGQUIT)
+			{
+				g_lob->exit_status = 131;
+				write(1, "Quit: 3\n", 8);
+			}
+			break ;
 		}
-		if (WIFEXITED(status))
+		else if (WIFEXITED(status))
 			g_lob->exit_status = WEXITSTATUS(status);
-		j++;
 	}
 }
 
