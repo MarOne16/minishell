@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:56:50 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/15 17:18:36 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/15 22:36:29 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*ft_readline(char *rl_prompt)
 
 void	sig_handler(int signum)
 {
-	if (signum == SIGINT)
+	if (signum == SIGINT && waitpid(-1, NULL, WNOHANG) == -1)
 	{
 		g_lob->exit_status = 1;
 		printf("\n");
@@ -46,7 +46,7 @@ void	sig_handler(int signum)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-	else if (signum == SIGQUIT)
+	else if (signum == SIGQUIT && waitpid(-1, NULL, WNOHANG) == -1)
 	{
 		signal(SIGQUIT, SIG_IGN);
 	}

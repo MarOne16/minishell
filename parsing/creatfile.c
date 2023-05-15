@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 03:04:10 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/14 22:57:58 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/15 22:42:33 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	herdoc(char *name)
 	pipe(fd);
 	while (1)
 	{
-		content = ft_readline("> ");
+		content = readline("> ");
 		tmp = content;
 		content = ft_strjoin_char(content, '\n', 1);
 		free(tmp);

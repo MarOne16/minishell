@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 16:22:42 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/15 17:05:36 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/15 22:32:44 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	m_cmd(t_exe *all)
 	outfd = out_fd(all->fd);
 	if (infd)
 		dup2(infd, STDIN_FILENO);
-	if (outfd)
+	else if (outfd)
 		dup2(outfd, STDOUT_FILENO);
 	check_builtin_multi(all);
 	if (infd)
@@ -55,7 +55,7 @@ void	m_cmd(t_exe *all)
 		close(infd);
 		dup2(saved_stdin_fd, STDIN_FILENO);
 	}
-	if (outfd)
+	else if (outfd)
 	{
 		close(outfd);
 		dup2(saved_stdout_fd, STDIN_FILENO);
