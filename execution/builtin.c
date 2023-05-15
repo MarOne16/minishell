@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 11:10:25 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/14 18:40:01 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/15 23:06:21 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	**empty_env(char **av, char **env)
 	char	*tmp;
 
 	g_lob->if_free = 1;
-	env = (char **)ft_malloc(sizeof(char *) * 5, 0);
+	env = (char **)ft_malloc(sizeof(char *) * 6, 0);
 	if (!env)
 		return (NULL);
 	tmp = ft_getcwd();
@@ -25,7 +25,8 @@ char	**empty_env(char **av, char **env)
 	env[1] = ft_strjoin_mini("PWD=", tmp);
 	env[2] = ft_strdup_mini("SHLVL=1", 0);
 	env[3] = ft_strjoin_mini("_=", av[0]);
-	env[4] = NULL;
+	env[4] = ft_strjoin_mini("OLDPWD=", 0);
+	env[5] = NULL;
 	return (env);
 }
 

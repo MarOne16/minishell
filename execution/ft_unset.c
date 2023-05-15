@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 01:33:25 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/15 15:09:33 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/15 23:01:50 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,21 +62,30 @@ void	free_var_exp(char *s, int size)
 			tmp = temp_env->next;
 			temp_env->next = tmp->next;
 			free(tmp);
-			free_var_env(s, size);
 		}
 		temp_env = temp_env->next;
 	}
+	free_var_env(s, size);
 }
 
 void	free_var_env(char *s, int size)
 {
 	t_my_list	*temp_env;
 	t_my_list	*tmp;
+	int			i;
 
+	i = 0;
 	temp_env = (g_lob->env);
 	while (temp_env && temp_env->next)
 	{
-		if (!ft_strncmp(s, temp_env->next->name, size) \
+		if (!ft_strncmp(s, temp_env->name, size) \
+		&& (int)ft_strlen(temp_env->name) == size && i++ == 0)
+		{
+			tmp = temp_env;
+			temp_env = tmp->next;
+			g_lob->env = temp_env;
+		}
+		else if (!ft_strncmp(s, temp_env->next->name, size) \
 		&& (int)ft_strlen(temp_env->next->name) == size)
 		{
 			tmp = temp_env->next;
@@ -85,7 +94,6 @@ void	free_var_env(char *s, int size)
 		}
 		temp_env = temp_env->next;
 	}
-	return ;
 }
 
 void	ft_unset(char **cmd)
