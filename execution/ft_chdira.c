@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 22:28:11 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/16 00:26:16 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/16 16:25:11 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	zig_zag(char *old_path)
 	if (chdir(home) == -1)
 	{
 		printf("OLD PWD not set : %s\n", strerror(errno));
-		g_lob->exit_status = 0;
+		g_lob->exit_status = 1;
 		return ;
 	}
 	printf("%s\n", home);

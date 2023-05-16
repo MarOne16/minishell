@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extra_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 17:01:53 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/12 17:14:03 by mbousouf         ###   ########.fr       */
+/*   Updated: 2023/05/16 16:24:52 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	zig_zag(char *old_path)
 	else
 	{
 		printf("%s\n", " OLDPWD not set");
-		g_lob->exit_status = 0;
+		g_lob->exit_status = 1;
 		return ;
 	}
 	if (chdir(home) == -1)

@@ -6,7 +6,7 @@
 /*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 11:10:25 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/15 23:06:21 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/16 15:55:06 by mqaos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	check_builtin_multi(t_exe *all)
 {
 	char	*s;
 
-	if (all->lakher == NULL || all->lakher[0] == '\0')
+	if (all->lakher == NULL || all->lakher[0] == 0)
 		exit(1);
 	s = all->lakher[0];
 	if (s[0] == '\0')
