@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_all_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 10:39:55 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/27 17:03:16 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/16 16:53:01 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_exe	*ft_lstnewallcmd(char **cmd, void *fd)
 	node = (t_exe *)ft_malloc(sizeof(*node), 1);
 	if (!node)
 		return (0);
-	node->lakher = cmd;
+	node->last = cmd;
 	node->fd = fd;
 	node->next = 0;
 	node->previus = 0;

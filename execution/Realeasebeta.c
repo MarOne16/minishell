@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Realeasebeta.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 16:22:42 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/16 00:32:32 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/16 16:53:01 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@ void	run_command(t_exe *all, t_lot *l, int size)
 {
 	while (all)
 	{
-		if (all->lakher && all->lakher[0] && \
-		all->lakher[0][0] == 0 && all->next)
+		if (all->last && all->last[0] && \
+		all->last[0][0] == 0 && all->next)
 			all = all->next;
 		l->pid = ft_fork();
 		if (l->pid == 0)

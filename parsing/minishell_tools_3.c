@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_tools_3.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:48:57 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/15 17:19:20 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/16 16:53:01 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	next_cmd(t_exe **all)
 			if (tmp2->fd == -1)
 			{
 				cmd[0] = ft_strdup_mini("", 1);
-				tmp->lakher = cmd;
+				tmp->last = cmd;
 				close_all(tmp->fd);
 			}
 			tmp2 = tmp2->next;

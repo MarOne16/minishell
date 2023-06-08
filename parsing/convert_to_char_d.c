@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   convert_to_char_d.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 01:40:48 by mqaos             #+#    #+#             */
-/*   Updated: 2023/04/29 15:21:54 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/16 16:53:01 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char	*rplace_tab(char *str)
 	return (newstr);
 }
 
-void	table_lakher(t_cmd *cmd, t_exe **lakher)
+void	table_last(t_cmd *cmd, t_exe **last)
 {
 	char	**spl;
 	t_cmd	*rest;
@@ -102,9 +102,9 @@ void	table_lakher(t_cmd *cmd, t_exe **lakher)
 		}
 	}
 	spl[i] = NULL;
-	ft_lstadd_backallcmd(lakher, ft_lstnewallcmd(spl, NULL));
+	ft_lstadd_backallcmd(last, ft_lstnewallcmd(spl, NULL));
 	if (rest && rest->next)
-		table_lakher(rest, lakher);
+		table_last(rest, last);
 }
 
 char	get_type(char *str)

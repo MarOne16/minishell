@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 11:10:25 by mbousouf          #+#    #+#             */
-/*   Updated: 2023/05/16 15:55:06 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/16 16:53:01 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,56 +78,56 @@ void	check_builtin(t_exe *all)
 {
 	char	*s;
 
-	if (all->lakher == NULL || all->lakher[0] == NULL)
+	if (all->last == NULL || all->last[0] == NULL)
 		return ;
-	s = all->lakher[0];
+	s = all->last[0];
 	if (s[0] == '\0')
 		return ;
 	if (!(ft_strncmp(s, "echo", 4)) && ft_strlen(s) == 4)
-		ft_echo((char **)all->lakher);
+		ft_echo((char **)all->last);
 	else if (!(ft_strncmp(s, "cd", 2)) && ft_strlen(s) == 2)
-		ft_chdir((char **)all->lakher);
+		ft_chdir((char **)all->last);
 	else if ((!(ft_strncmp(s, "pwd", 3)) && ft_strlen(s) == 3) \
 	|| (!(ft_strncmp(s, "PWD", 3)) && ft_strlen(s) == 3))
-		ft_pwd((char **)all->lakher);
+		ft_pwd((char **)all->last);
 	else if (!(ft_strncmp(s, "export", 6)) && ft_strlen(s) == 6)
-		ft_exp((char **)all->lakher);
+		ft_exp((char **)all->last);
 	else if (!(ft_strncmp(s, "unset", 5)) && ft_strlen(s) == 5)
-		ft_unset((char **)all->lakher);
+		ft_unset((char **)all->last);
 	else if ((!(ft_strncmp(s, "env", 3)) && ft_strlen(s) == 3) \
 	|| (!(ft_strncmp(s, "ENV", 3)) && ft_strlen(s) == 3))
 		ft_env();
 	else if (!(ft_strncmp(s, "exit", 4)) && ft_strlen(s) == 4)
-		ft_exit((char **)all->lakher);
+		ft_exit((char **)all->last);
 	else
-		ex_cmd((char **)all->lakher);
+		ex_cmd((char **)all->last);
 }
 
 void	check_builtin_multi(t_exe *all)
 {
 	char	*s;
 
-	if (all->lakher == NULL || all->lakher[0] == 0)
+	if (all->last == NULL || all->last[0] == 0)
 		exit(1);
-	s = all->lakher[0];
+	s = all->last[0];
 	if (s[0] == '\0')
 		return ;
 	if (!(ft_strncmp(s, "echo", 4)) && ft_strlen(s) == 4)
 	{
-		ft_echo((char **)all->lakher);
+		ft_echo((char **)all->last);
 		exit(0);
 	}
 	else if (!(ft_strncmp(s, "cd", 2)) && ft_strlen(s) == 2)
 	{
-		ft_chdir((char **)all->lakher);
+		ft_chdir((char **)all->last);
 		exit(0);
 	}
 	else if ((!(ft_strncmp(s, "pwd", 3)) && ft_strlen(s) == 3) \
 	|| (!(ft_strncmp(s, "PWD", 3)) && ft_strlen(s) == 3))
 	{
-		ft_pwd((char **)all->lakher);
+		ft_pwd((char **)all->last);
 		exit(0);
 	}
 	else
-		extra_bluitin_multi((char **)all->lakher, s);
+		extra_bluitin_multi((char **)all->last, s);
 }

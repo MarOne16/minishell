@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mqaos <mqaos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mbousouf <mbousouf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:37:03 by mqaos             #+#    #+#             */
-/*   Updated: 2023/05/16 00:40:07 by mqaos            ###   ########.fr       */
+/*   Updated: 2023/05/16 16:53:01 by mbousouf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ typedef struct s_fd
 
 typedef struct s_exe
 {
-	char			**lakher;
+	char			**last;
 	t_fd			*fd;
 	struct s_exe	*next;
 	struct s_exe	*previus;
@@ -234,7 +234,7 @@ void		sig_int(void);
 // convert_to_char
 int			sizechar(t_cmd *cmd);
 char		*removequote(char *str);
-void		table_lakher(t_cmd *cmd, t_exe **lakher);
+void		table_last(t_cmd *cmd, t_exe **last);
 char		get_type(char *str);
 // creat_fd
 void		creat_files(t_cmd *cmd, t_exe **exe);
